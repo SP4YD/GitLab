@@ -144,8 +144,8 @@ int main(void) {
     struct Real_num Input;
     Input.af_comma = 0;
     Input.be_comma = 0;
-    scanf("%d %d", &Input.b1, &Input.b2);
-    scanf("%s", Input.num);
+    if (scanf("%d %d", &Input.b1, &Input.b2) != 2) {exit(1);}
+    if (scanf("%s", Input.num) != 1) {exit(1);}
     Chek(&Input);
     if (Input.b1 == Input.b2) {
         printf("%s\n", Input.num);
@@ -156,7 +156,7 @@ int main(void) {
         }
         if (Input.b2 != 10) {
             Split(&Input);
-            printf("До %d полсе %.13Lf\n", Input.be_comma, Input.af_comma);
+            //printf("До %d полсе %.13Lf\n", Input.be_comma, Input.af_comma);
             Convert_from_dec_af_to_be(&Input);
         }
         else {
