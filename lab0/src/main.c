@@ -9,7 +9,7 @@
 
 struct Real_num {
     long double af_comma; //после
-    int be_comma; //До
+    long long be_comma; //До
     int b1;
     int b2;
     char num[SIZE];
@@ -94,7 +94,8 @@ void Convert_to_dec(struct Real_num* Convert) {
 
 void Convert_from_dec_be(struct Real_num *Answer) {
     char ans[SIZE], c;
-    int remains, i = 0, dec = (*Answer).be_comma;
+    int remains, i = 0;
+    long long dec = (*Answer).be_comma;
     while (dec > 0) {
         remains = dec % (*Answer).b2;
         if (remains > 9) {
@@ -145,7 +146,7 @@ int main(void) {
     Input.af_comma = 0;
     Input.be_comma = 0;
     if (scanf("%d %d", &Input.b1, &Input.b2) != 2) {exit(1);}
-    if (scanf("%100s", Input.num) != 1) {exit(1);}
+    if (scanf("%s", Input.num) != 1) {exit(1);}
     Chek(&Input);
     if (Input.b1 == Input.b2) {
         printf("%s\n", Input.num);
@@ -156,7 +157,7 @@ int main(void) {
         }
         if (Input.b2 != 10) {
             Split(&Input);
-            //printf("До %d полсе %.13Lf\n", Input.be_comma, Input.af_comma);
+            //printf("До %Ld полсе %.13Lf\n", Input.be_comma, Input.af_comma);
             Convert_from_dec_af_to_be(&Input);
         }
         else {
@@ -169,3 +170,9 @@ int main(void) {
 
 //b = b*10 + a[i];
 //modf
+
+//stuckt начинается с Test
+//все названия без подчёркиваний
+//с - переменная которая не нужна
+//переменные имеют на начале свой тип int iNum    char sName[10]
+//
