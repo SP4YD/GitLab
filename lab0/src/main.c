@@ -93,28 +93,33 @@ void Convert_to_dec(struct Real_num* Convert) {
 }
 
 void Convert_from_dec_be(struct Real_num *Answer) {
-    char ans[SIZE], c;
-    int remains, i = 0;
     long long dec = (*Answer).be_comma;
-    while (dec > 0) {
-        remains = dec % (*Answer).b2;
-        if (remains > 9) {
-            ans[i] = remains - 10 + 'A';
-        }
-        else {
-            ans[i] = remains + '0';
-        }
-        dec /= (*Answer).b2;
-        ++i;
+    if (dec == 0){
+      printf("0");
     }
-    ans[i] = '\0';
-    --i;
-    for (int j = 0; j <= i / 2; ++j) {
-        c = ans[i - j];
-        ans[i - j] = ans[j];
-        ans[j] = c;
+    else{
+      char ans[SIZE], c;
+      int remains, i = 0;
+      while (dec > 0) {
+          remains = dec % (*Answer).b2;
+          if (remains > 9) {
+              ans[i] = remains - 10 + 'A';
+          }
+          else {
+              ans[i] = remains + '0';
+          }
+          dec /= (*Answer).b2;
+          ++i;
+      }
+      ans[i] = '\0';
+      --i;
+      for (int j = 0; j <= i / 2; ++j) {
+          c = ans[i - j];
+          ans[i - j] = ans[j];
+          ans[j] = c;
+      }
+      printf("%s", ans);
     }
-    printf("%s", ans);
 }
 
 void Convert_from_dec_af_to_be(struct Real_num *Answer) {
