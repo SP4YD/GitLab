@@ -23,7 +23,10 @@ int Find_len(char a[SIZE]) {
 }
 
 void Chek(struct Real_num* Test) {
-    int len = Find_len((*Test).num), numsys = 0, convert_b1 = (*Test).b1;
+    int len = Find_len((*Test).num),
+        numsys = 0, 
+        convert_b1 = (*Test).b1;
+    bool flag = 0;
     if (((*Test).b1 > 16 || (*Test).b1 < 2) || ((*Test).b2 > 16 || (*Test).b2 < 2)) {
         printf("bad input\n");
         exit(0);
@@ -44,8 +47,11 @@ void Chek(struct Real_num* Test) {
         if ((*Test).num[i] > numsys) {
             numsys = (*Test).num[i];
         }
+        if ((*Test).num[i] < '0' || ((*Test).num[i] > '9' && (*Test).num[i] < 'A') || (*Test).num[i] > 'F'){
+          flag = 1;
+        }
     }
-    if (numsys >= convert_b1 || comma > 1 || (*Test).num[0] == '.' || (*Test).num[len-1] == '.') {
+    if (numsys >= convert_b1 || comma > 1 || (*Test).num[0] == '.' || (*Test).num[len-1] == '.' || flag) {
         printf("bad input\n");
         exit(0);
     }
@@ -78,7 +84,7 @@ void Split(struct Real_num *Output) {
     }
 }
 
-void Convert_to_dec(struct Real_num* Convert) {
+void ConvertToDec(struct Real_num* Convert) {
     int len = Find_len((*Convert).num);
     (*Convert).be_comma = 0;
     (*Convert).af_comma = 0;
@@ -92,7 +98,7 @@ void Convert_to_dec(struct Real_num* Convert) {
     //printf("До %d полсе %.13Lf\n", (*Convert).be_comma, (*Convert).af_comma);
 }
 
-void Convert_from_dec_be(struct Real_num *Answer) {
+void ConvertFromDecBe(struct Real_num *Answer) {
     long long dec = (*Answer).be_comma;
     if (dec == 0){
       printf("0");
@@ -122,7 +128,7 @@ void Convert_from_dec_be(struct Real_num *Answer) {
     }
 }
 
-void Convert_from_dec_af_to_be(struct Real_num *Answer) {
+void ConvertFromDecAfToBe(struct Real_num *Answer) {
     char ans[SIZE];
     int integer, i = 0;
     long double dec = (*Answer).af_comma;
@@ -139,7 +145,7 @@ void Convert_from_dec_af_to_be(struct Real_num *Answer) {
         ++i;
     }
     ans[i] = '\0';
-    Convert_from_dec_be(Answer);
+    ConvertFromDecBe(Answer);
     if (ans[0] != '\0')
     {
         printf(".%s\n", ans);
@@ -158,12 +164,12 @@ int main(void) {
     }
     else {
         if (Input.b1 != 10) {
-            Convert_to_dec(&Input);
+            ConvertToDec(&Input);
         }
         if (Input.b2 != 10) {
             Split(&Input);
             //printf("До %Ld полсе %.13Lf\n", Input.be_comma, Input.af_comma);
-            Convert_from_dec_af_to_be(&Input);
+            ConvertFromDecAfToBe(&Input);
         }
         else {
           // qq
