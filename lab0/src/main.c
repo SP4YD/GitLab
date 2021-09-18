@@ -47,7 +47,7 @@ void Chek(struct Real_num* Test) {
         if ((*Test).num[i] > numsys) {
             numsys = (*Test).num[i];
         }
-        if ((*Test).num[i] < '0' || ((*Test).num[i] > '9' && (*Test).num[i] < 'A') || (*Test).num[i] > 'F'){
+        if (((*Test).num[i] < '0' || ((*Test).num[i] > '9' && (*Test).num[i] < 'A') || (*Test).num[i] > 'F') && (*Test).num[i] != '.'){
           flag = 1;
         }
     }
