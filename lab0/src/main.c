@@ -22,16 +22,16 @@ int Find_len(char a[SIZE]) {
     return len;
 }
 
-void Chek(struct Real_num* Test) {
-    int len = Find_len((*Test).num),
+void Chek(struct Real_num* TTest) {
+    int len = Find_len((*TTest).num),
         numsys = 0, 
-        convert_b1 = (*Test).b1;
+        convert_b1 = (*TTest).b1;
     bool flag = 0;
-    if (((*Test).b1 > 16 || (*Test).b1 < 2) || ((*Test).b2 > 16 || (*Test).b2 < 2)) {
+    if (((*TTest).b1 > 16 || (*TTest).b1 < 2) || ((*TTest).b2 > 16 || (*TTest).b2 < 2)) {
         printf("bad input\n");
         exit(0);
     }
-    if ((*Test).b1 > 10) {
+    if ((*TTest).b1 > 10) {
         convert_b1 += 'A' - 10;
     }
     else {
@@ -39,24 +39,24 @@ void Chek(struct Real_num* Test) {
     }
     int comma = 0;
     for (int i = 0; i < len; ++i) {
-        (*Test).num[i] = toupper((*Test).num[i]);
-        if ((*Test).num[i] == '.') {
+        (*TTest).num[i] = toupper((*TTest).num[i]);
+        if ((*TTest).num[i] == '.') {
             ++comma;
-            (*Test).i_comma = i;
+            (*TTest).i_comma = i;
         }
-        if ((*Test).num[i] > numsys) {
-            numsys = (*Test).num[i];
+        if ((*TTest).num[i] > numsys) {
+            numsys = (*TTest).num[i];
         }
-        if (((*Test).num[i] < '0' || ((*Test).num[i] > '9' && (*Test).num[i] < 'A') || (*Test).num[i] > 'F') && (*Test).num[i] != '.'){
+        if (((*TTest).num[i] < '0' || ((*TTest).num[i] > '9' && (*TTest).num[i] < 'A') || (*TTest).num[i] > 'F') && (*TTest).num[i] != '.'){
           flag = 1;
         }
     }
-    if (numsys >= convert_b1 || comma > 1 || (*Test).num[0] == '.' || (*Test).num[len-1] == '.' || flag) {
+    if (numsys >= convert_b1 || comma > 1 || (*TTest).num[0] == '.' || (*TTest).num[len-1] == '.' || flag) {
         printf("bad input\n");
         exit(0);
     }
     if (comma == 0) {
-        (*Test).i_comma = len;
+        (*TTest).i_comma = len;
     }
 }
 
@@ -104,10 +104,10 @@ void ConvertFromDecBe(struct Real_num *Answer) {
       printf("0");
     }
     else{
-      char ans[SIZE], c;
-      int remains, i = 0;
+      char ans[SIZE];
+      int i = 0;
       while (dec > 0) {
-          remains = dec % (*Answer).b2;
+          int remains = dec % (*Answer).b2;
           if (remains > 9) {
               ans[i] = remains - 10 + 'A';
           }
@@ -120,7 +120,7 @@ void ConvertFromDecBe(struct Real_num *Answer) {
       ans[i] = '\0';
       --i;
       for (int j = 0; j <= i / 2; ++j) {
-          c = ans[i - j];
+          char c = ans[i - j];
           ans[i - j] = ans[j];
           ans[j] = c;
       }
@@ -182,7 +182,7 @@ int main(void) {
 //b = b*10 + a[i];
 //modf
 
-//stuckt начинается с Test
+//stuckt начинается с TTest
 //все названия без подчёркиваний
 //с - переменная которая не нужна
 //переменные имеют на начале свой тип int iNum    char sName[10]
