@@ -145,7 +145,7 @@ int main(void) {
     Input.af_comma = 0;
     Input.be_comma = 0;
     if (scanf("%d %d", &Input.b1, &Input.b2) != 2) {exit(1);}
-    if (scanf("%s", Input.num) != 1) {exit(1);}
+    if (scanf("%100s", Input.num) != 1) {exit(1);}
     Chek(&Input);
     if (Input.b1 == Input.b2) {
         printf("%s\n", Input.num);
