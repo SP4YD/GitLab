@@ -60,7 +60,7 @@ void Chek(struct Real_num* TTest) {
     }
 }
 
-void Split(struct Real_num *Output) {
+/*void Split(struct Real_num *Output) {
     if (((*Output).af_comma == 0) && ((*Output).be_comma == 0))
     {
       int len = Find_len((*Output).num);
@@ -82,7 +82,7 @@ void Split(struct Real_num *Output) {
           }
       }
     }
-}
+}*/
 
 void ConvertToDec(struct Real_num* Convert) {
     int len = Find_len((*Convert).num);
