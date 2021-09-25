@@ -163,11 +163,11 @@ int main(void) {
         printf("%s\n", Input.num);
     }
     else {
-        if (Input.b1 != 10) {
+        //if (Input.b1 != 10) {
             ConvertToDec(&Input);
-        }
+        //}
         if (Input.b2 != 10) {
-            Split(&Input);
+            //Split(&Input);
             //printf("До %Ld полсе %.13Lf\n", Input.be_comma, Input.af_comma);
             ConvertFromDecAfToBe(&Input);
         }
