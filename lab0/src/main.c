@@ -3,11 +3,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <stdbool.h>
 #include <ctype.h>
 
-struct Real_num {
+struct TReal_num {
     long double af_comma; //после
     long long be_comma; //До
     int b1;
@@ -16,22 +17,16 @@ struct Real_num {
     int i_comma;
 }; //qq
 
-int Find_len(char a[SIZE]) {
-    int len;
-    for (len = 0; a[len] != '\0'; ++len);
-    return len;
-}
-
-void Chek(struct Real_num* TTest) {
-    int len = Find_len((*TTest).num),
+void Chek(struct TReal_num* Test) {
+    int len = strlen((*Test).num),
         numsys = 0, 
-        convert_b1 = (*TTest).b1;
+        convert_b1 = (*Test).b1;
     bool flag = 0;
-    if (((*TTest).b1 > 16 || (*TTest).b1 < 2) || ((*TTest).b2 > 16 || (*TTest).b2 < 2)) {
+    if (((*Test).b1 > 16 || (*Test).b1 < 2) || ((*Test).b2 > 16 || (*Test).b2 < 2)) {
         printf("bad input\n");
         exit(0);
     }
-    if ((*TTest).b1 > 10) {
+    if ((*Test).b1 > 10) {
         convert_b1 += 'A' - 10;
     }
     else {
@@ -39,53 +34,29 @@ void Chek(struct Real_num* TTest) {
     }
     int comma = 0;
     for (int i = 0; i < len; ++i) {
-        (*TTest).num[i] = toupper((*TTest).num[i]);
-        if ((*TTest).num[i] == '.') {
+        (*Test).num[i] = toupper((*Test).num[i]);
+        if ((*Test).num[i] == '.') {
             ++comma;
-            (*TTest).i_comma = i;
+            (*Test).i_comma = i;
         }
-        if ((*TTest).num[i] > numsys) {
-            numsys = (*TTest).num[i];
+        if ((*Test).num[i] > numsys) {
+            numsys = (*Test).num[i];
         }
-        if (((*TTest).num[i] < '0' || ((*TTest).num[i] > '9' && (*TTest).num[i] < 'A') || (*TTest).num[i] > 'F') && (*TTest).num[i] != '.'){
+        if (((*Test).num[i] < '0' || ((*Test).num[i] > '9' && (*Test).num[i] < 'A') || (*Test).num[i] > 'F') && (*Test).num[i] != '.'){
           flag = 1;
         }
     }
-    if (numsys >= convert_b1 || comma > 1 || (*TTest).num[0] == '.' || (*TTest).num[len-1] == '.' || flag) {
+    if (numsys >= convert_b1 || comma > 1 || (*Test).num[0] == '.' || (*Test).num[len-1] == '.' || flag) {
         printf("bad input\n");
         exit(0);
     }
     if (comma == 0) {
-        (*TTest).i_comma = len;
+        (*Test).i_comma = len;
     }
 }
 
-/*void Split(struct Real_num *Output) {
-    if (((*Output).af_comma == 0) && ((*Output).be_comma == 0))
-    {
-      int len = Find_len((*Output).num);
-      bool flag = 1;
-      (*Output).i_comma = len;
-      for (int i = 0; i < len; ++i) {
-          if ((*Output).num[i] == '.') {
-              (*Output).i_comma = i;
-              flag = 0;
-              break;
-          }
-      }
-      for (int i = (*Output).i_comma - 1; i >= 0; --i) {
-          (*Output).be_comma += pow(10, (*Output).i_comma - i - 1) * (int)((*Output).num[i] - '0');
-      }
-      if (!flag) {
-          for (int i = (*Output).i_comma + 1; i < len; ++i) {
-              (*Output).af_comma += pow(10, (*Output).i_comma - i) * (int)((*Output).num[i] - '0');
-          }
-      }
-    }
-}*/
-
-void ConvertToDec(struct Real_num* Convert) {
-    int len = Find_len((*Convert).num);
+void ConvertToDec(struct TReal_num* Convert) {
+    int len = strlen((*Convert).num);
     (*Convert).be_comma = 0;
     (*Convert).af_comma = 0;
     //printf("len is %d in %s comma is %d\n",len,(*Convert).num, (*Convert).i_comma);
@@ -98,7 +69,7 @@ void ConvertToDec(struct Real_num* Convert) {
     //printf("До %d полсе %.13Lf\n", (*Convert).be_comma, (*Convert).af_comma);
 }
 
-void ConvertFromDecBe(struct Real_num *Answer) {
+void ConvertFromDecBe(struct TReal_num *Answer) {
     long long dec = (*Answer).be_comma;
     if (dec == 0){
       printf("0");
@@ -128,11 +99,11 @@ void ConvertFromDecBe(struct Real_num *Answer) {
     }
 }
 
-void ConvertFromDecAfToBe(struct Real_num *Answer) {
+void ConvertFromDecAfToBe(struct TReal_num *Answer) {
     char ans[SIZE];
     int integer, i = 0;
-    long double dec = (*Answer).af_comma;
-    while (dec > pow(10, -13) && i != 13) {
+    long double dec = (*Answer).af_comma, constant = pow (10,-13);
+    while (dec > constant && i != 13) {
         dec *= (*Answer).b2;
         if (dec >= 1) {
             ans[i] = dec > 9 ? dec + 'A' - 10 : dec + '0';
@@ -153,7 +124,7 @@ void ConvertFromDecAfToBe(struct Real_num *Answer) {
 }
 
 int main(void) {
-    struct Real_num Input;
+    struct TReal_num Input;
     Input.af_comma = 0;
     Input.be_comma = 0;
     if (scanf("%d %d", &Input.b1, &Input.b2) != 2) {exit(1);}
@@ -182,7 +153,7 @@ int main(void) {
 //b = b*10 + a[i];
 //modf
 
-//stuckt начинается с TTest
+//stuckt начинается с Test
 //все названия без подчёркиваний
 //с - переменная которая не нужна
 //переменные имеют на начале свой тип int iNum    char sName[10]
