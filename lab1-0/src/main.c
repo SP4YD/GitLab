@@ -83,8 +83,8 @@ int main(void) {
 			++LenText;
 	}
 	if (LenText == 0) { printf("0"); exit(1); }
-	text[LenText - 1] = '\0';
-	--LenText;
+	//text[LenText - 1] = '\0';
+	//--LenText;
 	printf("\n");
 	//char cmatrix[SIZE];
 	int imatrix[SIZE];
