@@ -73,7 +73,7 @@ void ConvertToDec(struct TReal_num* Convert) {
     int len = strlen((*Convert).num);
     (*Convert).be_comma = 0;
     (*Convert).af_comma = 0;
-    float b1_pow = 1;
+    double b1_pow = 1;
     for (int j = 0; j < (*Convert).i_comma - 1; ++j){
           b1_pow *= (*Convert).b1;
     }
