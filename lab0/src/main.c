@@ -15,7 +15,20 @@ struct TReal_num {
     int b2;
     char num[SIZE];
     int i_comma;
-}; //qq
+};
+
+int GettingRidOfZeros(long double daf_comma, char cafter_comma[13]){
+  int temp, i = 0;
+  while (daf_comma > 1e-12){
+    daf_comma *= 10;
+    temp = daf_comma;
+    cafter_comma[i] = temp + '0';
+    daf_comma -= temp;
+    ++i;
+  }
+  cafter_comma[i] = '\0';
+  return *cafter_comma;
+}
 
 void Chek(struct TReal_num* Test) {
     int len = strlen((*Test).num),
@@ -59,14 +72,18 @@ void ConvertToDec(struct TReal_num* Convert) {
     int len = strlen((*Convert).num);
     (*Convert).be_comma = 0;
     (*Convert).af_comma = 0;
-    //printf("len is %d in %s comma is %d\n",len,(*Convert).num, (*Convert).i_comma);
+    float b1_pow = 1;
+    for (int j = 0; j < (*Convert).i_comma - 1; ++j){
+          b1_pow *= (*Convert).b1;
+    }
     for (int i = 0; i < (*Convert).i_comma; ++i) {
-        (*Convert).be_comma += pow((*Convert).b1, (*Convert).i_comma - i - 1) * ((*Convert).num[i] > '9' ? (*Convert).num[i] - 'A' + 10 : (*Convert).num[i] - '0');
+        (*Convert).be_comma += b1_pow * ((*Convert).num[i] > '9' ? (*Convert).num[i] - 'A' + 10 : (*Convert).num[i] - '0');
+        b1_pow /= (*Convert).b1;
     }
     for (int i = (*Convert).i_comma + 1; i < len; ++i) {
-        (*Convert).af_comma += pow((*Convert).b1, (*Convert).i_comma - i) * ((*Convert).num[i] > '9' ? (*Convert).num[i] - 'A' + 10 : (*Convert).num[i] - '0');
+        (*Convert).af_comma += b1_pow * ((*Convert).num[i] > '9' ? (*Convert).num[i] - 'A' + 10 : (*Convert).num[i] - '0');
+        b1_pow /= (*Convert).b1;
     }
-    //printf("До %d полсе %.13Lf\n", (*Convert).be_comma, (*Convert).af_comma);
 }
 
 void ConvertFromDecBe(struct TReal_num *Answer) {
@@ -102,7 +119,7 @@ void ConvertFromDecBe(struct TReal_num *Answer) {
 void ConvertFromDecAfToBe(struct TReal_num *Answer) {
     char ans[SIZE];
     int integer, i = 0;
-    long double dec = (*Answer).af_comma, constant = pow (10,-13);
+    long double dec = (*Answer).af_comma, constant = 1e-13;
     while (dec > constant && i != 13) {
         dec *= (*Answer).b2;
         if (dec >= 1) {
@@ -134,27 +151,20 @@ int main(void) {
         printf("%s\n", Input.num);
     }
     else {
-        //if (Input.b1 != 10) {
-            ConvertToDec(&Input);
-        //}
+        ConvertToDec(&Input);
         if (Input.b2 != 10) {
-            //Split(&Input);
-            //printf("До %Ld полсе %.13Lf\n", Input.be_comma, Input.af_comma);
             ConvertFromDecAfToBe(&Input);
         }
         else {
-          // qq
-            printf("%.13Lf\n", Input.be_comma + Input.af_comma);
+            if (Input.af_comma < 1e-12){
+              printf("%Ld\n", Input.be_comma);
+            }
+            else{
+              char cafter_comma[13];
+               GettingRidOfZeros(Input.af_comma, cafter_comma);
+              printf("%Ld.%s\n", Input.be_comma, cafter_comma);
+            }
         }
     }
     return 0;
 }
-
-//b = b*10 + a[i];
-//modf
-
-//stuckt начинается с Test
-//все названия без подчёркиваний
-//с - переменная которая не нужна
-//переменные имеют на начале свой тип int iNum    char sName[10]
-//
