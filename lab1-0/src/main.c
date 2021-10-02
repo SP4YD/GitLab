@@ -26,7 +26,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, ch
 				done = 1;
 			}
 			else {
-				icheck += imatrix[text[icheck]];
+				icheck += imatrix[(int)text[icheck]];
 				if (icheck > LenText - 1) {
 					icheck = LenText - 1;
 				}
@@ -40,7 +40,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, ch
 					done = 1;
 				}
 				else {
-					icheck += imatrix[text[icheck]];
+					icheck += imatrix[(int)text[icheck]];
 					if (icheck > LenText - 1) {
 						icheck = LenText - 1;
 					}
@@ -49,7 +49,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, ch
 			}
 		}
 		if (i == LenPattern && coincidence) {
-			icheck += imatrix[pattern[LenPattern - 1]];
+			icheck += imatrix[(int)pattern[LenPattern - 1]];
 		}
 	}
 }
