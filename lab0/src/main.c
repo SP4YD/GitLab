@@ -157,12 +157,12 @@ int main(void) {
         }
         else {
             if (Input.af_comma < 1e-12){
-              printf("%Ld\n", Input.be_comma);
+              printf("%d\n", (int)Input.be_comma);
             }
             else{
               char cafter_comma[13];
                GettingRidOfZeros(Input.af_comma, cafter_comma);
-              printf("%Ld.%s\n", Input.be_comma, cafter_comma);
+              printf("%d.%s\n", (int)Input.be_comma, cafter_comma);
             }
         }
     }
