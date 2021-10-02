@@ -18,8 +18,9 @@ struct TReal_num {
 };
 
 int GettingRidOfZeros(long double daf_comma, char cafter_comma[13]){
-  int temp, i = 0;
+  int i = 0;
   while (daf_comma > 1e-12){
+    int temp;
     daf_comma *= 10;
     temp = daf_comma;
     cafter_comma[i] = temp + '0';
