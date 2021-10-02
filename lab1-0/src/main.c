@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <local.h>
+#include <locale.h>
 #define SIZE 256
 
 /*int Rus(int a) {
@@ -69,10 +69,10 @@ int main(void) {
 	if (LenText == 0 && chr == EOF) { return 0; }
 	//text[LenText - 1] = '\0';
 	//--LenText;
-	char cmatrix[SIZE];
+	//char cmatrix[SIZE];
 	int imatrix[SIZE];
 	for (int i = 0; i < 256; ++i) {
-		cmatrix[i] = i;
+		//cmatrix[i] = i;
 		imatrix[i] = LenPattern;
 	}
 	for (int i = LenPattern - 2; i >= 0; --i) {
@@ -81,7 +81,7 @@ int main(void) {
 			imatrix[pattern_now] = LenPattern - i - 1;
 		}
 	}
-	//Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
-	//for (int i = 65; i < 256; ++i) { printf("%c) %d\n", i, imatrix[i]); } 
+	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
+	//for (int i = 65; i < 256; ++i) { printf("%c) %d\n", i, cmatrix[i]); } 
 	return 0;
 }
