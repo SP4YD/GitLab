@@ -82,10 +82,9 @@ int main(void) {
 			text[LenText] = chr;
 			++LenText;
 	}
-	if (LenText == 0) { printf("0"); exit(1); }
+	if (LenText == 0) { printf(""); exit(1); }
 	//text[LenText - 1] = '\0';
 	//--LenText;
-	printf("\n");
 	//char cmatrix[SIZE];
 	int imatrix[SIZE];
 	for (int i = 0; i < 256; ++i) {
