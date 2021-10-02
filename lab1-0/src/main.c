@@ -82,7 +82,7 @@ int main(void) {
 			text[LenText] = chr;
 			++LenText;
 	}
-	if (LenText == 0) { printf(""); exit(1); }
+	if (LenText == 0) { exit(1); }
 	//text[LenText - 1] = '\0';
 	//--LenText;
 	//char cmatrix[SIZE];
