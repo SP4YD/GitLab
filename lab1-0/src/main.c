@@ -14,7 +14,7 @@
 	return a;
 }*/
 
-void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, char *text, int *imatrix){
+/*void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, char *text, int *imatrix){
 	
 	while (!done && icheck < LenText) {
 		bool coincidence = 1;
@@ -53,7 +53,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, ch
 		}
 	}
 }
-
+*/
 int main(void) {
 	//setlocale(LC_ALL, "Rus");
 	char pattern[SIZE] = "\0", text[SIZE] = "\0", chr;
