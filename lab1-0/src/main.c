@@ -82,6 +82,6 @@ int main(void) {
 		}
 	}*/
 	//Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
-	for (int i = 0; i < 256; ++i) { printf("%c) %d\n", i, cmatrix[i]); } 
+	for (int i = 65; i < 256; ++i) { printf("%c) %d\n", i, cmatrix[i]); } 
 	return 0;
 }
