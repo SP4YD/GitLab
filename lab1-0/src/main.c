@@ -82,6 +82,7 @@ int main(void) {
 		}
 	}*/
 	//Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
+	printf("a is %d   A is %d\n", "а", "А");
 	for (int i = 128; i < 256; ++i) { printf("%c) %d\n", i, cmatrix[i]); } 
 	return 0;
 }
