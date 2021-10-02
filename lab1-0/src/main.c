@@ -66,7 +66,7 @@ int main(void) {
 			text[LenText] = chr;
 			++LenText;
 	}
-	if (LenText == 0 && chr == EOF) { printf("\0"); exit(1); }
+	if (LenText == 0 && chr == EOF) { return 0; }
 	//text[LenText - 1] = '\0';
 	//--LenText;
 	//char cmatrix[SIZE];
@@ -85,3 +85,6 @@ int main(void) {
 	//for (int i = 0; i < 256; ++i) { printf("%c) %d\n", i, imatrix[i]); } 
 	return 0;
 }
+/*
+
+*/
