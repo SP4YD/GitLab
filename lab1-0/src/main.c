@@ -14,22 +14,6 @@ int Rus(int a) {
 	return a;
 }
 
-/*int* IMatrix(int LenPattern, char* pattern) {
-	int imatrix[SIZE];
-	for (int i = 0; i < 256; ++i) {
-		//cmatrix[i] = i;
-		imatrix[i] = LenPattern;
-	}
-	for (int i = LenPattern - 2; i >= 0; --i) {
-		int pattern_now = Rus(pattern[i]);
-		if (imatrix[pattern_now] == LenPattern) {
-			imatrix[pattern_now] = LenPattern - i - 1;
-		}
-	}
-	for (int i = 0; i < 256; ++i) { printf("%c) %d\n", i, imatrix[i]); }
-	return imatrix;
-}*/
-
 void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, char *text, int *imatrix){
 	
 	while (!done && icheck < LenText) {
@@ -82,7 +66,7 @@ int main(void) {
 			text[LenText] = chr;
 			++LenText;
 	}
-	if (LenText == 0 && chr == EOF) { printf("\n"); exit(1); }
+	if (LenText == 0 && chr == EOF) { printf(""); exit(1); }
 	//text[LenText - 1] = '\0';
 	//--LenText;
 	//char cmatrix[SIZE];
