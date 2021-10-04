@@ -19,9 +19,8 @@ int main(void) {
 			text[LenText] = chr;
 			++LenText;
 	}
-	printf("%d\n", (int)('а'));
-	printf("%d\n", (int)('А'));
-	printf("%d\n", (int)('я'));
-	printf("%d\n", (int)('Я'));
+	char str[10] = "а";
+	printf("%с\n", str[0]);
+	printf("%с\n", str[1]);
 	return 0;
 }
