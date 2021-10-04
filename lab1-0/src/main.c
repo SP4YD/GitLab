@@ -81,10 +81,8 @@ int main(void) {
 			imatrix[pattern_now] = LenPattern - i - 1;
 		}
 	}
-	if (pattern == "абвг")
-	{
-	    for (int i = 148; i < 256; ++i) { printf("%c) %d   %d\n", i, cmatrix[i], imatrix[i]); } 
-	}
+    printf("%l", 'а');
+	//for (int i = 148; i < 256; ++i) { printf("%c) %d   %d\n", i, cmatrix[i], imatrix[i]); } 
 	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
 	return 0;
 }
