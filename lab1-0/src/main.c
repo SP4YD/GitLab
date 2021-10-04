@@ -5,7 +5,54 @@
 #include <stdbool.h>
 #include <string.h>
 #include <locale.h>
-#define SIZE 256
+#define SIZE 1000
+
+/*int Rus(int a) {
+	if (a < 0) {
+		a += 256;
+	}
+	return a;
+}*/
+
+void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, char *text, int *imatrix){
+	
+	while (!done && icheck < LenText) {
+		bool coincidence = 1;
+		int i = 0;
+		printf("%d ", icheck + 1);
+		if (text[icheck] != pattern[LenPattern - 1]) {
+			coincidence = 0;
+			if (icheck == LenText - 1) {
+				done = 1;
+			}
+			else {
+				icheck += imatrix[(int)text[icheck]];
+				if (icheck > LenText - 1) {
+					icheck = LenText - 1;
+				}
+			}
+		}
+		for (i = 1; i < LenPattern && coincidence; ++i) {
+			printf("%d ", icheck + 1 - i);
+			if (text[icheck - i] != pattern[LenPattern - 1 - i]) {
+				coincidence = 0;
+				if (icheck == LenText - 1) {
+					done = 1;
+				}
+				else {
+					icheck += imatrix[(int)text[icheck]];
+					if (icheck > LenText - 1) {
+						icheck = LenText - 1;
+					}
+				}
+
+			}
+		}
+		if (i == LenPattern && coincidence) {
+			icheck += imatrix[(int)pattern[LenPattern - 1]];
+		}
+	}
+}
 
 int main(void) {
 	setlocale(LC_ALL, "Rus");
@@ -19,9 +66,22 @@ int main(void) {
 			text[LenText] = chr;
 			++LenText;
 	}
-	printf("%d\n",'а');
-	printf("%d\n",'А');
-	printf("%d\n",'я');
-	printf("%d\n",'Я');
+	if (LenText == 0 && chr == EOF) { return 0; }
+	//text[LenText - 1] = '\0';
+	//--LenText;
+	//char cmatrix[SIZE];
+	int imatrix[SIZE];
+	for (int i = 0; i < 1000; ++i) {
+		//cmatrix[i] = i;
+		imatrix[i] = LenPattern;
+	}
+	for (int i = LenPattern - 2; i >= 0; --i) {
+		int pattern_now = pattern[i];
+		if (imatrix[pattern_now] == LenPattern) {
+			imatrix[pattern_now] = LenPattern - i - 1;
+		}
+	}
+	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
+	//for (int i = 65; i < 256; ++i) { printf("%c) %d\n", i, cmatrix[i]); } 
 	return 0;
 }
