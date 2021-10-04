@@ -20,7 +20,7 @@ int main(void) {
 			++LenText;
 	}
 	char str[10] = "а";
-	printf("%с\n", str[0]);
-	printf("%с\n", str[1]);
+	printf("%s\n", str[0]);
+	printf("%s\n", str[1]);
 	return 0;
 }
