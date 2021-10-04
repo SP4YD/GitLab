@@ -81,7 +81,7 @@ int main(void) {
 			imatrix[pattern_now] = LenPattern - i - 1;
 		}
 	}
-	if (pattern[0] == 'а')
+	if (pattern == "абвг")
 	{
 	    for (int i = 148; i < 256; ++i) { printf("%c) %d   %d\n", i, cmatrix[i], imatrix[i]); } 
 	}
