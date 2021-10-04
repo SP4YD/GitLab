@@ -81,7 +81,7 @@ int main(void) {
 			imatrix[pattern_now] = LenPattern - i - 1;
 		}
 	}
-	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
 	for (int i = 65; i < 256; ++i) { printf("%c) %d\n", i, cmatrix[i]); } 
+	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
 	return 0;
 }
