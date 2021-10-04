@@ -7,12 +7,12 @@
 #include <locale.h>
 #define SIZE 256
 
-/*int Rus(int a) {
-	if (a < 0) {
-		a += 256;
+int Rus(int a) {
+	if (a >= '\xE0') {
+		a = a - '\xE0'  + 128;
 	}
 	return a;
-}*/
+}
 
 void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, char *text, int *imatrix){
 	
@@ -26,7 +26,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, ch
 				done = 1;
 			}
 			else {
-				icheck += imatrix[(int)text[icheck]];
+				icheck += imatrix[Rus(text[icheck])];
 				if (icheck > LenText - 1) {
 					icheck = LenText - 1;
 				}
@@ -40,7 +40,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, ch
 					done = 1;
 				}
 				else {
-					icheck += imatrix[(int)text[icheck]];
+					icheck += imatrix[Rus(text[icheck])];
 					if (icheck > LenText - 1) {
 						icheck = LenText - 1;
 					}
@@ -76,13 +76,12 @@ int main(void) {
 		imatrix[i] = LenPattern;
 	}
 	for (int i = LenPattern - 2; i >= 0; --i) {
-		int pattern_now = pattern[i];
+		int pattern_now = Rus(pattern[i]);
 		if (imatrix[pattern_now] == LenPattern) {
 			imatrix[pattern_now] = LenPattern - i - 1;
 		}
 	}
-    if (pattern[0] == '\xE0')
-	    for (int i = 148; i < 256; ++i) { printf("%c) %d   %d\n", i, cmatrix[i], imatrix[i]); } 
+	//for (int i = 148; i < 256; ++i) { printf("%c) %d   %d\n", i, cmatrix[i], imatrix[i]); } 
 	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
 	return 0;
 }
