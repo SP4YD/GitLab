@@ -49,7 +49,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, ch
 			}
 		}
 		if (i == LenPattern && coincidence) {
-			icheck += imatrix[(int)pattern[LenPattern - 1]];
+			icheck += imatrix[Rus(pattern[LenPattern - 1])];
 		}
 	}
 }
