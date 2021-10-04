@@ -69,10 +69,10 @@ int main(void) {
 	if (LenText == 0 && chr == EOF) { return 0; }
 	//text[LenText - 1] = '\0';
 	//--LenText;
-	//char cmatrix[SIZE];
+	char cmatrix[SIZE];
 	int imatrix[SIZE];
 	for (int i = 0; i < 256; ++i) {
-		//cmatrix[i] = i;
+		cmatrix[i] = i;
 		imatrix[i] = LenPattern;
 	}
 	for (int i = LenPattern - 2; i >= 0; --i) {
