@@ -8,14 +8,14 @@
 #define SIZE 256
 
 int Rus(int a) {
-	if (a >= '\xE0') {
-		a = a - '\xE0'  + 128;
+	if (a >= '\xE0' && a < 'A') {
+		a = a - '\xE0' + 128;
 	}
 	return a;
 }
 
-void Check(bool done, int icheck, int LenText, int LenPattern, char *pattern, char *text, int *imatrix){
-	
+void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, char* text, int* imatrix) {
+
 	while (!done && icheck < LenText) {
 		bool coincidence = 1;
 		int i = 0;
@@ -63,8 +63,8 @@ int main(void) {
 		++LenPattern;
 	}
 	while ((chr = getc(stdin)) != EOF) {
-			text[LenText] = chr;
-			++LenText;
+		text[LenText] = chr;
+		++LenText;
 	}
 	if (LenText == 0 && chr == EOF) { return 0; }
 	//text[LenText - 1] = '\0';
