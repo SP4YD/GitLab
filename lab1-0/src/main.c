@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <locale.h>
-#define SIZE 256
+#define SIZE 257
 
 int Rus(int a) {
 	if (a >= '\xE0' && a < 'A') {
@@ -71,7 +71,7 @@ int main(void) {
 	//--LenText;
 	//char cmatrix[SIZE];
 	int imatrix[SIZE];
-	for (int i = 0; i < 256; ++i) {
+	for (int i = 0; i < SIZE; ++i) {
 		//cmatrix[i] = i;
 		imatrix[i] = LenPattern;
 	}
