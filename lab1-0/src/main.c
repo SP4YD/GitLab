@@ -62,7 +62,8 @@ int main(void) {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
-	while ((chr = getc(stdin)) != EOF || (chr == '\xFF')) {
+	chr = getc(stdin);
+	while ((chr != EOF) || (chr == '\xFF')) {
 		text[LenText] = chr;
 		++LenText;
 	}
