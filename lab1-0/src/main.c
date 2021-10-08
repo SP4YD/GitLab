@@ -7,7 +7,7 @@
 #include <locale.h>
 #define SIZE 257
 
-void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, char* text, int* imatrix) {
+void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int* text, int* imatrix) {
 
 	while (!done && icheck < LenText) {
 		bool coincidence = 1;
@@ -19,7 +19,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, ch
 				done = 1;
 			}
 			else {
-				icheck += imatrix[text[icheck]];
+				icheck += imatrix[(int)text[icheck]];
 				if (icheck > LenText - 1) {
 					icheck = LenText - 1;
 				}
@@ -49,14 +49,13 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, ch
 
 int main(void) {
 	setlocale(LC_ALL, "Rus");
-	int pattern[SIZE] = "\0", text[SIZE] = "\0", chr;
+	int pattern[SIZE], text[SIZE], chr;
 	int LenText = 0, LenPattern = 0;
 	while ((chr = getc(stdin)) != '\n') {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
-	chr = getc(stdin);
-	while ((chr != EOF) || (chr == '\xFF')) {
+	while ((chr = getc(stdin)) != EOF) {
 		text[LenText] = chr;
 		++LenText;
 	}
