@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <locale.h>
-#define SIZE 500
+#define SIZE 256
 
 void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int* text, int* imatrix) {
 
