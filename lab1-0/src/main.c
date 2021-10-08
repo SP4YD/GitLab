@@ -7,13 +7,6 @@
 #include <locale.h>
 #define SIZE 257
 
-int Rus(int a) {
-	if (a >= '\xE0' && a < 'A') {
-		a = a - '\xE0' + 128;
-	}
-	return a;
-}
-
 void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, char* text, int* imatrix) {
 
 	while (!done && icheck < LenText) {
@@ -26,7 +19,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, ch
 				done = 1;
 			}
 			else {
-				icheck += imatrix[Rus(text[icheck])];
+				icheck += imatrix[text[icheck]];
 				if (icheck > LenText - 1) {
 					icheck = LenText - 1;
 				}
@@ -40,7 +33,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, ch
 					done = 1;
 				}
 				else {
-					icheck += imatrix[Rus(text[icheck])];
+					icheck += imatrix[text[icheck]];
 					if (icheck > LenText - 1) {
 						icheck = LenText - 1;
 					}
@@ -49,14 +42,14 @@ void Check(bool done, int icheck, int LenText, int LenPattern, char* pattern, ch
 			}
 		}
 		if (i == LenPattern && coincidence) {
-			icheck += imatrix[Rus(pattern[LenPattern - 1])];
+			icheck += imatrix[pattern[LenPattern - 1]];
 		}
 	}
 }
 
 int main(void) {
 	setlocale(LC_ALL, "Rus");
-	char pattern[SIZE] = "\0", text[SIZE] = "\0", chr;
+	int pattern[SIZE] = "\0", text[SIZE] = "\0", chr;
 	int LenText = 0, LenPattern = 0;
 	while ((chr = getc(stdin)) != '\n') {
 		pattern[LenPattern] = chr;
@@ -77,7 +70,7 @@ int main(void) {
 		imatrix[i] = LenPattern;
 	}
 	for (int i = LenPattern - 2; i >= 0; --i) {
-		int pattern_now = Rus(pattern[i]);
+		int pattern_now = pattern[i];
 		if (imatrix[pattern_now] == LenPattern) {
 			imatrix[pattern_now] = LenPattern - i - 1;
 		}
