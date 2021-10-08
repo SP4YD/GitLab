@@ -49,7 +49,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int
 
 int main(void) {
 	setlocale(LC_ALL, "Rus");
-	int pattern[SIZE], text[SIZE], chr;
+	int pattern[SIZE], text[226], chr;
 	int LenText = 0, LenPattern = 0;
 	while ((chr = getc(stdin)) != '\n') {
 		pattern[LenPattern] = chr;
