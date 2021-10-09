@@ -62,9 +62,9 @@ int main(void) {
 		imatrix[i] = LenPattern;
 	}
 	for (int i = LenPattern - 2; i >= 0; --i) {
-		int pattern_now = pattern[i];
-		if (imatrix[pattern_now] == LenPattern) {
-			imatrix[pattern_now] = LenPattern - i - 1;
+		int PatternNow = pattern[i];
+		if (imatrix[PatternNow] == LenPattern) {
+			imatrix[PatternNow] = LenPattern - i - 1;
 		}
 	}
 	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
