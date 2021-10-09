@@ -46,7 +46,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int
 }
 
 int main(void) {
-	int pattern[SIZE], text[226], chr;
+	int pattern[SIZE], text[SIZE], chr;
 	int LenText = 0, LenPattern = 0;
 	while ((chr = getc(stdin)) != '\n') {
 		pattern[LenPattern] = chr;
