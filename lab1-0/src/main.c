@@ -1,10 +1,8 @@
-//#include "pch.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <locale.h>
 #define SIZE 256
 
 void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int* text, int* imatrix) {
@@ -48,7 +46,6 @@ void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int
 }
 
 int main(void) {
-	setlocale(LC_ALL, "Rus");
 	int pattern[SIZE], text[226], chr;
 	int LenText = 0, LenPattern = 0;
 	while ((chr = getc(stdin)) != '\n') {
@@ -60,12 +57,8 @@ int main(void) {
 		++LenText;
 	}
 	if (LenText == 0 && chr == EOF) { return 0; }
-	//text[LenText - 1] = '\0';
-	//--LenText;
-	//char cmatrix[SIZE];
 	int imatrix[SIZE];
 	for (int i = 0; i < SIZE; ++i) {
-		//cmatrix[i] = i;
 		imatrix[i] = LenPattern;
 	}
 	for (int i = LenPattern - 2; i >= 0; --i) {
@@ -74,7 +67,6 @@ int main(void) {
 			imatrix[pattern_now] = LenPattern - i - 1;
 		}
 	}
-	//for (int i = 148; i < 256; ++i) { printf("%c) %d   %d\n", i, cmatrix[i], imatrix[i]); } 
 	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
 	return 0;
 }
