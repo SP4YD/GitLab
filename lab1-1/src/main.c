@@ -47,7 +47,7 @@ int main(void) {
 		text[LenText] = chr;
 		++LenText;
 	}
-	if (LenText == 0 && chr == EOF) { return 0; }
+	if (LenText == 0 && chr == EOF) { printf("0"); return 0; }
 	for (int i = 0; i < LenPattern; ++i) {
 		WeightPattern += FindWeight(pattern[i], i);
 	}
