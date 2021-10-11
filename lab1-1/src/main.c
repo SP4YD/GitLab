@@ -48,7 +48,7 @@ int main(void) {
 	for (int i = 0; i < LenPattern; ++i) {
 		WeightPattern += FindWeight(pattern[i], i);
 	}
-	printf("%d ", WeightPattern);
+	printf("\n%d ", WeightPattern);
 	Check(LenText, LenPattern, pattern, text, WeightPattern);
 	return 0;
 }
