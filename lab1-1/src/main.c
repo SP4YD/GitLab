@@ -7,14 +7,13 @@ int FindWeight(int symbol, int n) {
 	for (int i = 0; i < n; ++i) {
 		a *= 3;
 	}
-	//printf("%c and %d == %d\n", symbol, n, (symbol % 3) * a);
 	return ((symbol % 3) * a);
 }
 
 void Compare(int icheck, int LenPattern, int* pattern, int* text) {
 	bool coincidence = 1;
 	for (int i = 0; (i < LenPattern) && coincidence; ++i) {
-		printf("%d ", icheck + i);
+		printf("%d ", icheck + i + 1);
 		if (pattern[i] != text[i + icheck]) {
 			coincidence = 0;
 		}
@@ -27,16 +26,10 @@ void Check(int LenText, int LenPattern, int* pattern, int* text, int WeightPatte
 		WeightPartText += FindWeight(text[i], i);
 	}
 	while ((icheck + LenPattern) < LenText) {
-		//printf("Weight %c %d and %d\n", text[icheck], WeightPattern, WeightPartText);
 		if (WeightPattern == WeightPartText) {
 			Compare(icheck, LenPattern, pattern, text);
 		}
-		//printf("До %d ", WeightPartText);
-		//printf("text is %c - %c\n", text[icheck], text[icheck + LenPattern]);
-		//printf("Find is nyledoq %d and last %d\n", FindWeight(text[icheck], 0), FindWeight(text[icheck + LenPattern], LenPattern - 1));
-		WeightPartText = (WeightPartText - FindWeight(text[icheck], 0))/3 + FindWeight(text[icheck + LenPattern], LenPattern - 1);
-		//printf("после %d\n", WeightPartText);
-		//printf("%c %d and %d\n", text[icheck], WeightPattern, WeightPartText);
+		WeightPartText = (WeightPartText - FindWeight(text[icheck], 0)) / 3 + FindWeight(text[icheck + LenPattern], LenPattern - 1);
 		++icheck;
 	}
 }
