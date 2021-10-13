@@ -47,7 +47,7 @@ void Check(int LenText, int LenPattern, unsigned char* pattern, unsigned char* t
 }
 
 int main(void) {
-	unsigned int LenText = 0, LenPattern = 0, WeightPattern = 0;
+	int LenText = 0, LenPattern = 0, WeightPattern = 0;
 	unsigned char text[500], chr, pattern[SIZE];
 	while ((chr = getchar()) != '\n') {
 		pattern[LenPattern] = chr;
