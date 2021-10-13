@@ -64,7 +64,6 @@ int main(void) {
 			imatrix[PatternNow] = LenPattern - i - 1;
 		}
 	}
-	printf("\n");
 	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix, index);
 	if (LenText == SIZE) {
 		while (LenText == SIZE) {
