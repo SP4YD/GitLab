@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <math.h>
+#include <stdlib.h>
 #define SIZE 256
 
 int FindWeight(int symbol, int n) {
