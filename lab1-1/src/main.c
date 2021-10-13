@@ -30,7 +30,7 @@ void Check(int LenText, int LenPattern, unsigned char* pattern, unsigned char* t
 	}
 	while ((icheck + LenPattern) < LenText) {
 		//printf("%d and %d\n", WeightPattern, WeightPartText);
-		Compare(WeightPattern, WeightPartText, icheck, LenPattern, pattern, text);
+		Compare(WeightPattern, WeightPartText, icheck, LenPattern, pattern, text, index);
 		WeightPartText = (WeightPartText - FindWeight(text[icheck], 0)) / 3 + FindWeight(text[icheck + LenPattern], LenPattern - 1);
 		++icheck;
 	}
@@ -52,7 +52,7 @@ int main(void) {
 	printf("%d ", WeightPattern);
 	Check(LenText, LenPattern, pattern, text, WeightPattern, index);
 	if (text[LenText - 1] != EOF){
-	    for (int i = 0; text[LenText - 1] != EOF; ++i){
+	    for (int i = 0; (text[LenText - 1] != EOF) || (text[LenText - 1] != '\0'); ++i){
 	        index += LenText;
 	        LenText = fread(text, 1, SIZE, stdin);
 	        Check(LenText, LenPattern, pattern, text, WeightPattern, index);
