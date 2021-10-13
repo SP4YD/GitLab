@@ -3,21 +3,12 @@
 #include <stdlib.h>
 #define SIZE 1000000
 
-int Convert (int symbol){
-    if (symbol < 0){
-        return (32 + symbol + '\xE0');
-    }
-    return symbol;
-}
-
 int FindWeight(int symbol, int n) { /////////////переделать
 	int a = 1;
 	for (int i = 0; i < n; ++i) {
 		a *= 3;
 	}
-	if (symbol < 0){
-	printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));}
-	return abs((Convert(symbol) % 3) * a);
+	return (symbol) % 3) * a;
 }
 
 void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, unsigned char* pattern, unsigned char* text) {
@@ -54,12 +45,12 @@ int main(void) {
 		++LenPattern;
 	}
 	LenText = fread(text, 1, SIZE, stdin);
+	if (LenText == 0) { printf("0"); return 0; }
 	/*for (int i = 0; i < LenText; ++i){
 		text[i] = input[i];
 	}*/
 	//printf("text is %s\n", text);
 	//printf("LenText is %d\n",LenText);
-	if (LenText == 0) { printf("0"); return 0; }
 	for (int i = 0; i < LenPattern; ++i) {
 		WeightPattern += FindWeight(pattern[i], i);
 	}
