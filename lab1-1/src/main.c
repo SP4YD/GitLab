@@ -39,7 +39,7 @@ void Check(int LenText, int LenPattern, int* pattern, int* text, int WeightPatte
 
 int main(void) {
 	int pattern[SIZE], text[SIZE], chr, LenText = 0, LenPattern = 0, WeightPattern = 0;
-	while ((chr = getc(stdin)) != '\n') {
+	while ((chr = getchar()) != '\n') {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
