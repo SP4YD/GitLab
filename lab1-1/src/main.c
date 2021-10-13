@@ -5,7 +5,7 @@
 
 int Convert (int symbol){
     if (symbol < 0){
-        return (33 + symbol + '\xE0');
+        return (31 + symbol + '\xE0');
     }
     return symbol;
 }
