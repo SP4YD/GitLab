@@ -8,7 +8,7 @@ int FindWeight(int symbol, int n) { /////////////переделать
 	for (int i = 0; i < n; ++i) {
 		a *= 3;
 	}
-	return (symbol) % 3) * a;
+	return (((symbol) % 3) * a);
 }
 
 void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, unsigned char* pattern, unsigned char* text) {
