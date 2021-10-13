@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#define SIZE 256
+#define SIZE 8388608
 
 int Convert (int symbol){
     if (symbol < 0){
@@ -48,12 +48,12 @@ void Check(int LenText, int LenPattern, unsigned char* pattern, unsigned char* t
 
 int main(void) {
 	int LenText = 0, LenPattern = 0, WeightPattern = 0;
-	unsigned char text[1000000], chr, pattern[16];
+	unsigned char text[SIZE], chr, pattern[16];
 	while ((chr = getchar()) != '\n') {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
-	LenText = fread(text, 1, 200, stdin);
+	LenText = fread(text, 1, SIZE, stdin);
 	/*for (int i = 0; i < LenText; ++i){
 		text[i] = input[i];
 	}*/
