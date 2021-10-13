@@ -41,7 +41,7 @@ int main(void) {
 		++LenPattern;
 	}
 	int LenText = fread(text, 1, 500, stdin);
-	printf("text is %s\n", text);
+	printf("text is %ls\n", text);
 	if (LenText == 0 && text[0] == EOF) { return 0; }
 	for (int i = 0; i < LenPattern; ++i) {
 		WeightPattern += FindWeight(pattern[i], i);
