@@ -3,14 +3,21 @@
 #include <stdlib.h>
 #define SIZE 256
 
-int FindWeight(int symbol, int n) {
+int Convert (int symbol){
+    if (symbol < 0){
+        return (32 + symbol + '\xE0');
+    }
+    return symbol;
+}
+
+int FindWeight(int symbol, int n) { /////////////переделать
 	int a = 1;
 	for (int i = 0; i < n; ++i) {
 		a *= 3;
 	}
-	if (symbol < 0){
-	printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));}
-	return abs((symbol % 3) * a);
+	//if (symbol < 0){
+	//printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));}
+	return abs((Convert(symbol) % 3) * a);
 }
 
 void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, int* pattern, char* text) {
