@@ -3,14 +3,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#define SIZE 256
+#define SIZE 1000000
 
-void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int* text, int* imatrix) {
+void Check(bool done, int icheck, int LenText, int LenPattern, unsigned char* pattern, unsigned char* text, int* imatrix, int index) {
 
 	while (!done && icheck < LenText) {
 		bool coincidence = 1;
 		int i = 0;
-		printf("%d ", icheck + 1);
+		printf("%d ", icheck + index);
 		if (text[icheck] != pattern[LenPattern - 1]) {
 			coincidence = 0;
 			if (icheck == LenText - 1) {
@@ -24,7 +24,7 @@ void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int
 			}
 		}
 		for (i = 1; i < LenPattern && coincidence; ++i) {
-			printf("%d ", icheck + 1 - i);
+			printf("%d ", icheck + index - i);
 			if (text[icheck - i] != pattern[LenPattern - 1 - i]) {
 				coincidence = 0;
 				if (icheck == LenText - 1) {
@@ -46,17 +46,14 @@ void Check(bool done, int icheck, int LenText, int LenPattern, int* pattern, int
 }
 
 int main(void) {
-	int pattern[SIZE], text[SIZE], chr;
-	int LenText = 0, LenPattern = 0;
-	while ((chr = getc(stdin)) != '\n') {
+	int LenText = 0, LenPattern = 0, index = 1;
+	unsigned char text[SIZE], chr, pattern[16];
+	while ((chr = getchar()) != '\n') {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
-	while ((chr = getc(stdin)) != EOF) {
-		text[LenText] = chr;
-		++LenText;
-	}
-	if (LenText == 0 && chr == EOF) { return 0; }
+	LenText = fread(text, 1, SIZE, stdin);
+	if (LenText == 0) { return 0; }
 	int imatrix[SIZE];
 	for (int i = 0; i < SIZE; ++i) {
 		imatrix[i] = LenPattern;
@@ -67,6 +64,13 @@ int main(void) {
 			imatrix[PatternNow] = LenPattern - i - 1;
 		}
 	}
-	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix);
+	Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix, index);
+	if (LenText == SIZE) {
+		while (LenText == SIZE) {
+			index += LenText;
+			LenText = fread(text, 1, SIZE, stdin);
+			Check(0, LenPattern - 1, LenText, LenPattern, pattern, text, imatrix, index);
+		}
+	}
 	return 0;
 }
