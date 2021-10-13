@@ -8,7 +8,8 @@ int FindWeight(int symbol, int n) {
 	for (int i = 0; i < n; ++i) {
 		a *= 3;
 	}
-	//printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));
+	if (symbol < 0){
+	printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));}
 	return abs((symbol % 3) * a);
 }
 
