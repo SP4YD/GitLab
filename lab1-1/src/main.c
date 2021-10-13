@@ -51,8 +51,8 @@ int main(void) {
 	}
 	printf("%d ", WeightPattern);
 	Check(LenText, LenPattern, pattern, text, WeightPattern, index);
-	if (text[LenText - 1] != '\0'){
-	    for (int i = 0; /*(text[LenText - 1] != EOF) ||*/ (text[LenText - 1] != '\0'); ++i){
+	if (text[LenText - 1] != EOF){
+	    for (int i = 0; (text[LenText - 1] != EOF) || (text[LenText - 1] != '\0'); ++i){
 	        index += LenText;
 	        LenText = fread(text, 1, SIZE, stdin);
 	        Check(LenText, LenPattern, pattern, text, WeightPattern, index);
