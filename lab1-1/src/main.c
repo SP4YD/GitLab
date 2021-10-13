@@ -20,7 +20,7 @@ int FindWeight(int symbol, int n) { /////////////переделать
 	return abs((Convert(symbol) % 3) * a);
 }
 
-void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, int* pattern, char* text) {
+void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, int* pattern, unsigned char* text) {
 	if (WeightPattern == WeightPartText) {
 		bool coincidence = 1;
 		for (int i = 0; (i < LenPattern) && coincidence; ++i) {
@@ -32,7 +32,7 @@ void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, 
 	}
 }
 
-void Check(int LenText, int LenPattern, int* pattern, char* text, int WeightPattern) {
+void Check(int LenText, int LenPattern, int* pattern, unsigned char* text, int WeightPattern) {
 	int WeightPartText = 0, icheck = 0;
 	for (int i = 0; i < LenPattern; ++i) {
 		WeightPartText += FindWeight(text[i], i);
@@ -53,7 +53,7 @@ int main(void) {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
-	char text[500];
+	unsigned char text[500];
 	LenText = fread(text, 1, 200, stdin);
 	/*for (int i = 0; i < LenText; ++i){
 		text[i] = input[i];
