@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <math.h>
 #define SIZE 1000000
 
 int FindWeight(int symbol, int Degree) { 
