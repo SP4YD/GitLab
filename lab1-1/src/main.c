@@ -52,7 +52,7 @@ int main(void) {
 	}*/
 	//printf("text is %s\n", text);
 	//printf("LenText is %d\n",LenText);
-	if (LenText == 0 && chr == EOF) { printf("0"); return 0; }
+	if (LenText == 0) { printf("0"); return 0; }
 	for (int i = 0; i < LenPattern; ++i) {
 		WeightPattern += FindWeight(pattern[i], i);
 	}
