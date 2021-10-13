@@ -5,7 +5,7 @@
 
 int Convert (int symbol){
     if (symbol < 0){
-        return (31 + symbol + '\xE0');
+        return (32 + symbol + '\xE0');
     }
     return symbol;
 }
@@ -15,8 +15,8 @@ int FindWeight(int symbol, int n) { /////////////переделать
 	for (int i = 0; i < n; ++i) {
 		a *= 3;
 	}
-	//if (symbol < 0){
-	//printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));}
+	if (symbol < 0){
+	printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));}
 	return abs((Convert(symbol) % 3) * a);
 }
 
