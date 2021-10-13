@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#define SIZE 1000000
+#define SIZE 100000
 
 void Check(bool done, int icheck, int LenText, int LenPattern, unsigned char* pattern, unsigned char* text, int* imatrix, int index) {
 
