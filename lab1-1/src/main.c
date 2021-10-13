@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#define SIZE 8388608
+#define SIZE 1000000
 
 int Convert (int symbol){
     if (symbol < 0){
