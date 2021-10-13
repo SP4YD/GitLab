@@ -43,12 +43,13 @@ int main(void) {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
-	while ((chr = getc(stdin)) != EOF) {
-		text[LenText] = chr;
-		++LenText;
+	char input[500];
+	LenText = fread(input, 1, 500, stdin);
+	for (int i = 0; i < LenText; ++i){
+		text[i] = input[i];
 	}
-	printf("text is %s\n", text);
-	printf("LenText is %d\n",LenText);
+	//printf("text is %s\n", text);
+	//printf("LenText is %d\n",LenText);
 	if (LenText == 0 && chr == EOF) { printf("0"); return 0; }
 	for (int i = 0; i < LenPattern; ++i) {
 		WeightPattern += FindWeight(pattern[i], i);
