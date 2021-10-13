@@ -9,7 +9,7 @@ int FindWeight(int symbol, int n) {
 		a *= 3;
 	}
 	//printf("symbol is %c(%d) a is %d == %d\n", symbol, symbol, a, ((symbol % 3) * a));
-	return abs((symbol % 3) * a);
+	return ((symbol % 3) * a);
 }
 
 void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, int* pattern, char* text) {
