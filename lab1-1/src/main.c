@@ -43,7 +43,7 @@ int main(void) {
 		pattern[LenPattern] = chr;
 		++LenPattern;
 	}
-	int input[500];
+	char input[500];
 	LenText = fread(input, 1, 500, stdin);
 	for (int i = 0; i < LenText; ++i){
 		text[i] = input[i];
