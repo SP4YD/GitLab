@@ -1,60 +1,61 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #define SIZE 1000000
 
-int FindWeight(int symbol, int Degree) { 
-	return (((symbol) % 3) * Degree);
+int FindWeight(int symbol, int degree) {
+	return (((symbol) % 3) * degree);
 }
 
-void Compare(int WeightPattern, int WeightPartText, int icheck, int LenPattern, unsigned char* pattern, unsigned char* text, int index) {
-	if (WeightPattern == WeightPartText) {
-		bool coincidence = 1;
-		for (int i = 0; (i < LenPattern) && coincidence; ++i) {
+void Compare(int weightPattern, int weightPartText, int icheck, int lenPattern, unsigned char* pattern, unsigned char* text, int index) {
+	if (weightPattern == weightPartText) {
+		for (int i = 0; (i < lenPattern); ++i) {
 			printf("%d ", icheck + i + index);
 			if (pattern[i] != text[i + icheck]) {
-				coincidence = 0;
+				return;
 			}
 		}
 	}
 }
 
-void Check(int LenText, int LenPattern, unsigned char* pattern, unsigned char* text, int WeightPattern, int index) {
-	int WeightPartText = 0, icheck = 0, DegreeFirstSymb = 1, DegreeLastSymb = pow(3, LenPattern-1);
-	for (int i = 0, Degree = 1; i < LenPattern; ++i) {
-		WeightPartText += FindWeight(text[i], Degree);
-		Degree *= 3;
+void Check(int lenText, int lenPattern, unsigned char* pattern, unsigned char* text, int weightPattern, int index) {
+	int weightPartText = 0, icheck = 0, degreeFirstSymb = 1, degreeLastSymb = pow(3, lenPattern - 1);
+	for (int i = 0, degree = 1; i < lenPattern; ++i) {
+		weightPartText += FindWeight(text[i], degree);
+		degree *= 3;
 	}
-	while ((icheck + LenPattern) < LenText) {
-		Compare(WeightPattern, WeightPartText, icheck, LenPattern, pattern, text, index);
-		WeightPartText = (WeightPartText - FindWeight(text[icheck], DegreeFirstSymb)) / 3 + FindWeight(text[icheck + LenPattern], DegreeLastSymb);
+	while ((icheck + lenPattern) < lenText) {
+		Compare(weightPattern, weightPartText, icheck, lenPattern, pattern, text, index);
+		weightPartText = (weightPartText - FindWeight(text[icheck], degreeFirstSymb)) / 3 + FindWeight(text[icheck + lenPattern], degreeLastSymb);
 		++icheck;
 	}
-	Compare(WeightPattern, WeightPartText, icheck, LenPattern, pattern, text, index);
+	Compare(weightPattern, weightPartText, icheck, lenPattern, pattern, text, index);
 }
 
 int main(void) {
-	int LenText = 0, LenPattern = 0, WeightPattern = 0, index = 1, Degree = 1;
+	int lenText = 0, lenPattern = 0, weightPattern = 0, index = 1, degree = 1;
 	unsigned char text[SIZE], chr, pattern[16];
-	while ((chr = getchar()) != '\n') {
-		pattern[LenPattern] = chr;
-		++LenPattern;
+	scanf("%15\[^\\n\]s", text);
+	for (int i = 0; text[i] != '\n'; ++i) {
+		++lenPattern;
 	}
-	LenText = fread(text, 1, SIZE, stdin);
-	if (LenText == 0) { printf("0"); return 0; }
-	for (int i = 0; i < LenPattern; ++i) {
-		WeightPattern += FindWeight(pattern[i], Degree);
-		Degree *= 3;
+	lenText = fread(text, 1, SIZE, stdin);
+	if (lenText == 0) { printf("0"); return 0; }
+	for (int i = 0; i < lenPattern; ++i) {
+		weightPattern += FindWeight(pattern[i], degree);
+		degree *= 3;
 	}
-	printf("%d ", WeightPattern);
-	Check(LenText, LenPattern, pattern, text, WeightPattern, index);
-	if (LenText == SIZE){
-	    for (int i = 0; LenText == SIZE; ++i){
-	        index += LenText;
-	        LenText = fread(text, 1, SIZE, stdin);
-	        Check(LenText, LenPattern, pattern, text, WeightPattern, index);
-	    }
+	printf("%d ", weightPattern);
+	Check(lenText, lenPattern, pattern, text, weightPattern, index);
+	if (lenText == SIZE) {
+		for (int i = 0; lenText == SIZE; ++i) {
+			index += lenText;
+			lenText = fread(text, 1, SIZE, stdin);
+			Check(lenText, lenPattern, pattern, text, weightPattern, index);
+		}
 	}
 	return 0;
 }
