@@ -12,7 +12,7 @@ int FindWeight(int symbol, int degree) {
 
 void Compare(int weightPattern, int weightPartText, int icheck, int lenPattern, unsigned char* pattern, unsigned char* text, int index) {
 	if (weightPattern == weightPartText) {
-		for (int i = 0; (i < lenPattern); ++i) {
+		for (int i = 0; i < lenPattern; ++i) {
 			printf("%d ", icheck + i + index);
 			if (pattern[i] != text[i + icheck]) {
 				return;
@@ -36,9 +36,9 @@ void Check(int lenText, int lenPattern, unsigned char* pattern, unsigned char* t
 }
 
 int main(void) {
-	int lenText = 0, lenPattern = 0, weightPattern = 0, index = 1, degree = 1;
+	int lenText = 0, lenPattern = 0, weightPattern = 0, index = 0, degree = 1;
 	unsigned char text[SIZE], pattern[16];
-	if (scanf("%15[^\n]s", pattern) != 1) {return 0 ;}
+	if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
 	for (int i = 0; pattern[i] != '\0'; ++i) {
 		++lenPattern;
 	}
