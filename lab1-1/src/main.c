@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#define SIZE 1000000
+#define SIZE 900000
 
 int FindWeight(int symbol, int degree) {
 	return (((symbol) % 3) * degree);
