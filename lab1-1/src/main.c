@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#define SIZE 64
+#define SIZE 1000000
 
 int FindWeight(int symbol, int degree) {
 	return (((symbol) % 3) * degree);
@@ -50,14 +50,12 @@ int main(void) {
 	}
 	printf("%d ", weightPattern);
 	Check(lenText, lenPattern, pattern, text, weightPattern, index);
-	delete &text;
 	if (lenText == SIZE) {
 		for (int i = 0; lenText == SIZE; ++i) {
 			unsigned char newText[SIZE];
 			index += lenText;
 			lenText = fread(newText, 1, SIZE, stdin);
 			Check(lenText, lenPattern, pattern, newText, weightPattern, index);
-			delete &newText;
 		}
 	}
 	return 0;
