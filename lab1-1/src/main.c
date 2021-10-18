@@ -50,11 +50,14 @@ int main(void) {
 	}
 	printf("%d ", weightPattern);
 	Check(lenText, lenPattern, pattern, text, weightPattern, index);
+	delete &text;
 	if (lenText == SIZE) {
 		for (int i = 0; lenText == SIZE; ++i) {
+			unsigned char newText[SIZE];
 			index += lenText;
-			lenText = fread(text, 1, SIZE, stdin);
-			Check(lenText, lenPattern, pattern, text, weightPattern, index);
+			lenText = fread(newText, 1, SIZE, stdin);
+			Check(lenText, lenPattern, pattern, newText, weightPattern, index);
+			delete &newText;
 		}
 	}
 	return 0;
