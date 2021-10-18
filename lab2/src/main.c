@@ -45,7 +45,7 @@ void PartialTransformations(unsigned int *number, int lenNum) {
     while (number[i] > number[i + 1]) {
         --i;
     }
-    int j = i + 1, minNum = 10, mini = 0;
+    unsigned int j = i + 1, minNum = 10, mini = 0;
     while (j < lenNum) {
         //printf("i = %d; number[i] = %d; j = %d; number[j] = %d\n", i, number[i], j, number[j]);
         if ((number[j] < minNum) && (number[j] > number[i])) {
