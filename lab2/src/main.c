@@ -75,7 +75,7 @@ void PartialTransformations(unsigned int *number, int lenNum) {
 void GeneralTransformations(unsigned int* number, int lenNum, int numOfTurns) {
     for (int i = 0; i < numOfTurns; ++i) {
         PartialTransformations(number, lenNum);
-        for (int i = 0; i < lenNum; ++i) { printf("%d", number[i]); }
+        for (int i = 0; i < lenNum; ++i) { printf("%u", number[i]); }
         Chek(number, lenNum);
         if (i != numOfTurns - 1) {
             printf("\n");
