@@ -41,7 +41,7 @@ void Chek(unsigned int number[SIZE], int lenNum) {
 }
 
 void PartialTransformations(unsigned int *number, int lenNum) {
-    int i = lenNum - 2;
+    unsigned int i = lenNum - 2;
     while (number[i] > number[i + 1]) {
         --i;
     }
