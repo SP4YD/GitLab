@@ -48,14 +48,12 @@ void PartialTransformations(unsigned int *number, int lenNum) {
     unsigned int minNum = 10, mini = 0;
     j = i + 1;
     while (j < lenNum) {
-        //printf("i = %d; number[i] = %d; j = %d; number[j] = %d\n", i, number[i], j, number[j]);
         if ((number[j] < minNum) && (number[j] > number[i])) {
             minNum = number[j];
             mini = j;
         }
         ++j;
     }
-    //printf("minNum is %d\n", minNum);
     swap(number[i], number[mini]);
     bool table[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     for (int z = i + 1; z < lenNum; ++z) {
@@ -97,7 +95,6 @@ int main(void) {
     --lenNOT;
     ConvertInChislo(stringNumOfTurns, lenNOT);
     int numOfTurns = ConvertNOT(stringNumOfTurns, lenNOT);
-    //printf("NumOfTurns is %d\n", numOfTurns);
     ConvertInChislo(number, lenNum);
     Chek(number, lenNum);
     GeneralTransformations(number, lenNum, numOfTurns);
