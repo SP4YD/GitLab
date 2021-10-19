@@ -38,7 +38,7 @@ void Check(int lenText, int lenPattern, unsigned char* pattern, unsigned char* t
 
 int main(void) {
 	int lenText = 0, lenPattern = 0, weightPattern = 0, index = 0, degree = 1;
-	unsigned char text[SIZE], pattern[16];
+	unsigned char text[SIZE], pattern[17];
 	if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
 	for (int i = 0; pattern[i] != '\0'; ++i) {
 		++lenPattern;
