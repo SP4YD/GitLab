@@ -52,7 +52,7 @@ int main(void) {
 	printf("%d ", weightPattern);
 	Check(lenText, lenPattern, pattern, text, weightPattern, index);
 	if (lenText == SIZE) {
-		for (int i = 0; lenText == SIZE; ++i) {
+		while (lenText == SIZE) {
 			unsigned char newText[SIZE];
 			index += lenText;
 			lenText = fread(newText, 1, SIZE, stdin);
