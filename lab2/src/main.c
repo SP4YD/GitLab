@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #define SIZE 1000
-#define swap(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
+#define Swap(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
 void ConvertInChislo(unsigned int* number, int lenNum) {
     for (int i = 0; i < lenNum; ++i) {
@@ -48,25 +48,17 @@ void PartialTransformations(unsigned int *number, int lenNum) {
     unsigned int minNum = 10, mini = 0;
     j = i + 1;
     while (j < lenNum) {
+        //printf("i = %d; number[i] = %d; j = %d; number[j] = %d\n", i, number[i], j, number[j]);
         if ((number[j] < minNum) && (number[j] > number[i])) {
             minNum = number[j];
             mini = j;
         }
         ++j;
     }
-    swap(number[i], number[mini]);
-    bool table[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    for (int z = i + 1; z < lenNum; ++z) {
-        table[number[z]] = 1;
-    }
-    for (int z = lenNum - 1; z != i; --z) {
-        for (int itable = 9; itable >= 0; --itable) {
-            if (table[itable]) {
-                number[z] = itable;
-                table[itable] = 0;
-                break;
-            }
-        }
+    //printf("minNum is %d\n", minNum);
+    Swap(number[i], number[mini]);
+    for (int z = i + 1; z < lenNum - z + i; ++z) {
+        Swap(number[z], number[lenNum - z + i]);
     }
 }
 
@@ -95,6 +87,7 @@ int main(void) {
     --lenNOT;
     ConvertInChislo(stringNumOfTurns, lenNOT);
     int numOfTurns = ConvertNOT(stringNumOfTurns, lenNOT);
+    //printf("NumOfTurns is %d\n", numOfTurns);
     ConvertInChislo(number, lenNum);
     Chek(number, lenNum);
     GeneralTransformations(number, lenNum, numOfTurns);
