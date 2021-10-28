@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -21,6 +20,13 @@ int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int wei
 	return weightText;
 }
 
+void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
+	for (int i = 0; i < lenPattern - 1; ++i) {
+		text[i] = text[i + 1];
+	}
+	text[lenPattern - 1] = symbol;
+}
+
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
 	int weightPattern = 0, index = 0, degree = 1, weightText = 0, degreeLastSymb = pow(3, lenPattern - 1);;
 	for (int i = 0; i < lenPattern; ++i) {
@@ -41,19 +47,11 @@ void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* patt
 	}
 }
 
-void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
-	for (int i = 0; i < lenPattern - 1; ++i) {
-		text[i] = text[i + 1];
-	}
-	text[lenPattern - 1] = symbol;
-}
-
 int main(void) {
-	int lenText, lenPattern, degree = 1, weightText = 0;
+	int lenText, lenPattern;
 	unsigned char pattern[17];
 	if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
 	lenPattern = strlen((char*)pattern);
-	int degreeLastSymb = pow(3, lenPattern - 1);
 	unsigned char text[17];
 	lenText = fread(text, 1, lenPattern, stdin);
 	if (lenText == 0 || lenText < lenPattern) { printf("0"); return 0; }
