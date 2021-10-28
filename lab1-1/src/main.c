@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-int FindWeight(int symbol, int degree) {
-	return (((symbol) % 3) * degree);
-}
-
 int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int weightPattern, int weightText, int index) {
 	if (weightPattern == weightText) {
 		for (int i = 0; i < lenPattern; ++i) {
@@ -15,7 +11,7 @@ int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int wei
 			}
 		}
 	}
-	return (weightText - FindWeight(text[0], 1)) / 3;
+	return (weightText - (((text[0]) % 3) * 1)) / 3;
 }
 
 void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
@@ -28,8 +24,8 @@ void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
 	int weightPattern = 0, index = 0, degree = 1, weightText = 0, degreeLastSymb = pow(3, lenPattern - 1);;
 	for (int i = 0; i < lenPattern; ++i) {
-		weightText += FindWeight(text[i], degree);
-		weightPattern += FindWeight(pattern[i], degree);
+		weightText += ((text[i]) % 3) * degree;
+		weightPattern += ((pattern[i]) % 3) * degree;
 		degree *= 3;
 	}
 	printf("%d ", weightPattern);
@@ -37,9 +33,9 @@ void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* patt
 	unsigned char newText[1];
 	lenText = fread(newText, 1, 1, stdin);
 	while (lenText) {
-		Shift(text, lenPattern, newText[0]);
-		weightText += FindWeight(newText[0], degreeLastSymb);
+		weightText += ((newText[0]) % 3) * degreeLastSymb;
 		++index;
+		Shift(text, lenPattern, newText[0]);
 		weightText = Compare(lenPattern, pattern, text, weightPattern, weightText, index);
 		lenText = fread(newText, 1, 1, stdin);
 	}
