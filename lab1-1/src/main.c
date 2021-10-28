@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -6,7 +7,7 @@ int FindWeight(int symbol, int degree) {
     return (((symbol) % 3) * degree);
 }
 
-int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int weightPattern, int* weightText, int index) {
+void Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int weightPattern, int* weightText, int index) {
     if (weightPattern == *weightText) {
         for (int i = 0; i < lenPattern; ++i) {
             printf("%d ", i + index);
@@ -15,7 +16,7 @@ int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int wei
             }
         }
     }
-    return (*weightText - FindWeight(text[0], 1)) / 3;
+    *weightText = (*weightText - FindWeight(text[0], 1)) / 3;
 }
 
 void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
@@ -29,7 +30,7 @@ void Continuation(unsigned char* text, unsigned char* pattern, int lenPattern, u
     Shift(text, lenPattern, newText);
     *weightText += FindWeight(newText, degreeLastSymb);
     ++*index;
-    *weightText = Compare(lenPattern, pattern, text, weightPattern, weightText, *index);;
+    Compare(lenPattern, pattern, text, weightPattern, weightText, *index);
 }
 
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
