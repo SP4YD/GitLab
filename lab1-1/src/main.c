@@ -15,8 +15,7 @@ int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int wei
 			}
 		}
 	}
-	weightText = (weightText - FindWeight(text[0], 1)) / 3;
-	return weightText;
+	return weightText - FindWeight(text[0], 1)) / 3;
 }
 
 void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
