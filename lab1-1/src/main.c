@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -28,7 +29,7 @@ void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
 }
 
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
-	int weightPattern = 0, index = 0, degree = 1, weightText = 0, degreeLastSymb = pow(3, lenPattern - 1);;
+	int weightPattern = 0, index = 1, degree = 1, weightText = 0, degreeLastSymb = pow(3, lenPattern - 1);;
 	for (int i = 0; i < lenPattern; ++i) {
 		weightText += FindWeight(text[i], degree);
 		weightPattern += FindWeight(pattern[i], degree);
@@ -49,9 +50,9 @@ void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* patt
 
 int main(void) {
 	int lenText, lenPattern = 0;
-	unsigned char pattern[17];
-	if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
-	for (int i = 0; pattern[i] != '\0'; ++i) {
+	unsigned char pattern[17], chr;
+	while ((chr = getchar()) != '\n') {
+		pattern[lenPattern] = chr;
 		++lenPattern;
 	}
 	unsigned char text[17];
