@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -13,10 +12,6 @@ int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int wei
 		}
 	}
 	return (weightText - (((text[0]) % 3) * 1)) / 3;
-}
-
-void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
-	
 }
 
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
