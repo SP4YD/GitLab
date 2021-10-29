@@ -1,6 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #define SIZE 1000
 #define Swap(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
@@ -10,7 +12,7 @@ void ConvertInChislo(unsigned int* number, int lenNum) {
     }
 }
 
-unsigned int ConvertNOT (unsigned int numOfTurns[SIZE], int lenNOT) {
+unsigned int ConvertNOT(unsigned int numOfTurns[SIZE], int lenNOT) {
     int ConvertNumOfTurns = 0;
     for (int i = lenNOT - 1, j = 1; i >= 0; --i, j *= 10) {
         ConvertNumOfTurns += numOfTurns[i] * j;
@@ -40,7 +42,7 @@ void Chek(unsigned int number[SIZE], int lenNum) {
     }
 }
 
-void PartialTransformations(unsigned int *number, int lenNum) {
+void PartialTransformations(unsigned int* number, int lenNum) {
     int i = lenNum - 2, j;
     while (number[i] > number[i + 1]) {
         --i;
@@ -72,19 +74,13 @@ void GeneralTransformations(unsigned int* number, int lenNum, int numOfTurns) {
 }
 
 int main(void) {
-    unsigned int number[SIZE], stringNumOfTurns[SIZE];
-    int chr, lenNum = 0, lenNOT = 0; // lenNOT = lenNumOfTurns
+    unsigned int number[SIZE];
+    unsigned int lenNum = 0, numOfTurns = 0, chr; // lenNOT = lenNumOfTurns
     while ((chr = getchar()) != '\n') {
         number[lenNum] = chr;
         ++lenNum;
     }
-    while ((chr = getchar()) != EOF) {
-        stringNumOfTurns[lenNOT] = chr;
-        ++lenNOT;
-    }
-    --lenNOT;
-    ConvertInChislo(stringNumOfTurns, lenNOT);
-    int numOfTurns = ConvertNOT(stringNumOfTurns, lenNOT);
+    if (scanf("%d", &numOfTurns) != 1) { return 0; }
     ConvertInChislo(number, lenNum);
     Chek(number, lenNum);
     GeneralTransformations(number, lenNum, numOfTurns);
