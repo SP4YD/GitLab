@@ -12,14 +12,6 @@ void ConvertInChislo(unsigned int* number, int lenNum) {
     }
 }
 
-unsigned int ConvertNOT(unsigned int numOfTurns[SIZE], int lenNOT) {
-    int ConvertNumOfTurns = 0;
-    for (int i = lenNOT - 1, j = 1; i >= 0; --i, j *= 10) {
-        ConvertNumOfTurns += numOfTurns[i] * j;
-    }
-    return ConvertNumOfTurns;
-}
-
 void Chek(unsigned int number[SIZE], int lenNum) {
     int coincidence = 1;
     for (int i = 0; i < lenNum; ++i) {
