@@ -80,7 +80,7 @@ int main(void) {
         number[lenNum] = chr;
         ++lenNum;
     }
-    if (scanf("%d", &numOfTurns) != 1) { return 0; }
+    if (scanf("%u", &numOfTurns) != 1) { return 0; }
     ConvertInChislo(number, lenNum);
     Chek(number, lenNum);
     GeneralTransformations(number, lenNum, numOfTurns);
