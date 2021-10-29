@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 int FindWeight(int symbol, int degree) {
     return (((symbol) % 3) * degree);
@@ -29,7 +30,7 @@ void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
 void Continuation(unsigned char* text, unsigned char* pattern, int lenPattern, unsigned char newText, int degreeLastSymb, int weightPattern, int* weightText, int* index) {
     Shift(text, lenPattern, newText);
     *weightText += FindWeight(newText, degreeLastSymb);
-    ++*index;
+    ++* index;
     Compare(lenPattern, pattern, text, weightPattern, weightText, *index);
 }
 
@@ -54,9 +55,7 @@ int main(void) {
     int lenText, lenPattern = 0;
     unsigned char pattern[17];
     if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
-    for (int i = 0; pattern[i] != '\0'; ++i) {
-        ++lenPattern;
-    }
+    lenPattern = strlen((char*)pattern);
     unsigned char text[17];
     lenText = fread(text, 1, lenPattern, stdin);
     if (lenText == 0 || lenText < lenPattern) { printf("0"); return 0; }
