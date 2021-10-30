@@ -8,7 +8,7 @@ int FindWeight(int symbol, int degree) {
     return (((symbol) % 3) * degree);
 }
 
-int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int weightPattern, int weightText, int index) {
+void Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int weightPattern, int weightText, int index) {
     if (weightPattern == weightText) {
         for (int i = 0; i < lenPattern; ++i) {
             printf("%d ", i + index);
@@ -17,7 +17,10 @@ int Compare(int lenPattern, unsigned char* pattern, unsigned char* text, int wei
             }
         }
     }
-    return (weightText - FindWeight(text[0], 1)) / 3;
+}
+
+void UpadteWeightText(int* weightText, unsigned char* text, int degreeLastSymb, int lenPattern) {
+    *weightText = (*weightText - FindWeight(text[0], 0)) / 3 + FindWeight(text[lenPattern - 1], degreeLastSymb);
 }
 
 void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
@@ -26,34 +29,35 @@ void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
 }
 
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
-    int weightPattern = 0, index = 0, degree = 1, weightText = 0, degreeLastSymb = pow(3, lenPattern - 1);;
-    for (int i = 0; i < lenPattern; ++i) {
+    int weightPattern = 0, index = 1, weightText = 0, degreeLastSymb = pow(3, lenPattern - 1);;
+    for (int i = 0, degree = 1; i < lenPattern; ++i) {
         weightText += FindWeight(text[i], degree);
         weightPattern += FindWeight(pattern[i], degree);
         degree *= 3;
     }
     printf("%d ", weightPattern);
-    weightText = Compare(lenPattern, pattern, text, weightPattern, weightText, index);
+    Compare(lenPattern, pattern, text, weightPattern, weightText, index);
     unsigned char newText[1];
-    lenText = fread(newText, 1, 1, stdin);
+    lenText = fread(newText, sizeof(unsigned char), 1, stdin);
     while (lenText) {
-        Shift(text, lenPattern, newText[0]);
-        weightText += FindWeight(newText[0], degreeLastSymb);
         ++index;
-        weightText = Compare(lenPattern, pattern, text, weightPattern, weightText, index);
-        lenText = fread(newText, 1, 1, stdin);
+        Shift(text, lenPattern, newText[0]);
+        UpadteWeightText(&weightText, text, degreeLastSymb, lenPattern);
+        Compare(lenPattern, pattern, text, weightPattern, weightText, index);
+        lenText = fread(newText, sizeof(unsigned char), 1, stdin);
     }
 }
 
 int main(void) {
     int lenText, lenPattern = 0;
-    unsigned char pattern[17];
+    unsigned char pattern[17], text[17];
     if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
     for (int i = 0; pattern[i] != '\0'; ++i) {
         ++lenPattern;
     }
-    unsigned char text[17];
-    lenText = fread(text, 1, lenPattern, stdin);
+    lenText = fread(text, sizeof(unsigned char), 1, stdin); //считываение лишнего \n
+    lenText = fread(text, sizeof(unsigned char), lenPattern, stdin);
+    // printf("(%c = %d) and (%c = %d)\n", pattern[0], pattern[0], text[0], text[0]);
     if (lenText == 0 || lenText < lenPattern) { printf("0"); return 0; }
     Check(lenPattern, lenText, text, pattern);
     return 0;
