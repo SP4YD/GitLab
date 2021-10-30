@@ -36,7 +36,6 @@ void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* patt
     }
     printf("%d ", weightPattern);
     Compare(lenPattern, pattern, text, weightPattern, weightText, index);
-    unsigned char newText[1];
     Shift(text, lenPattern);
     lenText = fread(&text[lenPattern-1], sizeof(unsigned char), 1, stdin);
     while (lenText) {
