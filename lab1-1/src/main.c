@@ -24,7 +24,7 @@ void UpadteWeightText(int* weightText, unsigned char* text, int degreeLastSymb, 
 }
 
 void Shift(unsigned char* text, int lenPattern) {
-    memmove(text, text + sizeof(unsigned char), lenPattern - 1);
+    memcpy(text, text + sizeof(unsigned char), lenPattern - 1);
 }
 
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
