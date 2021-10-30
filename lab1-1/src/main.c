@@ -23,9 +23,8 @@ void UpadteWeightText(int* weightText, unsigned char* text, int degreeLastSymb, 
     *weightText = (*weightText - FindWeight(text[0], 0)) / 3 + FindWeight(text[lenPattern - 1], degreeLastSymb);
 }
 
-void Shift(unsigned char* text, int lenPattern, unsigned char symbol) {
+void Shift(unsigned char* text, int lenPattern) {
     memcpy(text, text + sizeof(unsigned char), lenPattern - 1);
-    text[lenPattern - 1] = symbol;
 }
 
 void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* pattern) {
@@ -38,13 +37,14 @@ void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* patt
     printf("%d ", weightPattern);
     Compare(lenPattern, pattern, text, weightPattern, weightText, index);
     unsigned char newText[1];
-    lenText = fread(newText, sizeof(unsigned char), 1, stdin);
+    Shift(text, lenPattern);
+    lenText = fread(&text[lenPattern-1], sizeof(unsigned char), 1, stdin);
     while (lenText) {
         ++index;
-        Shift(text, lenPattern, newText[0]);
         UpadteWeightText(&weightText, text, degreeLastSymb, lenPattern);
         Compare(lenPattern, pattern, text, weightPattern, weightText, index);
-        lenText = fread(newText, sizeof(unsigned char), 1, stdin);
+        Shift(text, lenPattern);
+        lenText = fread(&text[lenPattern - 1], sizeof(unsigned char), 1, stdin);
     }
 }
 
