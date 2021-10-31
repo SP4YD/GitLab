@@ -46,7 +46,7 @@ void PartialTransformations(unsigned char* number, int lenNum) {
 		++j;
 	}
 	Swap(number[i], number[mini]);
-	for (int z = i + 1; z < (lenNum + i) / 2; ++z) {
+	for (int z = i + 1; z*2 < (lenNum + i)/2; ++z) {
 		Swap(number[z], number[lenNum - z + i]);
 	}
 }
