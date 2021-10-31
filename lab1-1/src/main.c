@@ -55,10 +55,10 @@ int main(void) {
 	int lenText = 0, lenPattern = 0;
 	unsigned char pattern[17], text[17];
 	if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
-	for (int i = 0; pattern[i] != '\0'; ++i) {
+	lenPattern = fread(text, sizeof(unsigned char), 1, stdin); //считываение лишнего \n между pattern и text
+	for (int i = 1; pattern[i] != '\0'; ++i) {
 		++lenPattern;
 	}
-    fread(text, sizeof(unsigned char), 1, stdin); //считываение лишнего \n между pattern и text
 	lenText = fread(text, sizeof(unsigned char), lenPattern, stdin);
 	if (lenText == 0 || lenText < lenPattern) { printf("0"); return 0; }
 	Check(lenPattern, lenText, text, pattern);
