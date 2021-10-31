@@ -13,24 +13,24 @@ void ConvertInChislo(unsigned int* number, int lenNum) {
 }
 
 void Chek(unsigned int number[SIZE], int lenNum) {
-    int coincidence = 1;
-    for (int i = 0; i < lenNum; ++i) {
-        if (number[i] > 9) {
-            printf("bad input");
-            exit(0);
-        }
-        for (int j = i + 1; j < lenNum; ++j) {
-            if (number[i] == number[j]) {
-                printf("bad input");
-                exit(0);
+    if (lenNum < 11){
+        int coincidence = 1;
+        char repeat[10] = { 0 };
+        for (int i = 0; i < lenNum; ++i) {
+           if (!repeat[number[i]] && number[i] <= 9 && number[i] >= 0){
+               repeat[number[i]] = 1;
+           }
+           else{
+               printf("bad input");
+               exit(0);
+           }
+           if (i > 0 && number[i] > number[i - 1] && coincidence) {
+                coincidence = 0;
             }
         }
-        if (i > 0 && number[i] > number[i - 1] && coincidence) {
-            coincidence = 0;
+        if (coincidence) {
+            exit(0);
         }
-    }
-    if (coincidence) {
-        exit(0);
     }
 }
 
@@ -49,7 +49,7 @@ void PartialTransformations(unsigned int* number, int lenNum) {
         ++j;
     }
     Swap(number[i], number[mini]);
-    for (int z = i + 1; z < lenNum - z + i; ++z) {
+    for (int z = i + 1; z < (lenNum  + i) / 2; ++z) {
         Swap(number[z], number[lenNum - z + i]);
     }
 }
