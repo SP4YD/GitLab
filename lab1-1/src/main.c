@@ -58,7 +58,7 @@ int main(void) {
 	for (int i = 0; pattern[i] != '\0'; ++i) {
 		++lenPattern;
 	}
-	lenText = fread(text, sizeof(unsigned char), 1, stdin); //считываение лишнего \n между pattern и text
+    fread(text, sizeof(unsigned char), 1, stdin); //считываение лишнего \n между pattern и text
 	lenText = fread(text, sizeof(unsigned char), lenPattern, stdin);
 	if (lenText == 0 || lenText < lenPattern) { printf("0"); return 0; }
 	Check(lenPattern, lenText, text, pattern);
