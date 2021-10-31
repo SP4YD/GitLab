@@ -9,10 +9,9 @@ int Chislo(unsigned char symbol) {
 	return symbol - '0';
 }
 
-void Chek(unsigned char number[SIZE], int lenNum) {
+void MiniCheck(unsigned char number[SIZE], int lenNum) {
 	if (lenNum < 11) {
-		int coincidence = 1;
-		char repeat[10] = { 0 };
+		unsigned char repeat[10] = { 0 };
 		for (int i = 0; i < lenNum; ++i) {
 			if (!repeat[Chislo(number[i])] && number[i] <= '9' && number[i] >= '0') {
 				repeat[Chislo(number[i])] = 1;
@@ -21,13 +20,23 @@ void Chek(unsigned char number[SIZE], int lenNum) {
 				printf("bad input");
 				exit(0);
 			}
-			if (i > 0 && number[i] > number[i - 1] && coincidence) {
-				coincidence = 0;
-			}
 		}
-		if (coincidence) {
-			exit(0);
+	}
+	else {
+		printf("bad input");
+		exit(0);
+	}
+}
+
+void Check(unsigned char number[SIZE], int lenNum) {
+	int coincidence = 1;
+	for (int i = 0; i < lenNum; ++i) {
+		if (i > 0 && number[i] > number[i - 1] && coincidence) {
+			coincidence = 0;
 		}
+	}
+	if (coincidence) {
+		exit(0);
 	}
 }
 
@@ -55,7 +64,7 @@ void GeneralTransformations(unsigned char* number, int lenNum, int numOfTurns) {
 	for (int i = 0; i < numOfTurns; ++i) {
 		PartialTransformations(number, lenNum);
 		printf("%s", number);
-		Chek(number, lenNum);
+		Check(number, lenNum);
 		if (i != numOfTurns - 1) {
 			printf("\n");
 		}
@@ -70,8 +79,9 @@ int main(void) {
 		++lenNum;
 	}
 	number[lenNum] = '\0';
+	MiniCheck(number, lenNum);
 	if (scanf("%u", &numOfTurns) != 1) { return 0; }
-	Chek(number, lenNum);
+	Check(number, lenNum);
 	GeneralTransformations(number, lenNum, numOfTurns);
 	return 0;
 }
