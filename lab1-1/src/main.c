@@ -52,7 +52,7 @@ void Check(int lenPattern, int lenText, unsigned char* text, unsigned char* patt
 }
 
 int main(void) {
-	int lenText, lenPattern = 0;
+	int lenText = 0, lenPattern = 0;
 	unsigned char pattern[17], text[17];
 	if (scanf("%16[^\n]s", pattern) != 1) { return 0; }
 	for (int i = 0; pattern[i] != '\0'; ++i) {
