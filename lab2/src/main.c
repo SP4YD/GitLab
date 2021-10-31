@@ -13,7 +13,7 @@ void MiniCheck(unsigned char number[SIZE], int lenNum) {
 	if (lenNum < 11) {
 		unsigned char repeat[10] = { 0 };
 		for (int i = 0; i < lenNum; ++i) {
-			if (!repeat[Chislo(number[i])] && number[i] <= '9' && number[i] >= '0') {
+			if ((number[i] >= '0' && number[i] <= '9') && !repeat[Chislo(number[i])]) {
 				repeat[Chislo(number[i])] = 1;
 			}
 			else {
