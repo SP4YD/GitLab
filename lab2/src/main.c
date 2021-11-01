@@ -11,7 +11,7 @@ int Chislo(unsigned char symbol) {
 }
 
 int MiniCheck(unsigned char number[SIZE], int lenNum) {
-	if (lenNum < 11) {
+	if (lenNum > 0 && lenNum < 11) {
 		unsigned char repeat[10] = { 0 };
 		for (int i = 0; i < lenNum; ++i) {
 			if ((number[i] >= '0' && number[i] <= '9') && !repeat[Chislo(number[i])]) {
@@ -33,8 +33,9 @@ int MiniCheck(unsigned char number[SIZE], int lenNum) {
 int Check(unsigned char number[SIZE], int lenNum) {
 	int coincidence = 1;
 	for (int i = 0; i < lenNum; ++i) {
-		if (i > 0 && number[i] > number[i - 1] && coincidence) {
+		if (i > 0 && number[i] > number[i - 1]) {
 			coincidence = 0;
+			break;
 		}
 	}
 	if (coincidence) {
@@ -90,4 +91,4 @@ int main(void) {
 	}
 	GeneralTransformations(number, lenNum, numOfTurns);
 	return 0;
-}
+ }
