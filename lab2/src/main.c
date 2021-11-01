@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -9,7 +10,7 @@ int Chislo(unsigned char symbol) {
 	return symbol - '0';
 }
 
-void MiniCheck(unsigned char number[SIZE], int lenNum) {
+int MiniCheck(unsigned char number[SIZE], int lenNum) {
 	if (lenNum < 11) {
 		unsigned char repeat[10] = { 0 };
 		for (int i = 0; i < lenNum; ++i) {
@@ -18,17 +19,18 @@ void MiniCheck(unsigned char number[SIZE], int lenNum) {
 			}
 			else {
 				printf("bad input");
-				exit(0);
+				return 1;
 			}
 		}
 	}
 	else {
 		printf("bad input");
-		exit(0);
+		return 1;
 	}
+	return 0;
 }
 
-void Check(unsigned char number[SIZE], int lenNum) {
+int Check(unsigned char number[SIZE], int lenNum) {
 	int coincidence = 1;
 	for (int i = 0; i < lenNum; ++i) {
 		if (i > 0 && number[i] > number[i - 1] && coincidence) {
@@ -36,8 +38,9 @@ void Check(unsigned char number[SIZE], int lenNum) {
 		}
 	}
 	if (coincidence) {
-		exit(0);
+		return 1;
 	}
+	return 0;
 }
 
 void PartialTransformations(unsigned char* number, int lenNum) {
@@ -55,16 +58,15 @@ void PartialTransformations(unsigned char* number, int lenNum) {
 		++j;
 	}
 	Swap(number[i], number[mini]);
-	for (int z = i + 1; z*2 < lenNum + i; ++z) {
+	for (int z = i + 1; z * 2 < lenNum + i; ++z) {
 		Swap(number[z], number[lenNum - z + i]);
 	}
 }
 
 void GeneralTransformations(unsigned char* number, int lenNum, int numOfTurns) {
-	for (int i = 0; i < numOfTurns; ++i) {
+	for (int i = 0; i < numOfTurns && !Check(number, lenNum); ++i) {
 		PartialTransformations(number, lenNum);
 		printf("%s", number);
-		Check(number, lenNum);
 		if (i != numOfTurns - 1) {
 			printf("\n");
 		}
@@ -79,9 +81,13 @@ int main(void) {
 		++lenNum;
 	}
 	number[lenNum] = '\0';
-	MiniCheck(number, lenNum);
+	if (MiniCheck(number, lenNum)) {
+		return 0;
+	}
 	if (scanf("%u", &numOfTurns) != 1) { return 0; }
-	Check(number, lenNum);
+	if (Check(number, lenNum)) {
+		return 0;
+	}
 	GeneralTransformations(number, lenNum, numOfTurns);
 	return 0;
 }
