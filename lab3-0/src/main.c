@@ -45,11 +45,11 @@ void HeapSort(int* iArray, int lenArray) {
 
 int main(void){
 	int lenArray;
-	if (scanf("%d", &lenArray) != 1) { return 0 };
+	if (scanf("%d", &lenArray) != 1) { return 0; }
 	++lenArray;
 	int* iArray = (int*)malloc(sizeof(int) * lenArray);
 	for (int i = 1; i < lenArray; ++i) {
-		if (scanf("%d", &iArray[i]) != 1) { return 0 };
+		if (scanf("%d", &iArray[i]) != 1) { return 0; }
 	}
 	ChangeToMaxHeap(iArray, lenArray);
 	HeapSort(iArray, lenArray);
