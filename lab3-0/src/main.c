@@ -6,19 +6,17 @@
 void ExchangeDown(int* iArray, int lenArray, int index);
 
 void ExchangeUp(int* iArray, int lenArray, int index) {
-	if ((index / 2) > 0) {
-		if (iArray[index] > iArray[index / 2]) {
-			swap(iArray[index], iArray[index / 2]);
-			ExchangeDown(iArray, lenArray, index);
-			ExchangeUp(iArray, lenArray, index/2);
-		}
+	if ((index / 2) > 0 && iArray[index] > iArray[index / 2]) {
+		swap(iArray[index], iArray[index / 2]);
+		ExchangeDown(iArray, lenArray, index);
+		ExchangeUp(iArray, lenArray, index / 2);
 	}
 }
 
 void ExchangeDown(int* iArray, int lenArray, int index) {
-	if ((index * 2) < lenArray){
+	if ((index * 2) < lenArray) {
 		int max = index * 2;
-		if ((index * 2 + 1) < lenArray && iArray[index * 2] < iArray[index * 2 + 1]) {
+		if ((max + 1) < lenArray && iArray[max] < iArray[max + 1]) {
 			++max;
 		}
 		if (iArray[max] > iArray[index]) {
@@ -30,7 +28,7 @@ void ExchangeDown(int* iArray, int lenArray, int index) {
 }
 
 void ChangeToMaxHeap(int* iArray, int lenArray) {
-	for (int i = 1; i * 2 <= lenArray; ++i) {
+	for (int i = 1; i * 2 < lenArray; ++i) {
 		ExchangeDown(iArray, lenArray, i);
 	}
 }
@@ -43,7 +41,7 @@ void HeapSort(int* iArray, int lenArray) {
 	}
 }
 
-int main(void){
+int main(void) {
 	int lenArray;
 	if (scanf("%d", &lenArray) != 1) { return 0; }
 	++lenArray;
@@ -57,4 +55,3 @@ int main(void){
 		printf("%d ", iArray[i]);
 	}
 }
-
