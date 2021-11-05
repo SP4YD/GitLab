@@ -34,6 +34,7 @@ void ChangeToMaxHeap(int* iArray, int lenArray) {
 }
 
 void HeapSort(int* iArray, int lenArray) {
+    ChangeToMaxHeap(iArray, lenArray);
 	while (lenArray > 2) {
 		swap(iArray[1], iArray[lenArray - 1]);
 		--lenArray;
@@ -49,7 +50,6 @@ int main(void) {
 	for (int i = 1; i < lenArray; ++i) {
 		if (scanf("%d", &iArray[i]) != 1) { return 0; }
 	}
-	ChangeToMaxHeap(iArray, lenArray);
 	HeapSort(iArray, lenArray);
 	for (int i = 1; i < lenArray; ++i) {
 		printf("%d ", iArray[i]);
