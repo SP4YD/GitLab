@@ -27,6 +27,12 @@ void ExchangeDown(int* iArray, int lenArray, int index) {
 	}
 }
 
+void FirstChangeToMaxHeap(int* iArray, int lenArray) {
+	for (int i = 1; i * 2 < lenArray; ++i) {
+		ExchangeDown(iArray, lenArray, i);
+	}
+}
+
 void ChangeToMaxHeap(int* iArray, int lenArray) {
 	for (int i = 1; i * 2 < lenArray; ++i) {
 		ExchangeDown(iArray, lenArray, i);
@@ -34,11 +40,11 @@ void ChangeToMaxHeap(int* iArray, int lenArray) {
 }
 
 void HeapSort(int* iArray, int lenArray) {
-    ChangeToMaxHeap(iArray, lenArray);
+	FirstChangeToMaxHeap(iArray, lenArray);
 	while (lenArray > 2) {
 		swap(iArray[1], iArray[lenArray - 1]);
 		--lenArray;
-		ChangeToMaxHeap(iArray, lenArray);
+		ExchangeDown(iArray, lenArray, 1);
 	}
 }
 
