@@ -55,5 +55,6 @@ int main(void) {
 	for (int i = 1; i < lenArray; ++i) {
 		printf("%d ", iArray[i]);
 	}
+	free(iArray);
 	return 0;
 }
