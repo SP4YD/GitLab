@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,12 +29,6 @@ void ExchangeDown(int* iArray, int lenArray, int index) {
 }
 
 void FirstChangeToMaxHeap(int* iArray, int lenArray) {
-	for (int i = 1; i * 2 < lenArray; ++i) {
-		ExchangeDown(iArray, lenArray, i);
-	}
-}
-
-void ChangeToMaxHeap(int* iArray, int lenArray) {
 	for (int i = 1; i * 2 < lenArray; ++i) {
 		ExchangeDown(iArray, lenArray, i);
 	}
