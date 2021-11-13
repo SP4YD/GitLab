@@ -1,4 +1,3 @@
-#include "pch.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +16,7 @@ int Check(
 	if (text[icheck - 1] != pattern[icheck - 1]) {
 		return imatrix[(int)text[icheck]];
 	}
-	for (int i = lenPattern - 2; i > 0; --i) {
+	for (int i = lenPattern - 2; i >= 0; --i) {
 		printf("%d ", i + index);
 		if (text[i] != pattern[i]) {
 			return imatrix[(int)text[icheck]];
