@@ -13,7 +13,7 @@ int Check(
 ) {
 	int icheck = lenPattern - 1;
 	printf("%d ", icheck + index);
-	if (text[icheck - 1] != pattern[icheck - 1]) {
+	if (text[icheck] != pattern[icheck]) {
 		return imatrix[(int)text[icheck]];
 	}
 	for (int i = lenPattern - 2; i >= 0; --i) {
