@@ -1,3 +1,4 @@
+#include "pch.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +18,7 @@ int Check(
 		return imatrix[(int)text[icheck]];
 	}
 	for (int i = lenPattern - 2; i > 0; --i) {
-		printf("%d ", i + index );
+		printf("%d ", i + index);
 		if (text[i] != pattern[i]) {
 			return imatrix[(int)text[icheck]];
 		}
@@ -34,9 +35,11 @@ int Upadte(unsigned char* text, int shift, int len) {
 		Shift(text, shift, len);
 	}
 	return fread(
-		text + ((shift * sizeof(unsigned char)) % len),
+		text + len - (shift * sizeof(unsigned char)),
 		sizeof(unsigned char),
-		shift, stdin);
+		shift,
+		stdin
+	);
 }
 
 int main(void) {
@@ -48,7 +51,7 @@ int main(void) {
 		++lenPattern;
 	}
 
-	unsigned char* text = (unsigned char*) malloc(sizeof(unsigned char) * (lenPattern));
+	unsigned char* text = (unsigned char*)malloc(sizeof(unsigned char) * lenPattern);
 	int lenText = fread(text, sizeof(unsigned char), lenPattern, stdin);
 
 	if (lenText == 0) { return 0; }
