@@ -5,7 +5,16 @@
 #include <string.h>
 #define SIZE 100000
 
-void Check(bool done, int icheck, int lenText, int lenPattern, unsigned char* pattern, unsigned char* text, int* imatrix, int index) {
+void Check(
+	bool done,
+	int icheck, 
+	int lenText, 
+	int lenPattern, 
+	unsigned char* pattern, 
+	unsigned char* text, 
+	int* imatrix, 
+	int index
+	) {
 
 	while (!done && icheck < lenText) {
 		bool coincidence = 1;
