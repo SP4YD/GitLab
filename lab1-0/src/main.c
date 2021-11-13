@@ -22,7 +22,7 @@ int Check(
 			return imatrix[(int)text[icheck]];
 		}
 	}
-	return 1;
+	return imatrix[pattern[lenPattern - 1]];
 }
 
 void Shift(unsigned char* text, int shift, int len) {
