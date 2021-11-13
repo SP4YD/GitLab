@@ -74,12 +74,10 @@ int main(void) {
 		}
 	}
 	Check(0, lenPattern - 1, lenText, lenPattern, pattern, text, imatrix, index);
-	if (lenText == SIZE) {
-		while (lenText == SIZE) {
+	while (lenText == SIZE) {
 			index += lenText;
 			lenText = fread(text, 1, SIZE, stdin);
 			Check(0, lenPattern - 1, lenText, lenPattern, pattern, text, imatrix, index);
-		}
 	}
 	return 0;
 }
