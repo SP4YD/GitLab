@@ -4,7 +4,7 @@
 #include <string.h>
 #define swap(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
-int QuickSort(int* iArray, int left , int right) {
+void QuickSort(int* iArray, int left , int right) {
 	if (left < right) {
 
 		int iPivot = right;
