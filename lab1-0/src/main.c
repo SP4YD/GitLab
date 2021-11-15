@@ -50,12 +50,11 @@ int main(void) {
 		++lenPattern;
 	}
 
-	//unsigned char* text = (unsigned char*)malloc(sizeof(unsigned char) * lenPattern);
 	int lenText = fread(text, sizeof(unsigned char), lenPattern, stdin);
 
 	if (lenText == 0) { return 0; }
 
-	int imatrix[500];
+	int imatrix[256];
 
 	for (int i = 0; i < 256; ++i) {
 		imatrix[i] = lenPattern;
