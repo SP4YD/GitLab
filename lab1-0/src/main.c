@@ -43,14 +43,14 @@ int Upadte(unsigned char* text, int shift, int len) {
 
 int main(void) {
 	int lenPattern = 0, index = 1;
-	unsigned char chr, pattern[16];
+	unsigned char chr, pattern[16], text[16];
 
 	while ((chr = getchar()) != '\n') {
 		pattern[lenPattern] = chr;
 		++lenPattern;
 	}
 
-	unsigned char* text = (unsigned char*)malloc(sizeof(unsigned char) * lenPattern);
+	//unsigned char* text = (unsigned char*)malloc(sizeof(unsigned char) * lenPattern);
 	int lenText = fread(text, sizeof(unsigned char), lenPattern, stdin);
 
 	if (lenText == 0) { return 0; }
@@ -75,8 +75,6 @@ int main(void) {
 		shift = Check(lenPattern, pattern, text, imatrix, index);
 		lenRead = Upadte(text, shift, lenPattern);
 	}
-
-	free(text);
 
 	return 0;
 }
