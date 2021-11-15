@@ -55,7 +55,7 @@ int main(void) {
 
 	if (lenText == 0) { return 0; }
 
-	int imatrix[256];
+	int imatrix[500];
 
 	for (int i = 0; i < 256; ++i) {
 		imatrix[i] = lenPattern;
