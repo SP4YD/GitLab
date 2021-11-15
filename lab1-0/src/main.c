@@ -76,5 +76,7 @@ int main(void) {
 		lenRead = Upadte(text, shift, lenPattern);
 	}
 
+	free(text);
+
 	return 0;
 }
