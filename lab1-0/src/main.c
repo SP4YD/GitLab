@@ -70,7 +70,7 @@ int main(void) {
 	int shift = Check(lenPattern, pattern, text, imatrix, index);
 	int lenRead = Upadte(text, shift, lenPattern);
 
-	while (lenRead) {
+	while (lenRead == shift) {
 		index += lenRead;
 		shift = Check(lenPattern, pattern, text, imatrix, index);
 		lenRead = Upadte(text, shift, lenPattern);
