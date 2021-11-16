@@ -4,15 +4,18 @@
 #include <string.h>
 #define swap(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
-void QuickSort(int* iArray, int left , int right) {
+void QuickSort(int* iArray, int left, int right) {
 	if (left < right) {
 
-		int iPivot = right;
+		int iPivot = (right + left) / 2;
 		int wall = left;
 
 		for (int i = left; i <= right; ++i) {
 			if (iArray[i] < iArray[iPivot]) {
 				if (i != wall) {
+					if (iPivot == wall) {
+						iPivot = i;
+					}
 					swap(iArray[i], iArray[wall]);
 				}
 				++wall;
