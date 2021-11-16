@@ -8,10 +8,11 @@ void QuickSort(int* iArray, int left, int right) {
 	if (left < right) {
 
 		int iPivot = (right + left) / 2;
+		int valuePivot = iArray[iPivot];
 		int wall = left;
 
 		for (int i = left; i <= right; ++i) {
-			if (iArray[i] < iArray[iPivot]) {
+			if (iArray[i] < valuePivot) {
 				if (i != wall) {
 					if (iPivot == wall) {
 						iPivot = i;
