@@ -12,22 +12,23 @@ void QuickSort(int* iArray, int left, int right) {
 	int valuePivot = iArray[(right + left) / 2];
 	int i = left, j = right;
 
-	while (i != j) {
+	while (i < j) {
 		if (iArray[i] >= valuePivot) {
-			while (iArray[j] > valuePivot && i != j) {
+			if (iArray[j] <= valuePivot) {
+				swap(iArray[i], iArray[j]);
+				++i;
 				--j;
 			}
-			if (i != j) {
-				swap(iArray[i], iArray[j]);
+			else {
+				--j;
 			}
 		}
-
-		if (i != j) {
+		else {
 			++i;
 		}
 	}
 
-	QuickSort(iArray, left, i - 1);
+	QuickSort(iArray, left, j);
 	if (i != left) {
 		QuickSort(iArray, i, right);
 	}
