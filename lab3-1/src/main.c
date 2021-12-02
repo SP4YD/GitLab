@@ -14,14 +14,12 @@ void QuickSort(int* iArray, int left, int right) {
 				while (iArray[j] > valuePivot && i != j) {
 					--j;
 				}
-				if (i != j) {
-					swap(iArray[i], iArray[j]);
+				if (i == j) {
+					break;
 				}
+				swap(iArray[i], iArray[j]);
 			}
-
-			if (i != j) {
-				++i;
-			}
+			++i;
 		}
 
 		QuickSort(iArray, left, i - 1);
