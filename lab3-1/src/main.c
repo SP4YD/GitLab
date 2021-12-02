@@ -5,27 +5,31 @@
 #define swap(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 
 void QuickSort(int* iArray, int left, int right) {
-	if (left < right) {
-		int valuePivot = iArray[(right + left) / 2];
-		int i = left, j = right;
+	if (left >= right) {
+		return;
+	}
 
-		while (i != j) {
-			if (iArray[i] >= valuePivot) {
-				while (iArray[j] > valuePivot && i != j) {
-					--j;
-				}
-				if (i == j) {
-					break;
-				}
+	int valuePivot = iArray[(right + left) / 2];
+	int i = left, j = right;
+
+	while (i != j) {
+		if (iArray[i] >= valuePivot) {
+			while (iArray[j] > valuePivot && i != j) {
+				--j;
+			}
+			if (i != j) {
 				swap(iArray[i], iArray[j]);
 			}
-			++i;
 		}
 
-		QuickSort(iArray, left, i - 1);
-		if (i != left) {
-			QuickSort(iArray, i, right);
+		if (i != j) {
+			++i;
 		}
+	}
+
+	QuickSort(iArray, left, i - 1);
+	if (i != left) {
+		QuickSort(iArray, i, right);
 	}
 }
 
