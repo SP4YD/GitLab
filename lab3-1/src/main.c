@@ -6,29 +6,28 @@
 
 void QuickSort(int* iArray, int left, int right) {
 	if (left < right) {
+		int valuePivot = iArray[(right + left) / 2];
+		int i = left, j = right;
 
-		int iPivot = (right + left) / 2;
-		int valuePivot = iArray[iPivot];
-		int wall = left;
-
-		for (int i = left; i <= right; ++i) {
-			if (iArray[i] < valuePivot) {
-				if (i != wall) {
-					if (iPivot == wall) {
-						iPivot = i;
-					}
-					swap(iArray[i], iArray[wall]);
+		while (i != j) {
+			if (iArray[i] >= valuePivot) {
+				while (iArray[j] > valuePivot && i != j) {
+					--j;
 				}
-				++wall;
+				if (i != j) {
+					swap(iArray[i], iArray[j]);
+				}
+			}
+
+			if (i != j) {
+				++i;
 			}
 		}
 
-		if (iPivot != wall) {
-			swap(iArray[iPivot], iArray[wall]);
+		QuickSort(iArray, left, i - 1);
+		if (i != left) {
+			QuickSort(iArray, i, right);
 		}
-
-		QuickSort(iArray, left, wall - 1);
-		QuickSort(iArray, wall + 1, right);
 	}
 }
 
