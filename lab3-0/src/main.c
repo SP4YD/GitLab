@@ -13,12 +13,6 @@ void ExchangeDown(int* iArray, int lenArray, int index) {
 		if (iArray[max] > iArray[index]) {
 			swap(iArray[index], iArray[max]);
 			ExchangeDown(iArray, lenArray, max);
-			if (max == index * 2) {
-				ExchangeDown(iArray, lenArray, index * 2 + 1);
-			}
-			else {
-				ExchangeDown(iArray, lenArray, index * 2);
-			}
 		}
 	}
 }
