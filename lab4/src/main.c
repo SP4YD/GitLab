@@ -38,7 +38,7 @@ int CalcPriority(char symbol) {
     if (symbol == '(') {
         return 0;
     }
-
+    return 10;
 }
 
 int PushStackOper(TStack* stack, char operation) {
