@@ -94,7 +94,7 @@ int PopStackNum(TStack* stack, int* value) {
     }
 
     *value = stack->HeadNum->Number;
-    StackOper* temp = stack->HeadNum;
+    StackNum* temp = stack->HeadNum;
     stack->HeadNum = stack->HeadNum->Next;
     free(temp);
 
