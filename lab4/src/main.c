@@ -212,7 +212,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
 int main() {
     char expression[1000] = "\0";
 
-    if (scanf("%\[^\n\]s1000", expression) != 1) { printf("syntax error"); return 0; }
+    if (scanf("%[^\n\]s1000", expression) != 1) { printf("syntax error"); return 0; }
 
     int len = strlen(expression) + 1, answer = 0;
     expression[len - 1] = ')'; expression[len] = '\0';
