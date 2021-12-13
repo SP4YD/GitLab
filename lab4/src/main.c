@@ -185,8 +185,15 @@ int MathematicalCalculations(char* expression, int len, int* value) {
                 if (PopStackOper(&stack, &priorityLast, &lastOperation)) { return 1; }
                 if (priorityLast >= priorityCurrent && priorityCurrent != 0) {
                     code = PerformingOperation(&stack, lastOperation, &tempValue);
-                    if (code == 1) { return 1; }
-                    if (code == 2) { return 2; }
+                    if (code) {
+                        while (stack.HeadNum != NULL) {
+                            if (PopStackNum(&stack, value)) { return 1; }
+                        }
+                        while (stack.HeadOper != NULL) {
+                            if (PopStackOper(&stack, &priorityLast, &lastOperation)) { return 1; }
+                        }
+                        return code; 
+                    }
                     if (PushStackNum(&stack, tempValue)) { return 1; }
                 }
                 else {
