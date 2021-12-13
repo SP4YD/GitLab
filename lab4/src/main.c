@@ -210,7 +210,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
 }
 
 int main() {
-    char expression[1100] = "\0";
+    char expression[1001] = "\0";
 
     if (scanf("%1000[^\n]s", expression) != 1) { printf("syntax error"); return 0; }
 
