@@ -148,6 +148,7 @@ int CheckError(char* expression, int len) {
             return 1;
         }
         if (expression[i] == '(') {
+            if (i + 1 < len && expression[i + 1] == ')') { return 1; }
             ++leftBracket;
         }
         else if (expression[i] == ')') {
@@ -169,7 +170,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
     if (PushStackOper(&stack, '(')) { return 1; }
     int priorityLast, priorityCurrent, tempValue, code, number = 0;
     for (int i = 0; i < len; ++i) {
-        int success = 0, numberOfOperations = 0;
+        int success = 0;
         char lastOperation;
         if (expression[i] >= '0' && expression[i] <= '9') {
             number += ConvertToNum(expression[i]);
@@ -196,12 +197,8 @@ int MathematicalCalculations(char* expression, int len, int* value) {
                         if (PushStackOper(&stack, lastOperation)) { return 1; }
                         if (PushStackOper(&stack, expression[i])) { return 1; }
                     }
-                    else if (!numberOfOperations) {
-                        return 1;
-                    }
                     success = 1;
                 }
-                ++numberOfOperations;
             }
         }
     }
