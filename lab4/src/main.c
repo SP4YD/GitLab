@@ -131,9 +131,6 @@ int PerformingOperation(TStack* stack, char operation, int* value) {
     else if (operation == '-') {
         *value = num2 - num1;
     }
-    else if (operation == '*') {
-        *value = num2 * num1;
-    }
     else {
         return 1;
     }
@@ -170,7 +167,6 @@ int MathematicalCalculations(char* expression, int len, int* value) {
     if (PushStackOper(&stack, '(')) { return 1; }
     int priorityLast, priorityCurrent, tempValue, code, number = 0;
     for (int i = 0; i < len; ++i) {
-        int success = 0;
         char lastOperation;
         if (expression[i] >= '0' && expression[i] <= '9') {
             number += ConvertToNum(expression[i]);
@@ -183,6 +179,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
             }
         }
         else {
+            int success = 0;
             priorityCurrent = CalcPriority(expression[i]);
             while (!success) {
                 if (PopStackOper(&stack, &priorityLast, &lastOperation)) { return 1; }
@@ -215,7 +212,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
 int main() {
     char expression[1000] = "\0";
 
-    if (scanf("%s", expression) != 1) { printf("syntax error"); return 0; }
+    if (scanf("%\[^\n\]s1000", expression) != 1) { printf("syntax error"); return 0; }
 
     int len = strlen(expression) + 1, answer = 0;
     expression[len - 1] = ')'; expression[len] = '\0';
