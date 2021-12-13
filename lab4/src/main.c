@@ -13,12 +13,12 @@ struct TStack {
         int Priority;
 
         StackOper* Next;
-    }* HeadOper;
+    }*HeadOper;
     struct StackNum {
         int Number;
 
         StackNum* Next;
-    }* HeadNum;
+    }*HeadNum;
 };
 
 int ConvertToNum(char symbol) {
@@ -213,7 +213,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
 }
 
 int main() {
-    char expression [1000];
+    char expression[1000] = "\0";
 
     if (scanf("%s", expression) != 1) { return 0; }
 
