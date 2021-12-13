@@ -165,7 +165,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
     stack.HeadNum = NULL;
     stack.HeadOper = NULL;
     if (PushStackOper(&stack, '(')) { return 1; }
-    int priorityLast, priorityCurrent, tempValue, code, number = 0;
+    int priorityLast, priorityCurrent, tempValue, code = 0, number = 0;
     for (int i = 0; i < len; ++i) {
         char lastOperation;
         if (expression[i] >= '0' && expression[i] <= '9') {
@@ -217,7 +217,7 @@ int MathematicalCalculations(char* expression, int len, int* value) {
 }
 
 int main() {
-    char expression[1001] = "\0";
+    char expression[1002] = "\0";
 
     if (scanf("%1000[^\n]s", expression) != 1) { printf("syntax error"); return 0; }
 
