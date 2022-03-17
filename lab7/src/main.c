@@ -64,6 +64,13 @@ int TopSort(int N, int M, int* answer) {
         if (TopDFS(N, graph, i, color, answer, indexA)) { return 3;}
     }
     
+    for (int i = 0; i < N; ++i) {
+        free(graph[i]);
+    }
+
+    free(graph);
+    free(color);
+
     return 0;
 }
 
@@ -115,6 +122,8 @@ int main()
     case(2): { printf("bad vertex"); return 0; }
     case(3): { printf("impossible to sort"); return 0; }
     }
+
+    free(answer);
     
     return 0;
 }
