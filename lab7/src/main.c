@@ -40,13 +40,17 @@ int TopSort(int N, int M, int* answer) {
         graph[i] = (char*)calloc(N, sizeof(char));
     }
 
-    int from, wheree;
+    int from, wheree, codeError = 0;
 
     for (int i = 0; i < M; ++i) {
         if (scanf("%d %d", &from, &wheree) != 2) {
-            return 1; 
+            codeError = 1; 
+            break;
         }
-        if (CheckBadVertex(N, from, wheree)) return 2; 
+        if (CheckBadVertex(N, from, wheree)) {
+            codeError = 2;
+            break;
+        };
         graph[from - 1][wheree - 1] = 1;
     }
 
@@ -56,12 +60,14 @@ int TopSort(int N, int M, int* answer) {
         }
         printf("\n");
     }*/
-
-    char* color = (char*)calloc(N, sizeof(char));
-    int trash = 0;
-    int* indexA = &trash;
-    for (int i = 0; i < N; ++i) {
-        if (TopDFS(N, graph, i, color, answer, indexA)) { return 3;}
+    if (!codeError) {
+        char* color = (char*)calloc(N, sizeof(char));
+        int trash = 0;
+        int* indexA = &trash;
+        for (int i = 0; i < N; ++i) {
+            if (TopDFS(N, graph, i, color, answer, indexA)) { codeError = 3; break; }
+        }
+        free(color);
     }
     
     for (int i = 0; i < N; ++i) {
@@ -69,9 +75,8 @@ int TopSort(int N, int M, int* answer) {
     }
 
     free(graph);
-    free(color);
 
-    return 0;
+    return codeError;
 }
 
 int CheckInput(int N, int M) {
