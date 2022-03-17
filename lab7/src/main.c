@@ -101,12 +101,13 @@ int main()
     int* answer = (int*)calloc(N, sizeof(int));
 
     switch (CheckInput(N, M)) {
-    case(1): { printf("bad number of vertices"); return 0; }
-    case(2): { printf("bad number of edges"); return 0; }
+    case(1): { printf("bad number of vertices"); free(answer); return 0; }
+    case(2): { printf("bad number of edges"); free(answer); return 0; }
     case(3): {
         for (int i = 1; i <= N; ++i) {
             printf("%d ", i);
         }
+        free(answer);
         return 0;
     }
     }
@@ -116,14 +117,15 @@ int main()
         for (int i = N - 1; i >= 0; --i) {
             printf("%d ", answer[i]);
         }
+        free(answer);
         return 0;
     }
-    case(1): { printf("bad number of lines"); return 0; }
-    case(2): { printf("bad vertex"); return 0; }
-    case(3): { printf("impossible to sort"); return 0; }
+    case(1): { printf("bad number of lines"); free(answer); return 0; }
+    case(2): { printf("bad vertex"); free(answer); return 0; }
+    case(3): { printf("impossible to sort"); free(answer); return 0; }
     }
 
-    free(answer);
+    
     
     return 0;
 }
