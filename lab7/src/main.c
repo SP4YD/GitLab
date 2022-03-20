@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int InBit(int N) {
-	return (N / 8) + !!(N % 8);
-}
-
 int TopDFS(int N, char** graph, int indexG, char* color, int* answer, int* indexA) {
 	if (color[indexG] == 1) {
 		return 1;
@@ -41,7 +37,7 @@ int TopSort(int N, int M, int* answer) {
 	char** graph = (char**)calloc(N , sizeof(char*));
 
 	for (int i = 0; i < N; ++i) {
-		graph[i] = (char*)calloc(InBit(N), sizeof(char));
+		graph[i] = (char*)calloc((N / 8) + !!(N % 8), sizeof(char));
 	}
 
 	int from, wheree, codeError = 0;
@@ -127,8 +123,6 @@ int main()
 	case(2): { printf("bad vertex"); free(answer); return 0; }
 	case(3): { printf("impossible to sort"); free(answer); return 0; }
 	}
-
-
 
 	return 0;
 }
