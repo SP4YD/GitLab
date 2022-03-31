@@ -122,12 +122,11 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 void AllFree(Tree* Now) {
 	if (Now->Left) {
 		AllFree(Now->Left);
-		free(Now->Left);
 	}
 	if (Now->Right) {
 		AllFree(Now->Right);
-		free(Now->Right);
 	}
+	free(Now);
 }
 
 int main() {
