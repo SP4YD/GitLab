@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include < stdlib.h >
+#include <stdlib.h>
 
 typedef struct Tree Tree;
 
@@ -119,10 +119,21 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 	return Temp;
 }
 
+void AllFree(Tree* Now) {
+	if (Now->Left) {
+		AllFree(Now->Left);
+		free(Now->Left);
+	}
+	if (Now->Right) {
+		AllFree(Now->Right);
+		free(Now->Right);
+	}
+}
+
 int main() {
 	Tree* HeadTree = NULL;
 	int counElements;
-	scanf("%d", &counElements);
+	if (scanf("%d", &counElements) != 1) return 1;
 	if (!counElements) {
 		printf("0");
 		return 0;
@@ -130,11 +141,13 @@ int main() {
 	
 	for (int i = 0; i < counElements; ++i) {
 		int temp;
-		scanf("%d", &temp);
+		if (scanf("%d", &temp) != 1) return 1;
 		HeadTree = CreateNewLeaf(HeadTree, temp);
 	}
 
 	printf("%d", HeadTree->Height);
+
+	AllFree(HeadTree);
 
 	return 0;
 }
