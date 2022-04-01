@@ -22,6 +22,14 @@ int Exi(Tree* Leaf) { //Existence == Exi
 	return 0;
 }
 
+int EchoNum = 0;
+Tree* EchoMemory;
+
+Tree* EchoLocator() {
+	++EchoNum;
+	return &EchoMemory[EchoNum];
+}
+
 Tree* SmallLeftRotation(Tree* Knot) {
 	Tree* NeedTree = Knot->Right;
 	Knot->Right = NeedTree->Left;
@@ -56,7 +64,7 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 	char null = 0;
 	
 	if (Temp == NULL) {
-		Temp = malloc(sizeof(Tree));
+		Temp = EchoLocator();
 		Temp->Height = 1;
 		Temp->Left = Temp->Right = NULL;
 		Temp->Number = num;
@@ -82,13 +90,13 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 
 	if (null) {
 		if (null == 1) {
-			Temp->Right = malloc(sizeof(Tree));
+			Temp->Right = EchoLocator();
 			Temp->Right->Height = 1;
 			Temp->Right->Left = Temp->Right->Right = NULL;
 			Temp->Right->Number = num;
 		}
 		else {
-			Temp->Left = malloc(sizeof(Tree));
+			Temp->Left = EchoLocator();
 			Temp->Left->Height = 1;
 			Temp->Left->Left = Temp->Left->Right = NULL;
 			Temp->Left->Number = num;
@@ -119,20 +127,13 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 	return Temp;
 }
 
-void AllFree(Tree* Now) {
-	if (Now->Left) {
-		AllFree(Now->Left);
-	}
-	if (Now->Right) {
-		AllFree(Now->Right);
-	}
-	free(Now);
-}
-
 int main() {
 	Tree* HeadTree = NULL;
 	int counElements;
 	if (scanf("%d", &counElements) != 1) return 1;
+
+	EchoMemory = malloc(sizeof(Tree) * counElements);
+
 	if (!counElements) {
 		printf("0");
 		return 0;
@@ -145,8 +146,6 @@ int main() {
 	}
 
 	printf("%d", HeadTree->Height);
-
-	AllFree(HeadTree);
 
 	return 0;
 }
