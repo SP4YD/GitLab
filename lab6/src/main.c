@@ -26,8 +26,7 @@ int EchoNum = 0;
 Tree* EchoMemory;
 
 Tree* EchoLocator() {
-	++EchoNum;
-	return &EchoMemory[EchoNum];
+	return &EchoMemory[EchoNum++];
 }
 
 Tree* SmallLeftRotation(Tree* Knot) {
