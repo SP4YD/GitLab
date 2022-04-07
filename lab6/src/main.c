@@ -75,6 +75,10 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 			Temp->Right = CreateNewLeaf(Temp->Right, num);
 		}
 		else {
+			Temp->Right = EchoLocator();
+			Temp->Right->Height = 1;
+			Temp->Right->Left = Temp->Right->Right = NULL;
+			Temp->Right->Number = num;
 			null = 1;
 		}
 	}
@@ -83,26 +87,15 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 			Temp->Left = CreateNewLeaf(Temp->Left, num);
 		}
 		else {
-			null = 2;
-		}
-	}
-
-	if (null) {
-		if (null == 1) {
-			Temp->Right = EchoLocator();
-			Temp->Right->Height = 1;
-			Temp->Right->Left = Temp->Right->Right = NULL;
-			Temp->Right->Number = num;
-		}
-		else {
 			Temp->Left = EchoLocator();
 			Temp->Left->Height = 1;
 			Temp->Left->Left = Temp->Left->Right = NULL;
 			Temp->Left->Number = num;
+			null = 1;
 		}
 	}
-	else if (abs(Exi(Temp->Left) - Exi(Temp->Right)) > 1) {
 
+	if (!null && abs(Exi(Temp->Left) - Exi(Temp->Right)) > 1) {
 		if (Exi(Temp->Right) > Exi(Temp->Left)) {
 			if (Exi(Temp->Right->Left) <= Exi(Temp->Right->Right)) {
 				Temp = SmallLeftRotation(Temp);
