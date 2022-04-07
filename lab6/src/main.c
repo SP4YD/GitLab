@@ -114,6 +114,8 @@ Tree* CreateNewLeaf(Tree* Temp, int num) {
 		}
 	}
 
+	Temp->Height = Max(Exi(Temp->Left), Exi(Temp->Right)) + 1;
+
 	return Temp;
 }
 
