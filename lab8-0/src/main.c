@@ -115,7 +115,7 @@ int FindIndex(int N, TVertexList* AdjList, char notFirst) {
         return 0;
     }
 
-    int min = INT_MAX, index = 0;
+    unsigned int min = INT_MAX * 2, index = 0;
     for (int i = 0; i < N; ++i) {
         if (AdjList[i].Using) {
             if (AdjList[i].Next) {
