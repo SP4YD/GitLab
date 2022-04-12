@@ -162,7 +162,7 @@ void FreeElement(TVertexList* AdjList, int index, int num) {
     free(Temp);
 }
 
-int FindIndex(int N, TVertexList* AdjList, char notFirst) {
+int FindIndex(int N, TVertexList* AdjList, int notFirst) {
     if (!notFirst) {
         return 0;
     }
@@ -216,6 +216,7 @@ int AlgorithmPrima(int N, int M, TVertexList* AdjList, int** answer, int* answer
 int main()
 {
     int N, M;
+
     if (scanf("%d\n%d", &N, &M) != 2) {
         printf("bad number of lines");
         return 0;
