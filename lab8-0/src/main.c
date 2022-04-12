@@ -22,6 +22,7 @@ struct TVertexList {
 void FreeAll(int** answer, TVertexList* AdjList, int N) {
     free(answer[0]);
     free(answer[1]);
+    free(answer);
     for (int i = 0; i < N; ++i) {
         TList* Curr = AdjList[i].Next;
         while (Curr != NULL)
@@ -34,7 +35,7 @@ void FreeAll(int** answer, TVertexList* AdjList, int N) {
     free(AdjList);
 }
 
-int CheckSecondInput(int from, int where, int N, long len) {
+int CheckSecondInput(int from, int where, int N, unsigned long long len) {
     if (from < 1 || from > N || where < 1 || where > N) {
         return 2;
     }
