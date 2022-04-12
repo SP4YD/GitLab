@@ -40,7 +40,7 @@ int CheckSecondInput(int from, int where, int N, unsigned long long len) {
         return 2;
     }
 
-    if (len > INT_MAX) {
+    if (len >= INT_MAX) {
         return 3;
     }
 
