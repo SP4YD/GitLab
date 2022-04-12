@@ -218,12 +218,12 @@ int main()
         for (int i = 0; i < answerCount; ++i) {
             printf("%d %d\n", answer[0][i], answer[1][i]);
         }
-        FreeAll(answer, AdjList);
+        FreeAll(answer, AdjList, N);
         return 0;
     }
-    case(1): { printf("bad number of lines"); FreeAll(answer, AdjList); return 0; }
-    case(2): { printf("bad vertex"); FreeAll(answer, AdjList); return 0; }
-    case(3): { printf("bad length"); FreeAll(answer, AdjList); return 0; }
-    case(4): { printf("no spanning tree"); FreeAll(answer, AdjList); return 0; }
+    case(1): { printf("bad number of lines"); FreeAll(answer, AdjList, N); return 0; }
+    case(2): { printf("bad vertex"); FreeAll(answer, AdjList, N); return 0; }
+    case(3): { printf("bad length"); FreeAll(answer, AdjList, N); return 0; }
+    case(4): { printf("no spanning tree"); FreeAll(answer, AdjList, N); return 0; }
     }
 }
