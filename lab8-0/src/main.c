@@ -19,9 +19,18 @@ struct TVertexList {
     TList* Next;
 };
 
-void FreeAll(int** answer, TVertexList* AdjList) {
+void FreeAll(int** answer, TVertexList* AdjList, int N) {
     free(answer[0]);
     free(answer[1]);
+    for (int i = 0; i < N; ++i) {
+        TList* Curr = AdjList[i].Next;
+        while (Curr != NULL)
+        {
+            TList* Temp = Curr;
+            Curr = Curr->Next;
+            free(Temp);
+        }
+    }
     free(AdjList);
 }
 
