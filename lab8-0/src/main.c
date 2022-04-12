@@ -34,6 +34,27 @@ void FreeAll(int** answer, TVertexList* AdjList, int N) {
     free(AdjList);
 }
 
+int CheckFirstInput(int N, int M) {
+    if (N < 0 || N > 5000) {
+        return 1;
+    }
+
+    if (M < 0 || M >(N * N - N) / 2) {
+        return 2;
+    }
+
+    if (!M && N == 1) {
+        return 3;
+    }
+
+    if (!M || M < (N - 1)) {
+
+        return 4;
+    }
+
+    return 0;
+}
+
 int CheckSecondInput(int from, int where, int N, unsigned long long len) {
     if (from < 1 || from > N || where < 1 || where > N) {
         return 2;
@@ -43,6 +64,15 @@ int CheckSecondInput(int from, int where, int N, unsigned long long len) {
         return 3;
     }
 
+    return 0;
+}
+
+int CheckGraph(TVertexList* AdjList, int N) {
+    for (int i = 0; i < N; ++i) {
+        if (!AdjList[i].Next) {
+            return 4;
+        }
+    }
     return 0;
 }
 
@@ -105,29 +135,10 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
         }
     }
 
+    char code = CheckGraph(AdjList, N);
+    if (code) { return code; }
+
     return check ? 0 : 4;
-}
-
-int FindIndex(int N, TVertexList* AdjList, char notFirst) {
-    if (!notFirst) {
-        return 0;
-    }
-
-    unsigned int min = UINT_MAX, index = 0;
-    for (int i = 0; i < N; ++i) {
-        if (AdjList[i].Using) {
-            if (AdjList[i].Next) {
-                if (!AdjList[AdjList[i].Next->Vertex].Using) {
-                    if (min > AdjList[i].Next->Len) {
-                        min = AdjList[i].Next->Len;
-                        index = i;
-                    }
-                }
-            }
-        }
-    }
-
-    return index;
 }
 
 void FreeElement(TVertexList* AdjList, int index, int num) {
@@ -151,6 +162,33 @@ void FreeElement(TVertexList* AdjList, int index, int num) {
     free(Temp);
 }
 
+int FindIndex(int N, TVertexList* AdjList, char notFirst) {
+    if (!notFirst) {
+        return 0;
+    }
+
+    unsigned int min = UINT_MAX, index = 0;
+    for (int i = 0; i < N; ++i) {
+        if (AdjList[i].Using) {
+            if (AdjList[i].Next) {
+                if (!AdjList[AdjList[i].Next->Vertex].Using) {
+                    if (min > AdjList[i].Next->Len) {
+                        min = AdjList[i].Next->Len;
+                        index = i;
+                    }
+                }
+                else {
+                    FreeElement(AdjList, AdjList[i].Next->Vertex, AdjList[i].Vertex);
+                    FreeElement(AdjList, i, -1);
+                    --i;
+                }
+            }
+        }
+    }
+
+    return index;
+}
+
 int AlgorithmPrima(int N, int M, TVertexList* AdjList, int** answer, int* answerCount) {
     int code = GraphEntry(N, M, AdjList);
     if (code) { return code; }
@@ -170,27 +208,6 @@ int AlgorithmPrima(int N, int M, TVertexList* AdjList, int** answer, int* answer
         FreeElement(AdjList, index, -1);
 
         ++(*answerCount);
-    }
-
-    return 0;
-}
-
-int CheckFirstInput(int N, int M) {
-    if (N < 0 || N > 5000) {
-        return 1;
-    }
-
-    if (M < 0 || M >(N * N - N) / 2) {
-        return 2;
-    }
-
-    if (!M && N == 1) {
-        return 3;
-    }
-
-    if (!M || M < (N - 1)) {
-        
-        return 4;
     }
 
     return 0;
