@@ -40,7 +40,7 @@ int CheckSecondInput(int from, int where, int N, unsigned long long len) {
         return 2;
     }
 
-    if (len >= INT_MAX) {
+    if (len > INT_MAX) {
         return 3;
     }
 
@@ -81,8 +81,9 @@ void AddElementInList(TVertexList* AdjList, int from, int len, int where) {
 }
 
 int GraphEntry(int N, int M, TVertexList* AdjList) {
-    int from, where;
     unsigned long long len;
+    int from, where;
+    char check = 0;
 
     for (int i = 0; i < N; ++i) {
         AdjList[i].Len = 0;
@@ -99,11 +100,14 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
         char code = CheckSecondInput(from, where, N, len);
         if (code) { return code; }
 
-        AddElementInList(AdjList, from - 1, len, where - 1);
-        AddElementInList(AdjList, where - 1, len, from - 1);
+        if (from != where) {
+            AddElementInList(AdjList, from - 1, len, where - 1);
+            AddElementInList(AdjList, where - 1, len, from - 1);
+            check = 1;
+        }
     }
 
-    return 0;
+    return check ? 0 : 4;
 }
 
 int FindIndex(int N, TVertexList* AdjList, char notFirst) {
