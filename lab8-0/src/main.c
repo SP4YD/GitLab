@@ -8,14 +8,13 @@ typedef struct TVertexList TVertexList;
 
 struct TList {
     int Vertex;
-    int Len;
+    unsigned int Len;
     TList* Next;
 };
 
 struct TVertexList {
     char Using;
     int Vertex;
-    int Len;
     TList* Next;
 };
 
@@ -47,7 +46,7 @@ int CheckSecondInput(int from, int where, int N, unsigned long long len) {
     return 0;
 }
 
-void AddElementInList(TVertexList* AdjList, int from, int len, int where) {
+void AddElementInList(TVertexList* AdjList, int from, unsigned long long len, int where) {
     TList* TempNext;
     if (AdjList[from].Next && !(AdjList[from].Next->Len > len)) {
         TList* Curr = AdjList[from].Next;
@@ -86,7 +85,6 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
     char check = 0;
 
     for (int i = 0; i < N; ++i) {
-        AdjList[i].Len = 0;
         AdjList[i].Vertex = i;
         AdjList[i].Next = NULL;
         AdjList[i].Using = 0;
@@ -115,7 +113,7 @@ int FindIndex(int N, TVertexList* AdjList, char notFirst) {
         return 0;
     }
 
-    unsigned int min = INT_MAX * 2, index = 0;
+    unsigned int min = INT_MAX + INT_MAX, index = 0;
     for (int i = 0; i < N; ++i) {
         if (AdjList[i].Using) {
             if (AdjList[i].Next) {
