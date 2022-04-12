@@ -169,19 +169,16 @@ int FindIndex(int N, TVertexList* AdjList, int notFirst) {
 
     unsigned int min = UINT_MAX, index = 0;
     for (int i = 0; i < N; ++i) {
-        if (AdjList[i].Using) {
-            if (AdjList[i].Next) {
-                if (!AdjList[AdjList[i].Next->Vertex].Using) {
-                    if (min > AdjList[i].Next->Len) {
-                        min = AdjList[i].Next->Len;
-                        index = i;
-                    }
+        if (AdjList[i].Using && AdjList[i].Next) {
+            if (!AdjList[AdjList[i].Next->Vertex].Using) {
+                if (min > AdjList[i].Next->Len) {
+                    min = AdjList[i].Next->Len;
+                    index = i;
                 }
-                else {
-                    FreeElement(AdjList, AdjList[i].Next->Vertex, AdjList[i].Vertex);
-                    FreeElement(AdjList, i, -1);
-                    --i;
-                }
+            }
+            else {
+                FreeElement(AdjList, AdjList[i].Next->Vertex, AdjList[i].Vertex);
+                FreeElement(AdjList, i, -1);
             }
         }
     }
