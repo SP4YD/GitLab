@@ -82,7 +82,7 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
     }
 
     for (int i = 0; i < M; ++i) {
-        if (scanf("%d %d %lld", &from, &where, &len) != 3) {
+        if (scanf("%d %d %llu", &from, &where, &len) != 3) {
             return 1    ;
         }
 
@@ -105,9 +105,11 @@ int FindIndex(int N, TVertexList* AdjList, char notFirst) {
     for (int i = 0; i < N; ++i) {
         if (AdjList[i].Using) {
             if (AdjList[i].Next) {
-                if (min > AdjList[i].Next->Len) {
-                    min = AdjList[i].Next->Len;
-                    index = i;
+                if (!AdjList[AdjList[i].Next->Vertex].Using) {
+                    if (min > AdjList[i].Next->Len) {
+                        min = AdjList[i].Next->Len;
+                        index = i;
+                    }
                 }
             }
         }
