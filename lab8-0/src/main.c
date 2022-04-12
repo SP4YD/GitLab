@@ -66,14 +66,14 @@ void AddElementInList(TVertexList* AdjList, int from, unsigned long long len, in
 
         TempNext = Curr->Next;
         Curr->Next = calloc(1, sizeof(TList));
-        Curr->Next->Len = len;
+        Curr->Next->Len = (unsigned int)(len);
         Curr->Next->Vertex = where;
         Curr->Next->Next = TempNext;
     }
     else {
         TempNext = AdjList[from].Next;
         AdjList[from].Next = calloc(1, sizeof(TList));
-        AdjList[from].Next->Len = len;
+        AdjList[from].Next->Len = (unsigned int)len;
         AdjList[from].Next->Vertex = where;
         AdjList[from].Next->Next = TempNext;
     }
@@ -92,7 +92,7 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
 
     for (int i = 0; i < M; ++i) {
         if (scanf("%d %d %llu", &from, &where, &len) != 3) {
-            return 1    ;
+            return 1;
         }
 
         char code = CheckSecondInput(from, where, N, len);
@@ -113,7 +113,7 @@ int FindIndex(int N, TVertexList* AdjList, char notFirst) {
         return 0;
     }
 
-    unsigned int min = INT_MAX + INT_MAX, index = 0;
+    unsigned int min = UINT_MAX, index = 0;
     for (int i = 0; i < N; ++i) {
         if (AdjList[i].Using) {
             if (AdjList[i].Next) {
