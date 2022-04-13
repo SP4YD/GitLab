@@ -177,7 +177,7 @@ int FindIndex(int N, TVertexList* AdjList, int notFirst) {
                 }
             }
             else {
-                //FreeElement(AdjList, AdjList[i].Next->Vertex, AdjList[i].Vertex);
+                FreeElement(AdjList, AdjList[i].Next->Vertex, AdjList[i].Vertex);
                 FreeElement(AdjList, i, -1);
                 --i;
             }
