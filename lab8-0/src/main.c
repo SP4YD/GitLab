@@ -30,9 +30,6 @@ void FreeAll(int** answer, TVertexList* AdjList) {
     free(answer[0]);
     free(answer[1]);
     free(answer);
-    //for (int i = 0; i < N; ++i) {
-    //    free(AdjList[i].Array);
-    //}
     free(AdjList);
 }
 
@@ -50,6 +47,7 @@ int CheckFirstInput(int N, int M) {
     }
 
     if (!M || M < (N - 1)) {
+
         return 4;
     }
 
@@ -81,7 +79,7 @@ void AddElementInList(TVertexList* AdjList, int from, unsigned long long len, in
     TList* Array = AdjList[from].Array;
     int size = AdjList[from].Size;
 
-    Array[size].Len = len;
+    Array[size].Len = (unsigned int)len;
     Array[size].Vertex = where;
     AdjList[from].Size += 1;
 }
