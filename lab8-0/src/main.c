@@ -18,8 +18,8 @@ struct TVertexList {
     TList* Array;
 };
 
-int Comparator(TList* first, TList* second) {
-    if (first->Len > second->Len) {
+int Comparator(void* first, void* second) {
+    if (((TList*)first)->Len > ((TList*)second)->Len) {
         return 0;
     } else {
         return 1;
