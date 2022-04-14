@@ -18,7 +18,7 @@ struct TVertexList {
     TList* Array;
 };
 
-int Comparator(void* first, void* second) {
+int Comparator(const void* first, const void* second) {
     if (((TList*)first)->Len > ((TList*)second)->Len) {
         return 0;
     } else {
