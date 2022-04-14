@@ -202,4 +202,5 @@ int main()
     case(3): { printf("bad length"); FreeAll(answer, AdjList); return 0; }
     case(4): { printf("no spanning tree"); FreeAll(answer, AdjList); return 0; }
     }
+    return 0;
 }
