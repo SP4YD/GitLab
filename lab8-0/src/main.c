@@ -91,7 +91,6 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
 
     for (int i = 0; i < N; ++i) {
         AdjList[i].Vertex = i;
-        //AdjList[i].Array = calloc(N - 1, sizeof(TList));
         AdjList[i].Using = 0;
         AdjList[i].Size = 0;
     }
@@ -202,5 +201,6 @@ int main()
     case(3): { printf("bad length"); FreeAll(answer, AdjList); return 0; }
     case(4): { printf("no spanning tree"); FreeAll(answer, AdjList); return 0; }
     }
+    FreeAll(answer, AdjList);
     return 0;
 }
