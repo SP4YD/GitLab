@@ -15,7 +15,7 @@ struct TVertexList {
     char Using;
     short Vertex;
     short Size;
-    TList* Array;
+    TList Array[5000];
 };
 
 int Comparator(const void* first, const void* second) {
@@ -30,9 +30,9 @@ void FreeAll(int** answer, TVertexList* AdjList, int N) {
     free(answer[0]);
     free(answer[1]);
     free(answer);
-    for (int i = 0; i < N; ++i) {
-        free(AdjList[i].Array);
-    }
+    //for (int i = 0; i < N; ++i) {
+    //    free(AdjList[i].Array);
+    //}
     free(AdjList);
 }
 
@@ -94,7 +94,7 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
 
     for (int i = 0; i < N; ++i) {
         AdjList[i].Vertex = i;
-        AdjList[i].Array = calloc(N - 1, sizeof(TList));
+        //AdjList[i].Array = calloc(N - 1, sizeof(TList));
         AdjList[i].Using = 0;
         AdjList[i].Size = 0;
     }
