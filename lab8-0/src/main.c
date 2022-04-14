@@ -9,27 +9,29 @@ typedef struct TVertexList TVertexList;
 struct TList {
     int Vertex;
     unsigned int Len;
-    TList* Next;
 };
 
 struct TVertexList {
     char Using;
     int Vertex;
-    TList* Next;
+    int Size;
+    TList* Array;
 };
+
+int Comparator(TList* first, TList* second) {
+    if (first->Len > second->Len) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
 
 void FreeAll(int** answer, TVertexList* AdjList, int N) {
     free(answer[0]);
     free(answer[1]);
     free(answer);
     for (int i = 0; i < N; ++i) {
-        TList* Curr = AdjList[i].Next;
-        while (Curr != NULL)
-        {
-            TList* Temp = Curr;
-            Curr = Curr->Next;
-            free(Temp);
-        }
+        free(AdjList[i].Array);
     }
     free(AdjList);
 }
@@ -69,7 +71,7 @@ int CheckSecondInput(int from, int where, int N, unsigned long long len) {
 
 int CheckGraph(TVertexList* AdjList, int N) {
     for (int i = 0; i < N; ++i) {
-        if (!AdjList[i].Next) {
+        if (!AdjList[i].Size) {
             return 4;
         }
     }
@@ -77,36 +79,12 @@ int CheckGraph(TVertexList* AdjList, int N) {
 }
 
 void AddElementInList(TVertexList* AdjList, int from, unsigned long long len, int where) {
-    TList* TempNext;
-    if (AdjList[from].Next && !(AdjList[from].Next->Len > len)) {
-        TList* Curr = AdjList[from].Next;
-        char stop = 0;
+    TList* Array = AdjList[from].Array;
+    int size = AdjList[from].Size;
 
-        while (!stop) {
-            if (Curr->Next == NULL) {
-                stop = 1;
-            }
-            else if (Curr->Next->Len > len) {
-                stop = 1;
-            }
-            else {
-                Curr = Curr->Next;
-            }
-        }
-
-        TempNext = Curr->Next;
-        Curr->Next = calloc(1, sizeof(TList));
-        Curr->Next->Len = (unsigned int)(len);
-        Curr->Next->Vertex = where;
-        Curr->Next->Next = TempNext;
-    }
-    else {
-        TempNext = AdjList[from].Next;
-        AdjList[from].Next = calloc(1, sizeof(TList));
-        AdjList[from].Next->Len = (unsigned int)len;
-        AdjList[from].Next->Vertex = where;
-        AdjList[from].Next->Next = TempNext;
-    }
+    Array[size].Len = len;
+    Array[size].Vertex = where;
+    AdjList[from].Size += 1;
 }
 
 int GraphEntry(int N, int M, TVertexList* AdjList) {
@@ -116,8 +94,9 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
 
     for (int i = 0; i < N; ++i) {
         AdjList[i].Vertex = i;
-        AdjList[i].Next = NULL;
+        AdjList[i].Array = calloc(N - 1, sizeof(TList));
         AdjList[i].Using = 0;
+        AdjList[i].Size = 0;
     }
 
     for (int i = 0; i < M; ++i) {
@@ -141,27 +120,6 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
     return check ? 0 : 4;
 }
 
-void FreeElement(TVertexList* AdjList, int index, int num) {
-    TList* Temp = AdjList[index].Next;
-    if (num < 0) {
-        AdjList[index].Next = AdjList[index].Next->Next;
-    }
-    else {
-        if (Temp->Vertex == num) {
-            AdjList[index].Next = AdjList[index].Next->Next;
-        }
-        else {
-            TList* NewNext = Temp;
-            while (NewNext->Next->Vertex != num) {
-                NewNext = NewNext->Next;
-            }
-            Temp = NewNext->Next;
-            NewNext->Next = NewNext->Next->Next;
-        }
-    }
-    free(Temp);
-}
-
 int FindIndex(int N, TVertexList* AdjList, int notFirst) {
     if (!notFirst) {
         return 0;
@@ -169,16 +127,15 @@ int FindIndex(int N, TVertexList* AdjList, int notFirst) {
 
     unsigned int min = UINT_MAX, index = 0;
     for (int i = 0; i < N; ++i) {
-        if (AdjList[i].Using && AdjList[i].Next) {
-            if (!AdjList[AdjList[i].Next->Vertex].Using) {
-                if (min > AdjList[i].Next->Len) {
-                    min = AdjList[i].Next->Len;
+        if (AdjList[i].Using && AdjList[i].Size) {
+            if (!AdjList[AdjList[i].Array[AdjList[i].Size - 1].Vertex].Using) {
+                if (min > AdjList[i].Array[AdjList[i].Size - 1].Len) {
+                    min = AdjList[i].Array[AdjList[i].Size - 1].Len;
                     index = i;
                 }
             }
             else {
-                FreeElement(AdjList, AdjList[i].Next->Vertex, AdjList[i].Vertex);
-                FreeElement(AdjList, i, -1);
+                AdjList[i].Size -= 1;
                 --i;
             }
         }
@@ -191,19 +148,22 @@ int AlgorithmPrima(int N, int M, TVertexList* AdjList, int** answer, int* answer
     int code = GraphEntry(N, M, AdjList);
     if (code) { return code; }
 
+    for (int i = 0; i < N; ++i) {
+        qsort(AdjList[i].Array, AdjList[i].Size, sizeof(TList), Comparator);
+    }
+
     while (*answerCount != N - 1) {
         int index = FindIndex(N, AdjList, *answerCount);
 
         AdjList[index].Using = 1;
-        AdjList[AdjList[index].Next->Vertex].Using = 1;
+        AdjList[AdjList[index].Array[AdjList[index].Size - 1].Vertex].Using = 1;
         answer[0][*answerCount] = AdjList[index].Vertex + 1;
-        if (!AdjList[index].Next) {
+        if (!AdjList[index].Size) {
             return 4;
         }
-        answer[1][*answerCount] = AdjList[index].Next->Vertex + 1;
+        answer[1][*answerCount] = AdjList[AdjList[index].Array[AdjList[index].Size - 1].Vertex].Vertex + 1;
 
-        FreeElement(AdjList, AdjList[index].Next->Vertex, AdjList[index].Vertex);
-        FreeElement(AdjList, index, -1);
+        AdjList[index].Size -= 1;
 
         ++(*answerCount);
     }
