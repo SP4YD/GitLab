@@ -50,7 +50,6 @@ int CheckFirstInput(int N, int M) {
     }
 
     if (!M || M < (N - 1)) {
-
         return 4;
     }
 
