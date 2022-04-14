@@ -7,14 +7,14 @@ typedef struct TList TList;
 typedef struct TVertexList TVertexList;
 
 struct TList {
-    int Vertex;
+    short Vertex;
     unsigned int Len;
 };
 
 struct TVertexList {
     char Using;
-    int Vertex;
-    int Size;
+    short Vertex;
+    short Size;
     TList* Array;
 };
 
