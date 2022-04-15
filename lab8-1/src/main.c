@@ -17,7 +17,7 @@ struct TListElement {
     unsigned int Len;
 };
 
-short FindRoot(short* dsu, int v) {
+short FindRoot(short* dsu, short v) {
     while (dsu[v] != v) {
         short temp = dsu[v];
         dsu[v] = dsu[dsu[v]];
@@ -99,7 +99,7 @@ int GraphEntry(int N, int M, TList* HeadArray) {
         if (from != where) {
             HeadArray->Array[HeadArray->Size].Vertex1 = from;
             HeadArray->Array[HeadArray->Size].Vertex2 = where;
-            HeadArray->Array[HeadArray->Size].Len = len;
+            HeadArray->Array[HeadArray->Size].Len = (unsigned int)len;
             ++(HeadArray->Size);
             check = 1;
         }
@@ -111,8 +111,8 @@ int GraphEntry(int N, int M, TList* HeadArray) {
 int AlgorithmKraskala(int N, int M, TList* HeadArray, int** answer, int* answerCount) {
     int code = GraphEntry(N, M, HeadArray);
     if (code) { return code; }
-    short* dsu = calloc(N, sizeof(short));
-    for (int i = 0; i < N; ++i) {
+    short* dsu = calloc(N + 1, sizeof(short));
+    for (int i = 1; i <= N; ++i) {
         dsu[i] = i;
     }
     
@@ -127,6 +127,8 @@ int AlgorithmKraskala(int N, int M, TList* HeadArray, int** answer, int* answerC
 
         --(HeadArray->Size);
     }
+
+    free(dsu);
 
     if (*answerCount != N - 1) {
         return 4;
@@ -153,7 +155,7 @@ int main()
 
     TList HeadArray;
     HeadArray.Size = 0;
-    HeadArray.Array = calloc(N * N - N, sizeof(TListElement)); 
+    HeadArray.Array = calloc(N * (N - 1), sizeof(TListElement));
     int** answer = calloc(2, sizeof(int*)), answerCount = 0;
     answer[0] = calloc(N - 1, sizeof(int));
     answer[1] = calloc(N - 1, sizeof(int));
