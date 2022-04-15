@@ -4,33 +4,50 @@
 #include <limits.h>
 
 typedef struct TList TList;
-typedef struct TVertexList TVertexList;
+typedef struct TListElement TListElement;
 
 struct TList {
-    short Vertex;
+    int Size;
+    TListElement* Array;
+};
+
+struct TListElement {
+    short Vertex1;
+    short Vertex2;
     unsigned int Len;
 };
 
-struct TVertexList {
-    char Using;
-    short Vertex;
-    short Size;
-    TList Array[5000];
-};
+short FindRoot(short* dsu, int v) {
+    while (dsu[v] != v) {
+        short temp = dsu[v];
+        dsu[v] = dsu[dsu[v]];
+        v = temp;
+    }
+    return v;
+}
+
+char UnionSet(short* dsu, short a, short b) {
+    if (FindRoot(dsu, a) != FindRoot(dsu, b)) {
+        dsu[FindRoot(dsu, a)] = FindRoot(dsu, b);
+        return 1;
+    }
+    return 0;
+}
 
 int Comparator(const void* first, const void* second) {
-    if (((TList*)first)->Len > ((TList*)second)->Len) {
+    if (((TListElement*)first)->Len > ((TListElement*)second)->Len) {
         return 0;
-    } else {
+    }
+    else {
         return 1;
     }
 }
 
-void FreeAll(int** answer, TVertexList* AdjList) {
+void FreeAll(int** answer, TList AdjList) {
     free(answer[0]);
     free(answer[1]);
     free(answer);
-    free(AdjList);
+    free(AdjList.Array);
 }
 
 int CheckFirstInput(int N, int M) {
@@ -66,34 +83,10 @@ int CheckSecondInput(int from, int where, int N, unsigned long long len) {
     return 0;
 }
 
-int CheckGraph(TVertexList* AdjList, int N) {
-    for (int i = 0; i < N; ++i) {
-        if (!AdjList[i].Size) {
-            return 4;
-        }
-    }
-    return 0;
-}
-
-void AddElementInList(TVertexList* AdjList, int from, unsigned long long len, int where) {
-    TList* Array = AdjList[from].Array;
-    int size = AdjList[from].Size;
-
-    Array[size].Len = (unsigned int)len;
-    Array[size].Vertex = where;
-    AdjList[from].Size += 1;
-}
-
-int GraphEntry(int N, int M, TVertexList* AdjList) {
+int GraphEntry(int N, int M, TList* HeadArray) {
     unsigned long long len;
     int from, where;
     char check = 0;
-
-    for (int i = 0; i < N; ++i) {
-        AdjList[i].Vertex = i;
-        AdjList[i].Using = 0;
-        AdjList[i].Size = 0;
-    }
 
     for (int i = 0; i < M; ++i) {
         if (scanf("%d %d %llu", &from, &where, &len) != 3) {
@@ -104,64 +97,39 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
         if (code) { return code; }
 
         if (from != where) {
-            AddElementInList(AdjList, from - 1, len, where - 1);
-            AddElementInList(AdjList, where - 1, len, from - 1);
+            HeadArray->Array[HeadArray->Size].Vertex1 = from;
+            HeadArray->Array[HeadArray->Size].Vertex2 = where;
+            HeadArray->Array[HeadArray->Size].Len = len;
+            ++(HeadArray->Size);
             check = 1;
         }
     }
 
-    char code = CheckGraph(AdjList, N);
-    if (code) { return code; }
-
     return check ? 0 : 4;
 }
 
-int FindIndex(int N, TVertexList* AdjList, int notFirst) {
-    if (!notFirst) {
-        return 0;
-    }
-
-    unsigned int min = UINT_MAX, index = 0;
-    for (int i = 0; i < N; ++i) {
-        if (AdjList[i].Using && AdjList[i].Size) {
-            if (!AdjList[AdjList[i].Array[AdjList[i].Size - 1].Vertex].Using) {
-                if (min > AdjList[i].Array[AdjList[i].Size - 1].Len) {
-                    min = AdjList[i].Array[AdjList[i].Size - 1].Len;
-                    index = i;
-                }
-            }
-            else {
-                AdjList[i].Size -= 1;
-                --i;
-            }
-        }
-    }
-
-    return index;
-}
-
-int AlgorithmPrima(int N, int M, TVertexList* AdjList, int** answer, int* answerCount) {
-    int code = GraphEntry(N, M, AdjList);
+int AlgorithmKraskala(int N, int M, TList* HeadArray, int** answer, int* answerCount) {
+    int code = GraphEntry(N, M, HeadArray);
     if (code) { return code; }
-
+    short* dsu = calloc(N, sizeof(short));
     for (int i = 0; i < N; ++i) {
-        qsort(AdjList[i].Array, AdjList[i].Size, sizeof(TList), Comparator);
+        dsu[i] = i;
+    }
+    
+    qsort(HeadArray->Array, HeadArray->Size, sizeof(TListElement), Comparator);
+
+    while (*answerCount != N - 1 && HeadArray->Size > 0) {
+        if (UnionSet(dsu, HeadArray->Array[HeadArray->Size - 1].Vertex1, HeadArray->Array[HeadArray->Size - 1].Vertex2)) {
+            answer[0][*answerCount] = HeadArray->Array[HeadArray->Size - 1].Vertex1;
+            answer[1][*answerCount] = HeadArray->Array[HeadArray->Size - 1].Vertex2;
+            ++(*answerCount);
+        }
+
+        --(HeadArray->Size);
     }
 
-    while (*answerCount != N - 1) {
-        int index = FindIndex(N, AdjList, *answerCount);
-
-        AdjList[index].Using = 1;
-        AdjList[AdjList[index].Array[AdjList[index].Size - 1].Vertex].Using = 1;
-        answer[0][*answerCount] = AdjList[index].Vertex + 1;
-        if (!AdjList[index].Size) {
-            return 4;
-        }
-        answer[1][*answerCount] = AdjList[AdjList[index].Array[AdjList[index].Size - 1].Vertex].Vertex + 1;
-
-        AdjList[index].Size -= 1;
-
-        ++(*answerCount);
+    if (*answerCount != N - 1) {
+        return 4;
     }
 
     return 0;
@@ -183,24 +151,26 @@ int main()
     case(4): { printf("no spanning tree"); return 0; }
     }
 
-    TVertexList* AdjList = calloc(N, sizeof(TVertexList));
+    TList HeadArray;
+    HeadArray.Size = 0;
+    HeadArray.Array = calloc(N * N - N, sizeof(TListElement)); 
     int** answer = calloc(2, sizeof(int*)), answerCount = 0;
     answer[0] = calloc(N - 1, sizeof(int));
     answer[1] = calloc(N - 1, sizeof(int));
 
-    switch (AlgorithmPrima(N, M, AdjList, answer, &answerCount)) {
+    switch (AlgorithmKraskala(N, M, &HeadArray, answer, &answerCount)) {
     case(0): {
         for (int i = 0; i < answerCount; ++i) {
             printf("%d %d\n", answer[0][i], answer[1][i]);
         }
-        FreeAll(answer, AdjList);
+        FreeAll(answer, HeadArray);
         return 0;
     }
-    case(1): { printf("bad number of lines"); FreeAll(answer, AdjList); return 0; }
-    case(2): { printf("bad vertex"); FreeAll(answer, AdjList); return 0; }
-    case(3): { printf("bad length"); FreeAll(answer, AdjList); return 0; }
-    case(4): { printf("no spanning tree"); FreeAll(answer, AdjList); return 0; }
+    case(1): { printf("bad number of lines"); FreeAll(answer, HeadArray); return 0; }
+    case(2): { printf("bad vertex"); FreeAll(answer, HeadArray); return 0; }
+    case(3): { printf("bad length"); FreeAll(answer, HeadArray); return 0; }
+    case(4): { printf("no spanning tree"); FreeAll(answer, HeadArray); return 0; }
     }
-    FreeAll(answer, AdjList);
+    FreeAll(answer, HeadArray);
     return 0;
 }
