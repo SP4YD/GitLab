@@ -87,7 +87,6 @@ TTree* CreateNewLeaf(TTree* Temp, int num) {
             Temp->Left = CreateNewLeaf(Temp->Left, num);
         }
         else {
-            TTree* Next = Temp->Left;
             Temp->Left = EchoLocator(num);
             isNull = 1;
         }
