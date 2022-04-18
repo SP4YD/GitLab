@@ -94,7 +94,9 @@ int GraphEntry(int N, int M, TList* HeadArray) {
         }
 
         char code = CheckSecondInput(from, where, N, len);
-        if (code) { return code; }
+        if (code) { 
+            return code;
+        }
 
         if (from != where) {
             HeadArray->Array[HeadArray->Size].Vertex1 = from;
@@ -110,7 +112,10 @@ int GraphEntry(int N, int M, TList* HeadArray) {
 
 int AlgorithmKraskala(int N, int M, TList* HeadArray, int** answer, int* answerCount) {
     int code = GraphEntry(N, M, HeadArray);
-    if (code) { return code; }
+    if (code) { 
+        return code;
+    }
+
     short* dsu = calloc(N + 1, sizeof(short));
     for (int i = 1; i <= N; ++i) {
         dsu[i] = i;
@@ -119,7 +124,9 @@ int AlgorithmKraskala(int N, int M, TList* HeadArray, int** answer, int* answerC
     qsort(HeadArray->Array, HeadArray->Size, sizeof(TListElement), Comparator);
 
     while (*answerCount != N - 1 && HeadArray->Size > 0) {
-        if (UnionSet(dsu, HeadArray->Array[HeadArray->Size - 1].Vertex1, HeadArray->Array[HeadArray->Size - 1].Vertex2)) {
+        if (UnionSet(dsu, HeadArray->Array[HeadArray->Size - 1].Vertex1,
+                    HeadArray->Array[HeadArray->Size - 1].Vertex2)) 
+        {
             answer[0][*answerCount] = HeadArray->Array[HeadArray->Size - 1].Vertex1;
             answer[1][*answerCount] = HeadArray->Array[HeadArray->Size - 1].Vertex2;
             ++(*answerCount);
@@ -146,11 +153,26 @@ int main()
         return 0;
     }
 
-    switch (CheckFirstInput(N, M)) {
-    case(1): { printf("bad number of vertices"); return 0; }
-    case(2): { printf("bad number of edges"); return 0; }
-    case(3): { return 0; }
-    case(4): { printf("no spanning tree"); return 0; }
+    switch (CheckFirstInput (N, M)) {
+        case(1):
+        {
+            printf ("bad number of vertices");
+            return 0;
+        }
+        case(2):
+        {
+            printf ("bad number of edges");
+            return 0;
+        }
+        case(3):
+        {
+            return 0;
+        }
+        case(4):
+        {
+            printf ("no spanning tree");
+            return 0;
+        }
     }
 
     TList HeadArray;
@@ -161,18 +183,31 @@ int main()
     answer[1] = calloc(N - 1, sizeof(int));
 
     switch (AlgorithmKraskala(N, M, &HeadArray, answer, &answerCount)) {
-    case(0): {
-        for (int i = 0; i < answerCount; ++i) {
-            printf("%d %d\n", answer[0][i], answer[1][i]);
+        case(0): {
+            for (int i = 0; i < answerCount; ++i) {
+                printf("%d %d\n", answer[0][i], answer[1][i]);
+            }
+            break;
         }
-        FreeAll(answer, HeadArray);
-        return 0;
+        case(1):{
+            printf ("bad number of lines");
+            break;
+        }
+        case(2):{
+            printf ("bad vertex");
+            break;
+        }
+        case(3):{
+            printf ("bad length");
+            break;
+        }
+        case(4):{
+            printf ("no spanning tree");
+            break;
+        }
     }
-    case(1): { printf("bad number of lines"); FreeAll(answer, HeadArray); return 0; }
-    case(2): { printf("bad vertex"); FreeAll(answer, HeadArray); return 0; }
-    case(3): { printf("bad length"); FreeAll(answer, HeadArray); return 0; }
-    case(4): { printf("no spanning tree"); FreeAll(answer, HeadArray); return 0; }
-    }
+
     FreeAll(answer, HeadArray);
+
     return 0;
 }
