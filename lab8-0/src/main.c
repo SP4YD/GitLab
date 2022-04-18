@@ -21,7 +21,8 @@ struct TVertexList {
 int Comparator(const void* first, const void* second) {
     if (((TList*)first)->Len > ((TList*)second)->Len) {
         return 0;
-    } else {
+    } 
+    else {
         return 1;
     }
 }
@@ -101,7 +102,9 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
         }
 
         char code = CheckSecondInput(from, where, N, len);
-        if (code) { return code; }
+        if (code) { 
+            return code;
+        }
 
         if (from != where) {
             AddElementInList(AdjList, from - 1, len, where - 1);
@@ -111,7 +114,9 @@ int GraphEntry(int N, int M, TVertexList* AdjList) {
     }
 
     char code = CheckGraph(AdjList, N);
-    if (code) { return code; }
+    if (code) { 
+        return code;
+    }
 
     return check ? 0 : 4;
 }
@@ -142,7 +147,9 @@ int FindIndex(int N, TVertexList* AdjList, int notFirst) {
 
 int AlgorithmPrima(int N, int M, TVertexList* AdjList, int** answer, int* answerCount) {
     int code = GraphEntry(N, M, AdjList);
-    if (code) { return code; }
+    if (code) { 
+        return code;
+    }
 
     for (int i = 0; i < N; ++i) {
         qsort(AdjList[i].Array, AdjList[i].Size, sizeof(TList), Comparator);
@@ -176,11 +183,22 @@ int main()
         return 0;
     }
 
-    switch (CheckFirstInput(N, M)) {
-    case(1): { printf("bad number of vertices"); return 0; }
-    case(2): { printf("bad number of edges"); return 0; }
-    case(3): { return 0; }
-    case(4): { printf("no spanning tree"); return 0; }
+    switch (CheckFirstInput (N, M)) {
+        case(1): { 
+            printf("bad number of vertices");
+            return 0; 
+        }
+        case(2): {
+            printf("bad number of edges");
+            return 0; 
+        }
+        case(3): { 
+            return 0;
+        }
+        case(4): { 
+            printf("no spanning tree");
+            return 0;
+        }
     }
 
     TVertexList* AdjList = calloc(N, sizeof(TVertexList));
@@ -189,18 +207,31 @@ int main()
     answer[1] = calloc(N - 1, sizeof(int));
 
     switch (AlgorithmPrima(N, M, AdjList, answer, &answerCount)) {
-    case(0): {
-        for (int i = 0; i < answerCount; ++i) {
-            printf("%d %d\n", answer[0][i], answer[1][i]);
+        case(0): {
+            for (int i = 0; i < answerCount; ++i) {
+                printf("%d %d\n", answer[0][i], answer[1][i]);
+            }
+            break;
         }
-        FreeAll(answer, AdjList);
-        return 0;
+        case(1): { 
+            printf("bad number of lines");
+            break;
+        }
+        case(2): { 
+            printf("bad vertex"); 
+            break;
+        }
+        case(3): { 
+            printf("bad length"); 
+            break;
+        }
+        case(4): { 
+            printf("no spanning tree"); 
+            break;
+        }
     }
-    case(1): { printf("bad number of lines"); FreeAll(answer, AdjList); return 0; }
-    case(2): { printf("bad vertex"); FreeAll(answer, AdjList); return 0; }
-    case(3): { printf("bad length"); FreeAll(answer, AdjList); return 0; }
-    case(4): { printf("no spanning tree"); FreeAll(answer, AdjList); return 0; }
-    }
+
     FreeAll(answer, AdjList);
+
     return 0;
 }
