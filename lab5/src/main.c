@@ -52,7 +52,8 @@ void PushQueue (TMainQueue* MainQueue, TTree* root) {
             }
         }
         MainQueue->Tail->Next = newElement;
-    } else {
+    } 
+    else {
         MainQueue->Head = newElement;
     }
 
@@ -149,7 +150,8 @@ void SearchMin (TTree* FullTree, int sizeTree, int* min1I, int* min2I) {
                 *min2I = *min1I;
                 min1C = FullTree[i].Count;
                 *min1I = i;
-            } else if (FullTree[i].Count < min2C) {
+            } 
+            else if (FullTree[i].Count < min2C) {
                 min2C = FullTree[i].Count;
                 *min2I = i;
             }
@@ -170,7 +172,8 @@ TTree* CombiningTrees (TTree* First, TTree* Second) {
 }
 
 TTree AlgorithmHuffman (TTree* FullTree, int* sizeTree) {
-    int min1Index, min2Index;
+    int min1Index = 0;
+    int min2Index = 0;
 
     for (int i = 0, N = *sizeTree; i < N - 2; ++i) {
         SearchMin (FullTree, *sizeTree, &min1Index, &min2Index);
@@ -218,7 +221,7 @@ TTree* BuildingTree (char* codeTree) {
     PushQueue (&MainQueue, FullTree);
         
     for (int i = 0; codeTree[i] != '\0'; ++i) {
-        TTree* RootNow;
+        TTree* RootNow = NULL;
         PopQueue (&MainQueue, &RootNow);
 
         if (RootNow != NULL) {
@@ -229,7 +232,8 @@ TTree* BuildingTree (char* codeTree) {
             if (codeTree[i] == '0') {
                 RootNow->Left = calloc (1, sizeof (TTree));
                 RootNow->Right = calloc (1, sizeof (TTree));
-            } else {
+            } 
+            else {
                 ++i;
                 RootNow->Symbol = LetterCode(codeTree[i]);
             }
@@ -268,7 +272,8 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
         if (TreeNow->Symbol == IsNotSymbol) {
             if (input[i] == '0') {
                 TreeNow = TreeNow->Left;
-            } else {
+            } 
+            else {
                 TreeNow = TreeNow->Right;
             }
         }  
@@ -290,8 +295,13 @@ int main (void) {
     char str[100000] = {'\0'};
     char task = 0;
 
-    scanf ("%c", &task);
-    scanf ("%s", str);
+    if (scanf ("%c", &task) != 1) {
+        return 1;
+    }
+
+    if (scanf ("%s", str) != 1) {
+        return 1;
+    }
 
     if (task == 'c') {
         for (int i = 0; str[i] != '\0'; ++i) {
@@ -309,10 +319,10 @@ int main (void) {
             }
         }
 
-        TTree* AlphaTree = CreateAllTree (sizeTree, alphabet);
+        TTree* AlphabetTree = CreateAllTree (sizeTree, alphabet);
         TTree FullTree;
 
-        FullTree = AlgorithmHuffman (AlphaTree, &sizeTree);
+        FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
 
         CalculatingTheCode (FullTree, AlphabetCodes, ElementNow);
 
@@ -321,14 +331,22 @@ int main (void) {
         printf ("\n");
         
         for (int i = 0; str[i] != '\0'; ++i) {
-            printf ("%s", AlphabetCodes[str[i]].Code);
+            printf ("%s", AlphabetCodes[(int)str[i]].Code);
         }
-    } else {
+
+        free (AlphabetCodes);
+        free (AlphabetTree);
+    } 
+    else {
         TTree* FullTree = BuildingTree (str);
 
-        scanf ("%s", str);
+        if (scanf ("%s", str) != 1) {
+            return 1;
+        }
 
         FindAndPrintCodeSymbols (FullTree, str);
+
+        free (FullTree);
     }
     
     return 0;
