@@ -87,6 +87,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     
     if (FullTree.Symbol == IsNotSymbol) {
         printf ("0");
+        
         while (MainQueue.Head && countPrint < sizeTree) {
             TTree* RootNow;
             PopQueue (&MainQueue, &RootNow);
