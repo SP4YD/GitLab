@@ -47,6 +47,7 @@ void PushQueue (TMainQueue* MainQueue, TTree* root) {
         if (!MainQueue->Tail) {
             TQueueElement* temp;
             temp = MainQueue->Head;
+            
             while (temp->Next) {
                 temp = temp->Next;
             }
