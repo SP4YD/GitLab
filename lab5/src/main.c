@@ -141,7 +141,6 @@ void SwapInt (int* First, int* Second) {
 }
 
 void SearchMin (TTree* FullTree, int sizeTree, int* min1I, int* min2I) {
-
     int min1C = 100000;
     int min2C = 100000;
 
