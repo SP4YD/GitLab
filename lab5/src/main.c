@@ -310,8 +310,6 @@ int main (void) {
     int alphabet[256] = {0};
     char str[100000] = {'\0'};
     char task = 0;
-    freopen ("inputd.txt", "r", stdin);
-    freopen ("outputc.txt", "w", stdout);
 
     if (scanf ("%c", &task) != 1) {
         return 1;
