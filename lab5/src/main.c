@@ -81,15 +81,17 @@ void ClearingQueue (TMainQueue MainQueue) {
 
 void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     TMainQueue MainQueue;
-    int countPrint = 0;
     int lenOutput = 0;
     char output[100000] = {'\0'};
+
     MainQueue.Head = MainQueue.Tail = NULL;
     PushQueue (&MainQueue, &FullTree);
 
     if (FullTree.Symbol == IsNotSymbol) {
+        int countPrint = 0;
         output[lenOutput] = '0';
         ++lenOutput;
+
         while (MainQueue.Head && countPrint < sizeTree) {
             TTree* RootNow;
             PopQueue (&MainQueue, &RootNow);
@@ -140,18 +142,6 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     printf ("%d %s", lenOutput, output);
 
     ClearingQueue (MainQueue);
-}
-
-void SwapTree (TTree* First, TTree* Second) {
-    TTree Trash = *First;
-    *First = *Second;
-    *Second = Trash;
-}
-
-void SwapInt (int* First, int* Second) {
-    int Trash = *First;
-    *First = *Second;
-    *Second = Trash;
 }
 
 void SearchMin (TTree* FullTree, int sizeTree, int* min1I, int* min2I) {
@@ -306,8 +296,6 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
 }
 
 int main (void) {
-
-    int alphabet[256] = {0};
     char str[100000] = {'\0'};
     char task = 0;
 
@@ -316,6 +304,7 @@ int main (void) {
     }
 
     if (task == 'c') {
+        int alphabet[256] = {0};
         int lenText;
 
         lenText = fread (str, sizeof (char), 100000, stdin);
@@ -364,7 +353,6 @@ int main (void) {
         TTree* FullTree;
         int lenText;
         int lenInput = 0;
-
 
         if (scanf ("%d ", &lenInput) != 1) {
             return 1;
