@@ -33,7 +33,7 @@ int LetterCode (int symbol) {
     if (symbol < 0) {
         symbol += 256;
     }
-    
+
     return symbol;
 }
 
@@ -47,14 +47,13 @@ void PushQueue (TMainQueue* MainQueue, TTree* root) {
         if (!MainQueue->Tail) {
             TQueueElement* temp;
             temp = MainQueue->Head;
-            
+
             while (temp->Next) {
                 temp = temp->Next;
             }
         }
         MainQueue->Tail->Next = newElement;
-    } 
-    else {
+    } else {
         MainQueue->Head = newElement;
     }
 
@@ -84,10 +83,10 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     int countPrint = 0;
     MainQueue.Head = MainQueue.Tail = NULL;
     PushQueue (&MainQueue, &FullTree);
-    
+
     if (FullTree.Symbol == IsNotSymbol) {
         printf ("0");
-        
+
         while (MainQueue.Head && countPrint < sizeTree) {
             TTree* RootNow;
             PopQueue (&MainQueue, &RootNow);
@@ -96,32 +95,27 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 if (RootNow->Left->Symbol != IsNotSymbol) {
                     printf ("1%c", RootNow->Left->Symbol);
                     ++countPrint;
-                } 
-                else {
+                } else {
                     printf ("0");
                 }
                 PushQueue (&MainQueue, RootNow->Left);
-            } 
-            else {
+            } else {
                 printf ("0");
             }
-            
+
             if (RootNow->Right != NULL) {
                 if (RootNow->Right->Symbol != IsNotSymbol) {
                     printf ("1%c", RootNow->Right->Symbol);
                     ++countPrint;
-                } 
-                else {
+                } else {
                     printf ("0");
                 }
                 PushQueue (&MainQueue, RootNow->Right);
-            }
-            else {
+            } else {
                 printf ("0");
             }
         }
-    }
-    else {
+    } else {
         printf ("1%c", FullTree.Symbol);
     }
 
@@ -151,8 +145,7 @@ void SearchMin (TTree* FullTree, int sizeTree, int* min1I, int* min2I) {
                 *min2I = *min1I;
                 min1C = FullTree[i].Count;
                 *min1I = i;
-            } 
-            else if (FullTree[i].Count < min2C) {
+            } else if (FullTree[i].Count < min2C) {
                 min2C = FullTree[i].Count;
                 *min2I = i;
             }
@@ -200,8 +193,7 @@ TTree* CreateAllTree (int sizeTree, int* alphabet) {
             AlphabetTree[N].Used = 0;
             if (i > 127) {
                 AlphabetTree[N].Symbol = i - 256;
-            }
-            else {
+            } else {
                 AlphabetTree[N].Symbol = i;
             }
             ++N;
@@ -220,7 +212,7 @@ TTree* BuildingTree (char* codeTree) {
     TMainQueue MainQueue;
     MainQueue.Head = MainQueue.Tail = NULL;
     PushQueue (&MainQueue, FullTree);
-        
+
     for (int i = 0; codeTree[i] != '\0'; ++i) {
         TTree* RootNow = NULL;
         PopQueue (&MainQueue, &RootNow);
@@ -233,10 +225,9 @@ TTree* BuildingTree (char* codeTree) {
             if (codeTree[i] == '0') {
                 RootNow->Left = calloc (1, sizeof (TTree));
                 RootNow->Right = calloc (1, sizeof (TTree));
-            } 
-            else {
+            } else {
                 ++i;
-                RootNow->Symbol = LetterCode(codeTree[i]);
+                RootNow->Symbol = LetterCode (codeTree[i]);
             }
 
             PushQueue (&MainQueue, RootNow->Left);
@@ -253,7 +244,7 @@ void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree
     if (TreeNow.Symbol != IsNotSymbol) {
         ElementNow.Code[ElementNow.LenCode] = '\0';
         Alphabet[TreeNow.Symbol] = ElementNow;
-        
+
         return;
     }
 
@@ -274,12 +265,10 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
         if (TreeNow->Symbol == IsNotSymbol) {
             if (input[i] == '0') {
                 TreeNow = TreeNow->Left;
-            } 
-            else {
+            } else {
                 TreeNow = TreeNow->Right;
             }
-        }  
-        else {
+        } else {
             printf ("%c", TreeNow->Symbol);
             TreeNow = FullTree;
             --i;
@@ -293,7 +282,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
 
 int main (void) {
 
-    int alphabet[256] = {0}, N = 0;
+    int alphabet[256] = {0};
     char str[100000] = {'\0'};
     char task = 0;
 
@@ -307,7 +296,7 @@ int main (void) {
 
     if (task == 'c') {
         for (int i = 0; str[i] != '\0'; ++i) {
-            ++alphabet[LetterCode(str[i])];
+            ++alphabet[LetterCode (str[i])];
         }
 
         int sizeTree = 0;
@@ -328,18 +317,17 @@ int main (void) {
 
         CalculatingTheCode (FullTree, AlphabetCodes, ElementNow);
 
-        PrintCodeTree (FullTree, sizeTree/2);
+        PrintCodeTree (FullTree, sizeTree / 2);
 
         printf ("\n");
-        
+
         for (int i = 0; str[i] != '\0'; ++i) {
             printf ("%s", AlphabetCodes[(int)str[i]].Code);
         }
 
         free (AlphabetCodes);
         free (AlphabetTree);
-    } 
-    else {
+    } else {
         TTree* FullTree = BuildingTree (str);
 
         if (scanf ("%s", str) != 1) {
@@ -350,6 +338,6 @@ int main (void) {
 
         free (FullTree);
     }
-    
+
     return 0;
 }
