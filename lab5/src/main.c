@@ -365,11 +365,11 @@ int main (void) {
             return 1;
         }
 
-        lenText = fread (str, sizeof (char), lenInput, stdin);
+        fread (str, sizeof (char), lenInput, stdin);
 
         FullTree = BuildingTree (str);
 
-        lenText = fread (str, sizeof (char), 100000, stdin);
+        fread (str, sizeof (char), 100000, stdin);
 
         FindAndPrintCodeSymbols (FullTree, str);
 
