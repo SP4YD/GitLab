@@ -79,6 +79,36 @@ void ClearingQueue (TMainQueue MainQueue) {
     }
 }
 
+void FreeTree (TTree FullTree) {
+    TMainQueue MainQueue;
+
+    MainQueue.Head = MainQueue.Tail = NULL;
+    if (FullTree.Left != NULL) {
+        PushQueue (&MainQueue, FullTree.Left);
+    }
+    if (FullTree.Right != NULL) {
+        PushQueue (&MainQueue, FullTree.Right);
+    }
+
+    while (MainQueue.Head) {
+        TTree* RootNow;
+        PopQueue (&MainQueue, &RootNow);
+
+        if (RootNow != NULL) {
+            if (RootNow->Left != NULL) {
+                PushQueue (&MainQueue, RootNow->Left);
+            }
+            
+            if (RootNow->Right != NULL) {
+                PushQueue (&MainQueue, RootNow->Right);
+            }
+            free (RootNow);
+        } 
+    }
+
+    ClearingQueue (MainQueue);
+}
+
 void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     TMainQueue MainQueue;
     int lenOutput = 0;
@@ -329,9 +359,7 @@ int main (void) {
         }
 
         TTree* AlphabetTree = CreateAllTree (sizeTree, alphabet);
-        TTree FullTree;
-
-        FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
+        TTree FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
 
         CalculatingTheCode (FullTree, AlphabetCodes, ElementNow);
 
@@ -346,6 +374,7 @@ int main (void) {
         //for (int i = 0; i < sizeTree; ++i) {
         //    free (FullTree[i]);
         //}
+        //FreeTree (FullTree);
         free (AlphabetCodes);
         free (AlphabetTree);
     } 
@@ -353,6 +382,7 @@ int main (void) {
         TTree* FullTree;
         int lenText;
         int lenInput = 0;
+
 
         if (scanf ("%d ", &lenInput) != 1) {
             return 1;
@@ -374,7 +404,7 @@ int main (void) {
 
         FindAndPrintCodeSymbols (FullTree, str);
 
-        free (FullTree);
+        FreeTree (*FullTree);
     }
 
     return 0;
