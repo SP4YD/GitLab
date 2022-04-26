@@ -357,7 +357,6 @@ int main (void) {
     } 
     else {
         TTree* FullTree;
-        int lenText;
         int lenInput = 0;
 
 
