@@ -253,6 +253,7 @@ void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree
     if (TreeNow.Symbol != IsNotSymbol) {
         ElementNow.Code[ElementNow.LenCode] = '\0';
         Alphabet[TreeNow.Symbol] = ElementNow;
+        
         return;
     }
 
