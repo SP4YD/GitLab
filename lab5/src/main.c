@@ -317,7 +317,12 @@ int main (void) {
 
     if (task == 'c') {
         int lenText;
+
         lenText = fread (str, sizeof (char), 100000, stdin);
+
+        if (lenText == 0) {
+            return 1;
+        }
 
         for (int i = 0; str[i] != '\0'; ++i) {
             ++alphabet[LetterCode (str[i])];
@@ -357,6 +362,7 @@ int main (void) {
     } 
     else {
         TTree* FullTree;
+        int lenText;
         int lenInput = 0;
 
 
@@ -364,11 +370,19 @@ int main (void) {
             return 1;
         }
 
-        fread (str, sizeof (char), lenInput, stdin);
+        lenText = fread (str, sizeof (char), lenInput, stdin);
+
+        if (lenText != lenInput) {
+            return 1;
+        }
 
         FullTree = BuildingTree (str);
 
-        fread (str, sizeof (char), 100000, stdin);
+        lenText = fread (str, sizeof (char), 100000, stdin);
+
+        if (lenText == 0) {
+            return 1;
+        }
 
         FindAndPrintCodeSymbols (FullTree, str);
 
