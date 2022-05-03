@@ -300,8 +300,6 @@ int main (void) {
     char str[100000] = {'\0'};
     char task = 0;
 
-    freopen ("inputc.txt", "r", stdin);
-
     if (scanf ("%c", &task) != 1) {
         return 1;
     }
