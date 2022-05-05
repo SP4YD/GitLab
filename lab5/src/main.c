@@ -388,7 +388,7 @@ int main (void) {
         int lenInput = 0;
 
         if (scanf ("%d ", &lenInput) != 1) {
-            return 1;
+            return 0;
         }
 
         lenText = fread (str, sizeof (unsigned char), lenInput, stdin);
