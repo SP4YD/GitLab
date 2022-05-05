@@ -236,7 +236,7 @@ TTree** CreateAllTree (int sizeTree, int* alphabet) {
     return AlphabetTree;
 }
 
-TTree* BuildingTree (char* codeTree) {
+TTree* BuildingTree (unsigned char* codeTree) {
     TTree* FullTree = calloc (1, sizeof (TTree));
     FullTree->Count = FullTree->Used = 0;
     FullTree->Left = FullTree->Right = NULL;
@@ -328,7 +328,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input) {
 int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
-
+    
     if (scanf ("%c", &task) != 1) {
         return 1;
     }
