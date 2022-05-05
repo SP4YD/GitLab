@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-#define IsNotSymbol 256
+#define IsNotSymbol 666
 
 typedef struct TTree TTree;
 typedef struct TElementAlTree TElementAlTree;
