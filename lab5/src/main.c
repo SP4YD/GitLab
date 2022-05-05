@@ -288,7 +288,6 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
     TTree* TreeNow = FullTree;
 
     for (int i = 0; input[i] != '\0'; ++i) {
-        char temp = input[i];
         int twoInDegree = 7;
 
         while (twoInDegree >= 0) {
