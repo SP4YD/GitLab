@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-#define IsNotSymbol 666
+#define IsNotSymbol 256
 
 typedef struct TTree TTree;
 typedef struct TElementAlTree TElementAlTree;
@@ -53,7 +53,8 @@ void PushQueue (TMainQueue* MainQueue, TTree* root) {
             }
         }
         MainQueue->Tail->Next = newElement;
-    } else {
+    } 
+    else {
         MainQueue->Head = newElement;
     }
 
@@ -112,12 +113,14 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                     output[lenOutput + 1] = RootNow->Left->Symbol;
                     lenOutput += 2;
                     ++countPrint;
-                } else {
+                } 
+                else {
                     output[lenOutput] = '0';
                     ++lenOutput;
                 }
                 PushQueue (&MainQueue, RootNow->Left);
-            } else {
+            } 
+            else {
                 output[lenOutput] = '0';
                 ++lenOutput;
             }
@@ -128,17 +131,20 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                     output[lenOutput + 1] = RootNow->Right->Symbol;
                     lenOutput += 2;
                     ++countPrint;
-                } else {
+                } 
+                else {
                     output[lenOutput] = '0';
                     ++lenOutput;
                 }
                 PushQueue (&MainQueue, RootNow->Right);
-            } else {
+            } 
+            else {
                 output[lenOutput] = '0';
                 ++lenOutput;
             }
         }
-    } else {
+    } 
+    else {
         output[lenOutput] = '1';
         output[lenOutput + 1] = FullTree.Symbol;
         lenOutput += 2;
@@ -160,7 +166,8 @@ void SearchMin (TTree** FullTree, int sizeTree, int* min1I, int* min2I) {
                 *min2I = *min1I;
                 min1C = FullTree[i]->Count;
                 *min1I = i;
-            } else if (FullTree[i]->Count < min2C) {
+            } 
+            else if (FullTree[i]->Count < min2C) {
                 min2C = FullTree[i]->Count;
                 *min2I = i;
             }
@@ -209,7 +216,8 @@ TTree** CreateAllTree (int sizeTree, int* alphabet) {
             AlphabetTree[N]->Used = 0;
             if (i > 127) {
                 AlphabetTree[N]->Symbol = i - 256;
-            } else {
+            } 
+            else {
                 AlphabetTree[N]->Symbol = i;
             }
             ++N;
@@ -241,7 +249,8 @@ TTree* BuildingTree (char* codeTree) {
             if (codeTree[i] == '0') {
                 RootNow->Left = calloc (1, sizeof (TTree));
                 RootNow->Right = calloc (1, sizeof (TTree));
-            } else {
+            } 
+            else {
                 ++i;
                 RootNow->Symbol = LetterCode (codeTree[i]);
             }
@@ -290,7 +299,8 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
 
             if ((input[i] & 1 << (twoInDegree)) == 0) {
                 TreeNow = TreeNow->Left;
-            } else {
+            } 
+            else {
                 TreeNow = TreeNow->Right;
             }
 
@@ -306,9 +316,6 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
 int main (void) {
     char str[100000] = {'\0'};
     char task = 0;
-
-    freopen ("in.txt", "r", stdin);
-    freopen ("out.txt", "w", stdout);
 
     if (scanf ("%c", &task) != 1) {
         return 1;
