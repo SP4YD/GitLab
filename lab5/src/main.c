@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-#define IsNotSymbol 256
+#define IsNotSymbol 777
 
 typedef struct TTree TTree;
 typedef struct TElementAlTree TElementAlTree;
@@ -327,7 +327,7 @@ int main (void) {
         lenText = fread (str, sizeof (unsigned char), 100000, stdin);
 
         if (lenText == 0) {
-            return 1;
+            return 0;
         }
 
         for (int i = 0; str[i] != '\0'; ++i) {
@@ -394,7 +394,7 @@ int main (void) {
         lenText = fread (str, sizeof (unsigned char), lenInput, stdin);
 
         if (lenText != lenInput) {
-            return 1;
+            return 0;
         }
 
         FullTree = BuildingTree (str);
@@ -402,7 +402,7 @@ int main (void) {
         lenText = fread (str, sizeof (unsigned char), 100000, stdin);
 
         if (lenText == 0) {
-            return 1;
+            return 0;
         }
 
         str[lenText] = '\0';
