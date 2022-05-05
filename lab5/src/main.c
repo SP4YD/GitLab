@@ -274,20 +274,27 @@ void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree
 
 }
 
+
 void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
     TTree* TreeNow = FullTree;
 
     for (int i = 0; input[i] != '\0'; ++i) {
-        if (TreeNow->Symbol == IsNotSymbol) {
-            if (input[i] == '0') {
+        char temp = input[i];
+        int twoInDegree = 7;
+
+        while (twoInDegree >= 0) {
+            if (TreeNow->Symbol != IsNotSymbol) {
+                printf ("%c", TreeNow->Symbol);
+                TreeNow = FullTree;
+            }
+
+            if ((input[i] & 1 << (twoInDegree)) == 0) {
                 TreeNow = TreeNow->Left;
             } else {
                 TreeNow = TreeNow->Right;
             }
-        } else {
-            printf ("%c", TreeNow->Symbol);
-            TreeNow = FullTree;
-            --i;
+
+            --twoInDegree;
         }
     }
 
@@ -300,6 +307,9 @@ int main (void) {
     char str[100000] = {'\0'};
     char task = 0;
 
+    freopen ("in.txt", "r", stdin);
+    freopen ("out.txt", "w", stdout);
+
     if (scanf ("%c", &task) != 1) {
         return 1;
     }
@@ -308,7 +318,7 @@ int main (void) {
         int alphabet[256] = {0};
         int lenText;
 
-        lenText = fread (str, sizeof (char), 100000, stdin);
+        lenText = fread (str, sizeof (unsigned char), 100000, stdin);
 
         if (lenText == 0) {
             return 1;
@@ -332,28 +342,50 @@ int main (void) {
         TTree** AlphabetTree = CreateAllTree (sizeTree, alphabet);
         TTree* FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
 
-        CalculatingTheCode (*FullTree, AlphabetCodes, ElementNow);
-
         PrintCodeTree (*FullTree, sizeTree / 2);
 
-        for (int i = 0; str[i] != '\0'; ++i) {
-            printf ("%s", AlphabetCodes[(int)str[i]].Code);
+        CalculatingTheCode (*FullTree, AlphabetCodes, ElementNow);
+
+        unsigned char code = 0;
+        for (int i = 0, j = 0; str[i] != '\0'; ++i) {
+            char* strCodeNow = AlphabetCodes[(int)str[i]].Code;
+            int z = 0;
+
+            while (strCodeNow[z] != '\0') {
+                if (strCodeNow[z] == '1') {
+                    code |= 128 >> j;
+                }
+
+                ++j;
+                ++z;
+
+                if (j == 8) {
+                    
+                    printf ("%c", code);
+
+                    j = 0;
+                    code = 0;
+                }
+            }          
         }
+
+        printf ("%c", code);
 
         FreeTree (FullTree);
         free (AlphabetCodes);
         free (AlphabetTree);
-    } else {
+
+    } 
+    else {
         TTree* FullTree;
         int lenText;
         int lenInput = 0;
-
 
         if (scanf ("%d ", &lenInput) != 1) {
             return 1;
         }
 
-        lenText = fread (str, sizeof (char), lenInput, stdin);
+        lenText = fread (str, sizeof (unsigned char), lenInput, stdin);
 
         if (lenText != lenInput) {
             return 1;
@@ -361,11 +393,13 @@ int main (void) {
 
         FullTree = BuildingTree (str);
 
-        lenText = fread (str, sizeof (char), 100000, stdin);
+        lenText = fread (str, sizeof (unsigned char), 100000, stdin);
 
         if (lenText == 0) {
             return 1;
         }
+
+        str[lenText] = '\0';
 
         FindAndPrintCodeSymbols (FullTree, str);
 
