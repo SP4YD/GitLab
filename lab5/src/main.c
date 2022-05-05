@@ -200,7 +200,12 @@ TTree* AlgorithmHuffman (TTree** FullTree, int* sizeTree) {
         *sizeTree += 1;
     }
 
-    FullTree[*sizeTree] = CombiningTrees (FullTree[*sizeTree - 1], FullTree[*sizeTree - 2]);
+    if (*sizeTree > 1) {
+        FullTree[*sizeTree] = CombiningTrees (FullTree[*sizeTree - 1], FullTree[*sizeTree - 2]);
+    }
+    else {
+        return FullTree[0];
+    }
 
     return FullTree[*sizeTree];
 }
@@ -315,7 +320,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, char* input) {
 int main (void) {
     char str[100000] = {'\0'};
     char task = 0;
-
+    
     if (scanf ("%c", &task) != 1) {
         return 1;
     }
@@ -348,7 +353,11 @@ int main (void) {
         TTree** AlphabetTree = CreateAllTree (sizeTree, alphabet);
         TTree* FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
 
-        PrintCodeTree (*FullTree, sizeTree / 2);
+        if (sizeTree > 1) {
+            sizeTree /= 2;
+        }
+
+        PrintCodeTree (*FullTree, sizeTree);
 
         CalculatingTheCode (*FullTree, AlphabetCodes, ElementNow);
 
