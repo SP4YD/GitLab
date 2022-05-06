@@ -292,11 +292,13 @@ void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree
 }
 
 
-void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input) {
+void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText) {
     TTree* TreeNow = FullTree;
+    unsigned char countBitInLast = input[lenText - 1];
+    int twoInDegree;
 
-    for (int i = 0; input[i] != '\0'; ++i) {
-        int twoInDegree = 7;
+    for (int i = 0; i < lenText - 2; ++i) {
+        twoInDegree = 7;
 
         while (twoInDegree >= 0) {
             if (TreeNow->Symbol < IsNotSymbol) {
@@ -315,13 +317,30 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input) {
         }
     }
 
+    twoInDegree = 7;
+
+    while (twoInDegree >= 8 - countBitInLast) {
+        if (TreeNow->Symbol < IsNotSymbol) {
+            printf ("%c", TreeNow->Symbol);
+            TreeNow = FullTree;
+        }
+
+        if ((input[lenText - 2] & 1 << (twoInDegree)) == 0) {
+            TreeNow = TreeNow->Left;
+        } else {
+            TreeNow = TreeNow->Right;
+        }
+
+        --twoInDegree;
+    }
+
     if (TreeNow->Symbol < IsNotSymbol) {
         printf ("%c", TreeNow->Symbol);
     }
 }
 
 //////////////////////////// Проверить калоки и != поменять на <
-
+//////////////// Добавить один байт который говорит сколько символов в последнем байте
 
 int main (void) {
     unsigned char str[100000] = {'\0'};
@@ -373,7 +392,8 @@ int main (void) {
             CalculatingTheCode (*FullTree, AlphabetCodes, ElementNow);
 
             unsigned char code = 0;
-            for (int i = 0, j = 0; str[i] != '\0'; ++i) {
+            char j = 0;
+            for (int i = 0; str[i] != '\0'; ++i) {
                 char* strCodeNow = AlphabetCodes[(int)str[i]].Code;
                 int z = 0;
 
@@ -385,7 +405,7 @@ int main (void) {
                     ++j;
                     ++z;
 
-                    if (j == 8) {
+                    if (j > 7) {
 
                         printf ("%c", code);
 
@@ -395,7 +415,7 @@ int main (void) {
                 }
             }
 
-            printf ("%c", code);
+            printf ("%c%c", code, j);
 
             FreeTree (FullTree);
         }
@@ -440,7 +460,7 @@ int main (void) {
 
             str[lenText] = '\0';
 
-            FindAndPrintCodeSymbols (FullTree, str);
+            FindAndPrintCodeSymbols (FullTree, str, lenText);
 
             FreeTree (FullTree);
         }
