@@ -223,12 +223,7 @@ TTree** CreateAllTree (int sizeTree, int* alphabet) {
         if (alphabet[i]) {
             AlphabetTree[N] = calloc (1, sizeof (TTree));
             AlphabetTree[N]->Count = alphabet[i];
-            if (i > 127) {
-                AlphabetTree[N]->Symbol = i - 256;
-            } 
-            else {
-                AlphabetTree[N]->Symbol = i;
-            }
+            AlphabetTree[N]->Symbol = i;
             ++N;
         }
     }
