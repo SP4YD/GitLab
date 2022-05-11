@@ -53,8 +53,7 @@ void PushQueue (TMainQueue* MainQueue, TTree* root) {
             }
         }
         MainQueue->Tail->Next = newElement;
-    } 
-    else {
+    } else {
         MainQueue->Head = newElement;
     }
 
@@ -113,14 +112,12 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                     output[lenOutput + 1] = RootNow->Left->Symbol;
                     lenOutput += 2;
                     ++countPrint;
-                } 
-                else {
+                } else {
                     output[lenOutput] = '0';
                     ++lenOutput;
                 }
                 PushQueue (&MainQueue, RootNow->Left);
-            } 
-            else {
+            } else {
                 output[lenOutput] = '0';
                 ++lenOutput;
             }
@@ -131,20 +128,17 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                     output[lenOutput + 1] = RootNow->Right->Symbol;
                     lenOutput += 2;
                     ++countPrint;
-                } 
-                else {
+                } else {
                     output[lenOutput] = '0';
                     ++lenOutput;
                 }
                 PushQueue (&MainQueue, RootNow->Right);
-            } 
-            else {
+            } else {
                 output[lenOutput] = '0';
                 ++lenOutput;
             }
         }
-    } 
-    else {
+    } else {
         output[lenOutput] = '1';
         output[lenOutput + 1] = FullTree.Symbol;
         lenOutput += 2;
@@ -166,8 +160,7 @@ void SearchMin (TTree** FullTree, int sizeTree, int* min1I, int* min2I) {
                 *min2I = *min1I;
                 min1C = FullTree[i]->Count;
                 *min1I = i;
-            } 
-            else if (FullTree[i]->Count < min2C) {
+            } else if (FullTree[i]->Count < min2C) {
                 min2C = FullTree[i]->Count;
                 *min2I = i;
             }
@@ -202,8 +195,7 @@ TTree* AlgorithmHuffman (TTree** FullTree, int* sizeTree) {
 
     if (*sizeTree > 1) {
         FullTree[*sizeTree] = CombiningTrees (FullTree[*sizeTree - 1], FullTree[*sizeTree - 2]);
-    }
-    else {
+    } else {
         TTree* Temp = FullTree[0];
 
         FullTree[*sizeTree] = calloc (1, sizeof (TTree));
@@ -253,8 +245,7 @@ TTree* BuildingTree (unsigned char* codeTree) {
             if (codeTree[i] == '0') {
                 RootNow->Left = calloc (1, sizeof (TTree));
                 RootNow->Right = calloc (1, sizeof (TTree));
-            } 
-            else {
+            } else {
                 ++i;
                 RootNow->Symbol = LetterCode (codeTree[i]);
             }
@@ -308,8 +299,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 
             if ((input[i] & 1 << (twoInDegree)) == 0) {
                 TreeNow = TreeNow->Left;
-            } 
-            else {
+            } else {
                 TreeNow = TreeNow->Right;
             }
 
@@ -346,15 +336,20 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
+    //freopen ("in.txt", "rb", stdin);
+    //freopen ("out.txt", "wb", stdout);
+
     if (scanf ("%c", &task) != 1) {
         return 1;
     }
 
     if (task == 'c') {
         int alphabet[256] = {0};
-        int lenText;
+        int lenText = 0;
 
-        lenText = fread (str, sizeof (unsigned char), 100000, stdin);
+        while (fscanf (stdin, "%c", &str[lenText]) == 1) {
+            ++lenText;
+        }
 
         if (lenText == 0) {
             return 0;
@@ -379,8 +374,7 @@ int main (void) {
 
         if (sizeTree == 1) {
             printf ("2 1%c%d", AlphabetTree[0]->Symbol, lenText);
-        }
-        else {
+        } else {
             TTree* FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
 
             if (sizeTree > 1) {
@@ -422,16 +416,20 @@ int main (void) {
 
         free (AlphabetTree);
         free (AlphabetCodes);
-    } 
-    else {
-        int lenText;
+    } else {
+        int lenText = 0;
         int lenInput = 0;
 
         if (scanf ("%d ", &lenInput) != 1) {
             return 0;
         }
 
-        lenText = fread (str, sizeof (unsigned char), lenInput, stdin);
+        while (lenText < lenInput) {
+            if (scanf ("%c", &str[lenText]) != 1) {
+                return 0;
+            }
+            ++lenText;
+        }
 
         if (str[0] == '1') {
             int countPrint = 0;
@@ -442,17 +440,16 @@ int main (void) {
             for (int i = 0; i < countPrint; ++i) {
                 printf ("%c", str[1]);
             }
-        }
-        else {
+        } else {
             TTree* FullTree;
-
-            if (lenText != lenInput) {
-                return 0;
-            }
 
             FullTree = BuildingTree (str);
 
-            lenText = fread (str, sizeof (unsigned char), 100000, stdin);
+            lenText = 0;
+
+            while (scanf ("%c", &str[lenText]) == 1) {
+                ++lenText;
+            }
 
             if (lenText == 0) {
                 return 0;
