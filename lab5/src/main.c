@@ -336,8 +336,8 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
-    freopen ("in.txt", "rb", stdin);
-    freopen ("out.txt", "wb", stdout);
+    //freopen ("in.txt", "rb", stdin);
+    //freopen ("out.txt", "wb", stdout);
 
     if (scanf ("%c", &task) != 1) {
         return 1;
