@@ -372,7 +372,7 @@ int main (void) {
 
         TTree** AlphabetTree = CreateAllTree (sizeTree, alphabet);
 
-        if (sizeTree == 1) {
+        if (sizeTree < 2) {
             printf ("2 1%c%d", AlphabetTree[0]->Symbol, lenText);
         } else {
             TTree* FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
