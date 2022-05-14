@@ -355,7 +355,7 @@ int main (void) {
             return 0;
         }
 
-        for (int i = 0; str[i] != '\0'; ++i) {
+        for (int i = 0; i < lenText; ++i) {
             ++alphabet[LetterCode (str[i])];
         }
 
