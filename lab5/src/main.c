@@ -336,8 +336,8 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
-    //freopen ("in.txt", "rb", stdin);
-    //freopen ("out.txt", "wb", stdout);
+    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    //char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
 
     if (fscanf (stdin, "%c", &task) != 1) {
         return 1;
