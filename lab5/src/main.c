@@ -339,7 +339,7 @@ int main (void) {
     //freopen ("in.txt", "rb", stdin);
     //freopen ("out.txt", "wb", stdout);
 
-    if (scanf ("%c", &task) != 1) {
+    if (fscanf (stdin, "%c", &task) != 1) {
         return 1;
     }
 
@@ -347,7 +347,7 @@ int main (void) {
         int alphabet[256] = {0};
         int lenText = 0;
 
-        while (fscanf (stdin, "%c", &str[lenText]) == 1) {
+        while (fscanf (stdin,  "%c", &str[lenText]) == 1) {
             ++lenText;
         }
 
@@ -420,12 +420,12 @@ int main (void) {
         int lenText = 0;
         int lenInput = 0;
 
-        if (scanf ("%d ", &lenInput) != 1) {
+        if (fscanf (stdin, "%d ", &lenInput) != 1) {
             return 0;
         }
 
         while (lenText < lenInput) {
-            if (scanf ("%c", &str[lenText]) != 1) {
+            if (fscanf (stdin, "%c", &str[lenText]) != 1) {
                 return 0;
             }
             ++lenText;
@@ -433,7 +433,7 @@ int main (void) {
 
         if (str[0] == '1') {
             int countPrint = 0;
-            if (scanf ("%d", &countPrint) != 1) {
+            if (fscanf (stdin, "%d", &countPrint) != 1) {
                 return 0;
             }
 
@@ -447,7 +447,7 @@ int main (void) {
 
             lenText = 0;
 
-            while (scanf ("%c", &str[lenText]) == 1) {
+            while (fscanf (stdin, "%c", &str[lenText]) == 1) {
                 ++lenText;
             }
 
