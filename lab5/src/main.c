@@ -336,9 +336,10 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
-    
+    freopen ("in.txt", "rb", stdin);
+    freopen ("out.txt", "wb", stdout);
 
-    if (fscanf (stdin, "%c", &task) != 1) {
+    if (scanf ("%c", &task) != 1) {
         return 1;
     }
 
@@ -376,7 +377,9 @@ int main (void) {
         } else {
             TTree* FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
 
-            sizeTree /= 2;
+            if (sizeTree > 1) {
+                sizeTree /= 2;
+            }
 
             PrintCodeTree (*FullTree, sizeTree);
 
@@ -384,12 +387,11 @@ int main (void) {
 
             unsigned char code = 0;
             char j = 0;
-            for (int i = 0; i < lenText; ++i) {
+            for (int i = 0; str[i] != '\0'; ++i) {
                 char* strCodeNow = AlphabetCodes[(int)str[i]].Code;
-                int lenStrNow = AlphabetCodes->LenCode;
                 int z = 0;
 
-                while (z < lenStrNow) {
+                while (strCodeNow[z] != '\0') {
                     if (strCodeNow[z] == '1') {
                         code |= 128 >> j;
                     }
@@ -418,12 +420,12 @@ int main (void) {
         int lenText = 0;
         int lenInput = 0;
 
-        if (fscanf (stdin, "%d ", &lenInput) != 1) {
+        if (scanf ("%d ", &lenInput) != 1) {
             return 0;
         }
 
         while (lenText < lenInput) {
-            if (fscanf (stdin, "%c", &str[lenText]) != 1) {
+            if (scanf ("%c", &str[lenText]) != 1) {
                 return 0;
             }
             ++lenText;
@@ -431,7 +433,7 @@ int main (void) {
 
         if (str[0] == '1') {
             int countPrint = 0;
-            if (fscanf (stdin,"%d", &countPrint) != 1) {
+            if (scanf ("%d", &countPrint) != 1) {
                 return 0;
             }
 
@@ -445,7 +447,7 @@ int main (void) {
 
             lenText = 0;
 
-            while (fscanf (stdin, "%c", &str[lenText]) == 1) {
+            while (scanf ("%c", &str[lenText]) == 1) {
                 ++lenText;
             }
 
