@@ -101,7 +101,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
         fprintf(stdout, "0");
 
         while (lenOutput < sizeTree) {
-            TTree* RootNow;
+            TTree* RootNow = NULL;
             PopQueue (&MainQueue, &RootNow);
 
             if (RootNow != NULL) {
