@@ -92,7 +92,6 @@ void FreeTree (TTree* FullTree) {
 void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     TMainQueue MainQueue;
     int lenOutput = 0;
-    char output[100000];
     fprintf (stdout, "%c", sizeTree);
 
     MainQueue.Head = MainQueue.Tail = NULL;
@@ -206,7 +205,8 @@ TTree** CreateAllTree (int sizeTree, int* alphabet) {
             AlphabetTree[N] = calloc (1, sizeof (TTree));
             AlphabetTree[N]->Count = alphabet[i];
             AlphabetTree[N]->Symbol = i;
-            AlphabetTree[N]->Used = AlphabetTree[N]->Left = AlphabetTree[N]->Right = NULL;
+            AlphabetTree[N]->Left = AlphabetTree[N]->Right = NULL;
+            AlphabetTree[N]->Used = 0;
             ++N;
         }
     }
