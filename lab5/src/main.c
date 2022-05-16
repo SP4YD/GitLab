@@ -325,7 +325,7 @@ int main (void) {
     char task = 0;
 
     //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
-   // char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
+    //char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
 
     if (fscanf (stdin, "%c", &task) != 1) {
         return 1;
@@ -371,7 +371,7 @@ int main (void) {
 
             unsigned char code = 0;
             char j = 0;
-            for (int i = 0; str[i] != '\0'; ++i) {
+            for (int i = 0; i < lenText; ++i) {
                 char* strCodeNow = AlphabetCodes[(int)str[i]].Code;
                 int z = 0;
 
