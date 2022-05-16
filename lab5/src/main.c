@@ -104,8 +104,8 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
             TTree* RootNow = NULL;
             PopQueue (&MainQueue, &RootNow);
 
-            if (RootNow != NULL) {
-                if (RootNow->Left != NULL) {
+            if (RootNow) {
+                if (RootNow->Left) {
                     if (RootNow->Left->Symbol < IsNotSymbol) {
                         fprintf (stdout, "1");
                         fprintf (stdout, "%c", RootNow->Left->Symbol);
@@ -119,8 +119,8 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 PushQueue (&MainQueue, RootNow->Left);
             }
             
-            if (RootNow != NULL) {
-                if (RootNow->Right != NULL && lenOutput < sizeTree) {
+            if (RootNow) {
+                if (RootNow->Right && lenOutput < sizeTree) {
                     if (RootNow->Right->Symbol < IsNotSymbol) {
                         fprintf (stdout, "1");
                         fprintf (stdout, "%c", RootNow->Right->Symbol);
@@ -232,7 +232,7 @@ TTree* BuildingTree (unsigned char* codeTree) {
         TTree* RootNow = NULL;
         PopQueue (&MainQueue, &RootNow);
 
-        if (RootNow != NULL) {
+        if (RootNow) {
             RootNow->Count = RootNow->Used = 0;
             RootNow->Left = RootNow->Right = NULL;
             RootNow->Symbol = IsNotSymbol;
@@ -258,12 +258,12 @@ TTree* BuildingTree (unsigned char* codeTree) {
 void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree ElementNow) {
     ++ElementNow.LenCode;
 
-    if (TreeNow.Left != NULL) {
+    if (TreeNow.Left) {
         ElementNow.Code[ElementNow.LenCode - 1] = '0';
         CalculatingTheCode (*TreeNow.Left, Alphabet, ElementNow);
     }
 
-    if (TreeNow.Right != NULL) {
+    if (TreeNow.Right) {
         ElementNow.Code[ElementNow.LenCode - 1] = '1';
         CalculatingTheCode (*TreeNow.Right, Alphabet, ElementNow);
     }
@@ -399,7 +399,9 @@ int main (void) {
 
             printf ("%c%c", code, j);
 
-            FreeTree (FullTree);
+            if (FullTree) {
+                FreeTree (FullTree);
+            }
         }
 
         free (AlphabetTree);
