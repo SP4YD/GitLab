@@ -188,17 +188,7 @@ TTree* AlgorithmHuffman (TTree** FullTree, int sizeTree) {
         sizeTree += 1;
     }
 
-    if (sizeTree > 1) {
-        FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
-    } else {
-        TTree* Temp = FullTree[0];
-
-        FullTree[sizeTree] = calloc (1, sizeof (TTree));
-        FullTree[sizeTree]->Count = Temp->Count;
-        FullTree[sizeTree]->Left = NULL;
-        FullTree[sizeTree]->Right = Temp;
-        FullTree[sizeTree]->Symbol = IsNotSymbol;
-    }
+    FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
 
     return FullTree[sizeTree];
 }
