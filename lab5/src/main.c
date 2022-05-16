@@ -104,31 +104,35 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
             TTree* RootNow;
             PopQueue (&MainQueue, &RootNow);
 
-            if (RootNow->Left != NULL) {
-                if (RootNow->Left->Symbol < IsNotSymbol) {
-                    fprintf (stdout, "1");
-                    fprintf(stdout, "%c", RootNow->Left->Symbol);
-                    ++lenOutput;
+            if (RootNow != NULL) {
+                if (RootNow->Left != NULL) {
+                    if (RootNow->Left->Symbol < IsNotSymbol) {
+                        fprintf (stdout, "1");
+                        fprintf (stdout, "%c", RootNow->Left->Symbol);
+                        ++lenOutput;
+                    } else {
+                        fprintf (stdout, "0");
+                    }
                 } else {
                     fprintf (stdout, "0");
                 }
-            } else {
-                fprintf (stdout, "0");
+                PushQueue (&MainQueue, RootNow->Left);
             }
-            PushQueue (&MainQueue, RootNow->Left);
-
-            if (RootNow->Right != NULL && lenOutput < sizeTree) {
-                if (RootNow->Right->Symbol < IsNotSymbol) {
-                    fprintf (stdout, "1");
-                    fprintf (stdout, "%c", RootNow->Right->Symbol);
-                    ++lenOutput;
+            
+            if (RootNow != NULL) {
+                if (RootNow->Right != NULL && lenOutput < sizeTree) {
+                    if (RootNow->Right->Symbol < IsNotSymbol) {
+                        fprintf (stdout, "1");
+                        fprintf (stdout, "%c", RootNow->Right->Symbol);
+                        ++lenOutput;
+                    } else {
+                        fprintf (stdout, "0");
+                    }
                 } else {
                     fprintf (stdout, "0");
                 }
-            } else {
-                fprintf (stdout, "0");
+                PushQueue (&MainQueue, RootNow->Right);
             }
-            PushQueue (&MainQueue, RootNow->Right);
         }
     } else {
         fprintf (stdout, "1");
@@ -322,7 +326,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 
 int main (void) {
     unsigned char str[100000] = {'\0'};
-    char task = 0;
+    unsigned char task = 0;
 
     //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
     //char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
@@ -403,7 +407,7 @@ int main (void) {
     } else {
         int lenText = 0;
         int sizeTreeNow = 0;
-        char sizeTree = 0;
+        unsigned char sizeTree = 0;
 
         if (fscanf (stdin, "%c ", &sizeTree) != 1) {
             return 0;
