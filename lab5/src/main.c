@@ -91,13 +91,13 @@ void FreeTree (TTree* FullTree) {
 
 void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     TMainQueue MainQueue;
-    int lenOutput = 0;
     fprintf (stdout, "%c", sizeTree);
 
     MainQueue.Head = MainQueue.Tail = NULL;
     PushQueue (&MainQueue, &FullTree);
 
     if (FullTree.Symbol == IsNotSymbol) {
+        int lenOutput = 0;
         fprintf(stdout, "0");
 
         while (lenOutput < sizeTree) {
@@ -108,6 +108,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 if (RootNow->Left->Symbol < IsNotSymbol) {
                     fprintf (stdout, "1");
                     fprintf(stdout, "%c", RootNow->Left->Symbol);
+                    ++lenOutput;
                 } else {
                     fprintf (stdout, "0");
                 }
@@ -115,12 +116,12 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 fprintf (stdout, "0");
             }
             PushQueue (&MainQueue, RootNow->Left);
-            ++lenOutput;
 
             if (RootNow->Right != NULL && lenOutput < sizeTree) {
                 if (RootNow->Right->Symbol < IsNotSymbol) {
                     fprintf (stdout, "1");
                     fprintf (stdout, "%c", RootNow->Right->Symbol);
+                    ++lenOutput;
                 } else {
                     fprintf (stdout, "0");
                 }
@@ -128,7 +129,6 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 fprintf (stdout, "0");
             }
             PushQueue (&MainQueue, RootNow->Right);
-            ++lenOutput;
         }
     } else {
         fprintf (stdout, "1");
@@ -169,32 +169,32 @@ TTree* CombiningTrees (TTree* First, TTree* Second) {
     return NewTree;
 }
 
-TTree* AlgorithmHuffman (TTree** FullTree, int* sizeTree) {
+TTree* AlgorithmHuffman (TTree** FullTree, int sizeTree) {
     int min1Index = 0;
     int min2Index = 0;
 
-    for (int i = 0, N = *sizeTree; i < N - 2; ++i) {
-        SearchMin (FullTree, *sizeTree, &min1Index, &min2Index);
+    for (int i = 0, N = sizeTree; i < N - 2; ++i) {
+        SearchMin (FullTree, sizeTree, &min1Index, &min2Index);
 
-        FullTree[*sizeTree] = CombiningTrees (FullTree[min1Index], FullTree[min2Index]);
+        FullTree[sizeTree] = CombiningTrees (FullTree[min1Index], FullTree[min2Index]);
         FullTree[min1Index]->Used = FullTree[min2Index]->Used = 1;
 
-        *sizeTree += 1;
+        sizeTree += 1;
     }
 
-    if (*sizeTree > 1) {
-        FullTree[*sizeTree] = CombiningTrees (FullTree[*sizeTree - 1], FullTree[*sizeTree - 2]);
+    if (sizeTree > 1) {
+        FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
     } else {
         TTree* Temp = FullTree[0];
 
-        FullTree[*sizeTree] = calloc (1, sizeof (TTree));
-        FullTree[*sizeTree]->Count = Temp->Count;
-        FullTree[*sizeTree]->Left = NULL;
-        FullTree[*sizeTree]->Right = Temp;
-        FullTree[*sizeTree]->Symbol = IsNotSymbol;
+        FullTree[sizeTree] = calloc (1, sizeof (TTree));
+        FullTree[sizeTree]->Count = Temp->Count;
+        FullTree[sizeTree]->Left = NULL;
+        FullTree[sizeTree]->Right = Temp;
+        FullTree[sizeTree]->Symbol = IsNotSymbol;
     }
 
-    return FullTree[*sizeTree];
+    return FullTree[sizeTree];
 }
 
 TTree** CreateAllTree (int sizeTree, int* alphabet) {
@@ -324,7 +324,7 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
-    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
    // char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
 
     if (fscanf (stdin, "%c", &task) != 1) {
@@ -363,11 +363,7 @@ int main (void) {
         if (sizeTree < 2) {
             printf ("1 1%c%d", AlphabetTree[0]->Symbol, lenText);
         } else {
-            TTree* FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
-
-            if (sizeTree > 2) {
-                sizeTree /= 2;
-            }
+            TTree* FullTree = AlgorithmHuffman (AlphabetTree, sizeTree);
 
             PrintCodeTree (*FullTree, sizeTree);
 
