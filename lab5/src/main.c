@@ -324,7 +324,7 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
-    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
    // char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
 
     if (fscanf (stdin, "%c", &task) != 1) {
@@ -361,7 +361,7 @@ int main (void) {
         TTree** AlphabetTree = CreateAllTree (sizeTree, alphabet);
 
         if (sizeTree < 2) {
-            printf ("1 1%c%d", AlphabetTree[0]->Symbol, lenText);
+            printf ("%c 1%c%d", 1, AlphabetTree[0]->Symbol, lenText);
         } else {
             TTree* FullTree = AlgorithmHuffman (AlphabetTree, sizeTree);
 
