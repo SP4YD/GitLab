@@ -92,59 +92,49 @@ void FreeTree (TTree* FullTree) {
 void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     TMainQueue MainQueue;
     int lenOutput = 0;
-    char output[100000] = {'\0'};
+    char output[100000];
+    fprintf (stdout, "%c", sizeTree);
 
     MainQueue.Head = MainQueue.Tail = NULL;
     PushQueue (&MainQueue, &FullTree);
 
     if (FullTree.Symbol == IsNotSymbol) {
-        int countPrint = 0;
-        output[lenOutput] = '0';
-        ++lenOutput;
+        fprintf(stdout, "0");
 
-        while (MainQueue.Head && countPrint < sizeTree) {
+        while (lenOutput < sizeTree) {
             TTree* RootNow;
             PopQueue (&MainQueue, &RootNow);
 
             if (RootNow->Left != NULL) {
                 if (RootNow->Left->Symbol != IsNotSymbol) {
-                    output[lenOutput] = '1';
-                    output[lenOutput + 1] = RootNow->Left->Symbol;
-                    lenOutput += 2;
-                    ++countPrint;
+                    fprintf (stdout, "1");
+                    fprintf(stdout, "%c", RootNow->Left->Symbol);
                 } else {
-                    output[lenOutput] = '0';
-                    ++lenOutput;
+                    fprintf (stdout, "0");
                 }
-                PushQueue (&MainQueue, RootNow->Left);
             } else {
-                output[lenOutput] = '0';
-                ++lenOutput;
+                fprintf (stdout, "0");
             }
+            PushQueue (&MainQueue, RootNow->Left);
+            ++lenOutput;
 
-            if (RootNow->Right != NULL) {
+            if (RootNow->Right != NULL && lenOutput < sizeTree) {
                 if (RootNow->Right->Symbol != IsNotSymbol) {
-                    output[lenOutput] = '1';
-                    output[lenOutput + 1] = RootNow->Right->Symbol;
-                    lenOutput += 2;
-                    ++countPrint;
+                    fprintf (stdout, "1");
+                    fprintf (stdout, "%c", RootNow->Right->Symbol);
                 } else {
-                    output[lenOutput] = '0';
-                    ++lenOutput;
+                    fprintf (stdout, "0");
                 }
-                PushQueue (&MainQueue, RootNow->Right);
             } else {
-                output[lenOutput] = '0';
-                ++lenOutput;
+                fprintf (stdout, "0");
             }
+            PushQueue (&MainQueue, RootNow->Right);
+            ++lenOutput;
         }
     } else {
-        output[lenOutput] = '1';
-        output[lenOutput + 1] = FullTree.Symbol;
-        lenOutput += 2;
+        fprintf (stdout, "1");
+        fprintf (stdout, "%c", FullTree.Symbol);
     }
-
-    printf ("%d %s", lenOutput, output);
 
     ClearingQueue (MainQueue);
 }
@@ -330,14 +320,13 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 }
 
 //////////////////////////// Проверить калоки и != поменять на <
-//////////////// Добавить один байт который говорит сколько символов в последнем байте
 
 int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
-    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
-    //char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
+    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+   // char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
 
     if (fscanf (stdin, "%c", &task) != 1) {
         return 1;
@@ -373,11 +362,11 @@ int main (void) {
         TTree** AlphabetTree = CreateAllTree (sizeTree, alphabet);
 
         if (sizeTree < 2) {
-            printf ("2 1%c%d", AlphabetTree[0]->Symbol, lenText);
+            printf ("1 1%c%d", AlphabetTree[0]->Symbol, lenText);
         } else {
             TTree* FullTree = AlgorithmHuffman (AlphabetTree, &sizeTree);
 
-            if (sizeTree > 1) {
+            if (sizeTree > 2) {
                 sizeTree /= 2;
             }
 
@@ -418,17 +407,25 @@ int main (void) {
         free (AlphabetCodes);
     } else {
         int lenText = 0;
-        int lenInput = 0;
+        int sizeTreeNow = 0;
+        char sizeTree = 0;
 
-        if (fscanf (stdin, "%d ", &lenInput) != 1) {
+        if (fscanf (stdin, "%c ", &sizeTree) != 1) {
             return 0;
         }
 
-        while (lenText < lenInput) {
-            if (fscanf (stdin, "%c", &str[lenText]) != 1) {
+        while (lenText < sizeTree) {
+            if (fscanf (stdin, "%c", &str[sizeTreeNow]) != 1) {
                 return 0;
             }
-            ++lenText;
+            ++sizeTreeNow;
+            if (str[sizeTreeNow - 1] == '1') {
+                if (fscanf (stdin, "%c", &str[sizeTreeNow]) != 1) {
+                    return 0;
+                }
+                ++sizeTreeNow;
+                ++lenText;
+            }
         }
 
         if (str[0] == '1') {
