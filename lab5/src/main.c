@@ -79,14 +79,16 @@ void ClearingQueue (TMainQueue MainQueue) {
 }
 
 void FreeTree (TTree* FullTree) {
-    if (FullTree->Left) {
-        FreeTree (FullTree->Left);
-    }
+    if (FullTree) {
+        if (FullTree->Left) {
+            FreeTree (FullTree->Left);
+        }
 
-    if (FullTree->Right) {
-        FreeTree (FullTree->Right);
+        if (FullTree->Right) {
+            FreeTree (FullTree->Right);
+        }
+        free (FullTree);
     }
-    free (FullTree);
 }
 
 void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
@@ -399,9 +401,7 @@ int main (void) {
 
             printf ("%c%c", code, j);
 
-            if (FullTree) {
-                FreeTree (FullTree);
-            }
+            FreeTree (FullTree);
         }
 
         free (AlphabetTree);
