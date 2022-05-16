@@ -38,7 +38,7 @@ int LetterCode (int symbol) {
 }
 
 void PushQueue (TMainQueue* MainQueue, TTree* root) {
-    TQueueElement* newElement = malloc (sizeof (TQueueElement));
+    TQueueElement* newElement = calloc (1, sizeof (TQueueElement));
 
     newElement->Root = root;
     newElement->Next = NULL;
@@ -106,7 +106,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
             PopQueue (&MainQueue, &RootNow);
 
             if (RootNow->Left != NULL) {
-                if (RootNow->Left->Symbol != IsNotSymbol) {
+                if (RootNow->Left->Symbol < IsNotSymbol) {
                     fprintf (stdout, "1");
                     fprintf(stdout, "%c", RootNow->Left->Symbol);
                 } else {
@@ -119,7 +119,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
             ++lenOutput;
 
             if (RootNow->Right != NULL && lenOutput < sizeTree) {
-                if (RootNow->Right->Symbol != IsNotSymbol) {
+                if (RootNow->Right->Symbol < IsNotSymbol) {
                     fprintf (stdout, "1");
                     fprintf (stdout, "%c", RootNow->Right->Symbol);
                 } else {
@@ -206,6 +206,7 @@ TTree** CreateAllTree (int sizeTree, int* alphabet) {
             AlphabetTree[N] = calloc (1, sizeof (TTree));
             AlphabetTree[N]->Count = alphabet[i];
             AlphabetTree[N]->Symbol = i;
+            AlphabetTree[N]->Used = AlphabetTree[N]->Left = AlphabetTree[N]->Right = NULL;
             ++N;
         }
     }
@@ -319,13 +320,11 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
     }
 }
 
-//////////////////////////// Проверить калоки и != поменять на <
-
 int main (void) {
     unsigned char str[100000] = {'\0'};
     char task = 0;
 
-    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
    // char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
 
     if (fscanf (stdin, "%c", &task) != 1) {
