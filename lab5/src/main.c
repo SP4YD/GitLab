@@ -349,7 +349,7 @@ int main (void) {
         for (int i = 0; i < 256; ++i) {
             if (alphabet[i]) {
                 ++sizeTree;
-                singleSymbol = alphabet[i];
+                singleSymbol = i;
             }
         }
 
