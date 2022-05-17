@@ -195,7 +195,7 @@ TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
     int min1Index = 0;
     int min2Index = 0;
 
-    for (int i = 0, N = sizeTree; i < N - 2; ++i) {
+    for (int i = 0, N = sizeTree; i < N - 1; ++i) {
         SearchMin (AlphabetTree, sizeTree, &min1Index, &min2Index);
 
         AlphabetTree[sizeTree] = CombiningTrees (AlphabetTree[min1Index], AlphabetTree[min2Index]);
@@ -203,9 +203,8 @@ TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
 
         sizeTree += 1;
     }
-
-    //FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
-    return CombiningTrees (AlphabetTree[sizeTree - 1], AlphabetTree[sizeTree - 2]);
+    
+    return AlphabetTree[sizeTree - 1];
 }
 
 TTree* BuildingTree (unsigned char* codeTree) {
@@ -352,8 +351,6 @@ int main (void) {
                 singleSymbol = i;
             }
         }
-
-        
 
         if (sizeTree < 2) {
             printf ("%c 1%c%d", 1, singleSymbol, lenText);
