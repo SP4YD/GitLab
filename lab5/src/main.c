@@ -144,7 +144,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     ClearingQueue (MainQueue);
 }
 
-void SearchMin (TTree** FullTree, int sizeTree, int* min1I, int* min2I) {
+void SearchMin (TTree* FullTree[512], int sizeTree, int* min1I, int* min2I) {
     int min1C = 100000;
     int min2C = 100000;
 
@@ -165,7 +165,6 @@ void SearchMin (TTree** FullTree, int sizeTree, int* min1I, int* min2I) {
 
 TTree* CombiningTrees (TTree* First, TTree* Second) {
     TTree* NewTree = calloc (1, sizeof (TTree));
-
     NewTree->Count = First->Count + Second->Count;
     NewTree->Left = Second;
     NewTree->Right = First;
@@ -175,7 +174,7 @@ TTree* CombiningTrees (TTree* First, TTree* Second) {
     return NewTree;
 }
 
-TTree* AlgorithmHuffman (TTree** FullTree, int sizeTree) {
+TTree* AlgorithmHuffman (TTree* FullTree[512], int sizeTree) {
     int min1Index = 0;
     int min2Index = 0;
 
@@ -188,13 +187,11 @@ TTree* AlgorithmHuffman (TTree** FullTree, int sizeTree) {
         sizeTree += 1;
     }
 
-    FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
-
-    return FullTree[sizeTree];
+    //FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
+    return CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
 }
 
-TTree** CreateAllTree (int sizeTree, int* alphabet) {
-    TTree** AlphabetTree = calloc (2 * sizeTree, sizeof (TTree*));
+void CreateAllTree (int sizeTree, int* alphabet, TTree** AlphabetTree){
 
     for (int i = 0, N = 0; i < 256; ++i) {
         if (alphabet[i]) {
@@ -206,8 +203,6 @@ TTree** CreateAllTree (int sizeTree, int* alphabet) {
             ++N;
         }
     }
-
-    return AlphabetTree;
 }
 
 TTree* BuildingTree (unsigned char* codeTree) {
@@ -269,7 +264,6 @@ void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree
     }
 }
 
-
 void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText) {
     TTree* TreeNow = FullTree;
     unsigned char countBitInLast = input[lenText - 1];
@@ -321,7 +315,7 @@ int main (void) {
     unsigned char task = 0;
 
     //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
-    //char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
+//    char a = 0, b = 1; fprintf (stdout, "c"); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); fprintf (stdout, "%c", a); fprintf (stdout, "%c", b); return 0;
 
     if (fscanf (stdin, "%c", &task) != 1) {
         return 1;
@@ -354,7 +348,8 @@ int main (void) {
             }
         }
 
-        TTree** AlphabetTree = CreateAllTree (sizeTree, alphabet);
+        TTree* AlphabetTree[512];
+        CreateAllTree(sizeTree, alphabet, &AlphabetTree);
 
         if (sizeTree < 2) {
             printf ("%c 1%c%d", 1, AlphabetTree[0]->Symbol, lenText);
@@ -394,7 +389,7 @@ int main (void) {
             FreeTree (FullTree);
         }
 
-        free (AlphabetTree);
+        //free (AlphabetTree);
         free (AlphabetCodes);
     } else {
         int lenText = 0;
