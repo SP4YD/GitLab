@@ -174,24 +174,7 @@ TTree* CombiningTrees (TTree* First, TTree* Second) {
     return NewTree;
 }
 
-TTree* AlgorithmHuffman (TTree* FullTree[512], int sizeTree) {
-    int min1Index = 0;
-    int min2Index = 0;
-
-    for (int i = 0, N = sizeTree; i < N - 2; ++i) {
-        SearchMin (FullTree, sizeTree, &min1Index, &min2Index);
-
-        FullTree[sizeTree] = CombiningTrees (FullTree[min1Index], FullTree[min2Index]);
-        FullTree[min1Index]->Used = FullTree[min2Index]->Used = 1;
-
-        sizeTree += 1;
-    }
-
-    //FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
-    return CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
-}
-
-void CreateAllTree (int sizeTree, int* alphabet, TTree** AlphabetTree){
+void CreateAllTree (int* alphabet, TTree** AlphabetTree) {
 
     for (int i = 0, N = 0; i < 256; ++i) {
         if (alphabet[i]) {
@@ -203,6 +186,26 @@ void CreateAllTree (int sizeTree, int* alphabet, TTree** AlphabetTree){
             ++N;
         }
     }
+}
+
+TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
+    TTree* AlphabetTree[512];
+    CreateAllTree (alphabet, &AlphabetTree);
+
+    int min1Index = 0;
+    int min2Index = 0;
+
+    for (int i = 0, N = sizeTree; i < N - 2; ++i) {
+        SearchMin (AlphabetTree, sizeTree, &min1Index, &min2Index);
+
+        AlphabetTree[sizeTree] = CombiningTrees (AlphabetTree[min1Index], AlphabetTree[min2Index]);
+        AlphabetTree[min1Index]->Used = AlphabetTree[min2Index]->Used = 1;
+
+        sizeTree += 1;
+    }
+
+    //FullTree[sizeTree] = CombiningTrees (FullTree[sizeTree - 1], FullTree[sizeTree - 2]);
+    return CombiningTrees (AlphabetTree[sizeTree - 1], AlphabetTree[sizeTree - 2]);
 }
 
 TTree* BuildingTree (unsigned char* codeTree) {
@@ -338,6 +341,7 @@ int main (void) {
         }
 
         int sizeTree = 0;
+        int singleSymbol = 0;
         TElementAlTree* AlphabetCodes = calloc (256, sizeof (TElementAlTree));
         TElementAlTree ElementNow;
         ElementNow.LenCode = 0;
@@ -345,16 +349,16 @@ int main (void) {
         for (int i = 0; i < 256; ++i) {
             if (alphabet[i]) {
                 ++sizeTree;
+                singleSymbol = alphabet[i];
             }
         }
 
-        TTree* AlphabetTree[512];
-        CreateAllTree(sizeTree, alphabet, &AlphabetTree);
+        
 
         if (sizeTree < 2) {
-            printf ("%c 1%c%d", 1, AlphabetTree[0]->Symbol, lenText);
+            printf ("%c 1%c%d", 1, singleSymbol, lenText);
         } else {
-            TTree* FullTree = AlgorithmHuffman (AlphabetTree, sizeTree);
+            TTree* FullTree = AlgorithmHuffman (sizeTree, alphabet);
 
             PrintCodeTree (*FullTree, sizeTree);
 
