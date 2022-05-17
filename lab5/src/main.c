@@ -190,7 +190,7 @@ void CreateAllTree (int* alphabet, TTree** AlphabetTree) {
 
 TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
     TTree* AlphabetTree[512];
-    CreateAllTree (alphabet, &AlphabetTree);
+    CreateAllTree (alphabet, AlphabetTree);
 
     int min1Index = 0;
     int min2Index = 0;
