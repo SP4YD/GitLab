@@ -29,38 +29,32 @@ struct TMainQueue {
     TQueueElement* Tail;
 };
 
-unsigned char LengthCheckAndPlusOne (int* lenCode, unsigned char code) {
+void LengthCheckAndPlusOne (int* lenCode, unsigned char* code) {
     ++(*lenCode);
     if (*lenCode > 7) {
-        fprintf (stdout, "%c", code);
-        code = 0;
+        fprintf (stdout, "%c", *code);
+        *code = 0;
         *lenCode = 0;
     }
-
-    return code;
 }
 
-unsigned char CheckSizeCodeAndPlusOne (int* codeSize, unsigned char code) {
+void CheckSizeCodeAndPlusOne (int* codeSize, unsigned char* code) {
     ++(*codeSize);
     if (*codeSize > 7) {
         *codeSize = 0;
-        if (fscanf (stdin, "%c", &code) != 1) {
+        if (fscanf (stdin, "%c", code) != 1) {
             return 0;
         }
     }
-
-    return code;
 }
 
-unsigned char CodingSymbol (int* lenCode, unsigned char code, char symbol) {
+void CodingSymbol (int* lenCode, unsigned char* code, char symbol) {
     for (int i = 0; i < 8; ++i) {
         if (symbol & 1 << (7 - i)) {
-            code |= 1 << (7 - *lenCode);
+            *code |= 1 << (7 - *lenCode);
         }
-        code = LengthCheckAndPlusOne (lenCode, code);
+        LengthCheckAndPlusOne (lenCode, code);
     }
-
-    return code;
 }
 
 void PushQueue (TMainQueue* MainQueue, TTree* root) {
@@ -138,14 +132,14 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 if (RootNow->Left) {
                     if (RootNow->Left->Symbol < IsNotSymbol) {
                         code |= 1 << (7 - lenCode);
-                        code = LengthCheckAndPlusOne (&lenCode, code);
-                        code = CodingSymbol (&lenCode, code, RootNow->Left->Symbol);
+                        LengthCheckAndPlusOne (&lenCode, &code);
+                        CodingSymbol (&lenCode, &code, RootNow->Left->Symbol);
                         ++lenOutput;
                     } else {
-                        code = LengthCheckAndPlusOne (&lenCode, code);
+                        LengthCheckAndPlusOne (&lenCode, &code);
                     }
                 } else {
-                    code = LengthCheckAndPlusOne (&lenCode, code);
+                    LengthCheckAndPlusOne (&lenCode, &code);
                 }
                 PushQueue (&MainQueue, RootNow->Left);
             }
@@ -154,22 +148,22 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 if (RootNow->Right && lenOutput < sizeTree) {
                     if (RootNow->Right->Symbol < IsNotSymbol) {
                         code |= 1 << (7 - lenCode);
-                        code = LengthCheckAndPlusOne (&lenCode, code);
-                        code = CodingSymbol (&lenCode, code, RootNow->Right->Symbol);
+                        LengthCheckAndPlusOne (&lenCode, &code);
+                        CodingSymbol (&lenCode, &code, RootNow->Right->Symbol);
                         ++lenOutput;
                     } else {
-                        code = LengthCheckAndPlusOne (&lenCode, code);
+                        LengthCheckAndPlusOne (&lenCode, &code);
                     }
                 } else {
-                    code = LengthCheckAndPlusOne (&lenCode, code);
+                    LengthCheckAndPlusOne (&lenCode, &code);
                 }
                 PushQueue (&MainQueue, RootNow->Right);
             }
         }
     } else {
         code |= 1 << (7 - lenCode);
-        code = LengthCheckAndPlusOne (&lenCode, code);
-        code = CodingSymbol (&lenCode, code, FullTree.Symbol);
+        LengthCheckAndPlusOne (&lenCode, &code);
+        CodingSymbol (&lenCode, &code, FullTree.Symbol);
     }
 
     if (lenCode) {
@@ -354,7 +348,7 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     unsigned char task = 0;
 
-    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
     //char a = 0, b = 1; fprintf (stdout, "c"); 
     //fprintf (stdout, "%c", '\n');
     //fprintf (stdout, "%c", '\r');
@@ -399,8 +393,8 @@ int main (void) {
             int lenCode = 0;
             fprintf (stdout, "%c", sizeTree);
             code |= 1 << (7 - lenCode);
-            code = LengthCheckAndPlusOne (&lenCode, code);
-            code = CodingSymbol (&lenCode, code, singleSymbol);
+            LengthCheckAndPlusOne (&lenCode, &code);
+            CodingSymbol (&lenCode, &code, singleSymbol);
             if (lenCode) {
                 fprintf (stdout, "%c", code);
             }
@@ -465,12 +459,12 @@ int main (void) {
             while ((code & 1 << (7 - codeSize)) < 1) {
                 str[sizeTreeNow] = '0';
                 ++sizeTreeNow;
-                code = CheckSizeCodeAndPlusOne (&codeSize, code);
+                CheckSizeCodeAndPlusOne (&codeSize, &code);
             }
 
             str[sizeTreeNow] = '1';
             ++sizeTreeNow;
-            code = CheckSizeCodeAndPlusOne (&codeSize, code);
+            CheckSizeCodeAndPlusOne (&codeSize, &code);
 
             while (j < 8) {
                 if (code & 1 << (7 - codeSize)) {
@@ -478,7 +472,7 @@ int main (void) {
                 }
 
                 ++j;
-                code = CheckSizeCodeAndPlusOne (&codeSize, code);
+                CheckSizeCodeAndPlusOne (&codeSize, &code);
             }
 
             str[sizeTreeNow] = symbol;
