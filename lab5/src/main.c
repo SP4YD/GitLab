@@ -43,7 +43,7 @@ void CheckSizeCodeAndPlusOne (int* codeSize, unsigned char* code) {
     if (*codeSize > 7) {
         *codeSize = 0;
         if (fscanf (stdin, "%c", code) != 1) {
-            return 0;
+            return;
         }
     }
 }
@@ -348,7 +348,7 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     unsigned char task = 0;
 
-    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
     //char a = 0, b = 1; fprintf (stdout, "c"); 
     //fprintf (stdout, "%c", '\n');
     //fprintf (stdout, "%c", '\r');
