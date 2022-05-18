@@ -149,7 +149,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                 }
                 PushQueue (&MainQueue, RootNow->Left);
             }
-            
+
             if (RootNow) {
                 if (RootNow->Right && lenOutput < sizeTree) {
                     if (RootNow->Right->Symbol < IsNotSymbol) {
@@ -201,8 +201,8 @@ void SearchMin (TTree* FullTree[512], int sizeTree, int* min1I, int* min2I) {
 TTree* CombiningTrees (TTree* First, TTree* Second) {
     TTree* NewTree = calloc (1, sizeof (TTree));
     NewTree->Count = First->Count + Second->Count;
-    NewTree->Left = Second;
-    NewTree->Right = First;
+    NewTree->Left = First;
+    NewTree->Right = Second;
     NewTree->Used = 0;
     NewTree->Symbol = IsNotSymbol;
 
@@ -238,7 +238,7 @@ TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
 
         sizeTree += 1;
     }
-    
+
     return AlphabetTree[sizeTree - 1];
 }
 
@@ -354,7 +354,7 @@ int main (void) {
     unsigned char str[100000] = {'\0'};
     unsigned char task = 0;
 
-    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
     //char a = 0, b = 1; fprintf (stdout, "c"); 
     //fprintf (stdout, "%c", '\n');
     //fprintf (stdout, "%c", '\r');
@@ -369,7 +369,7 @@ int main (void) {
         int alphabet[256] = {0};
         int lenText = 0;
 
-        while (fscanf (stdin,  "%c", &str[lenText]) == 1) {
+        while (fscanf (stdin, "%c", &str[lenText]) == 1) {
             ++lenText;
         }
 
@@ -405,7 +405,7 @@ int main (void) {
                 fprintf (stdout, "%c", code);
             }
             fprintf (stdout, "%c", lenText);
-            
+
         } else {
             TTree* FullTree = AlgorithmHuffman (sizeTree, alphabet);
 
@@ -461,7 +461,7 @@ int main (void) {
         while (lenText < sizeTree) {
             char j = 0;
             unsigned char symbol = 0;
-            
+
             while ((code & 1 << (7 - codeSize)) < 1) {
                 str[sizeTreeNow] = '0';
                 ++sizeTreeNow;
@@ -471,12 +471,12 @@ int main (void) {
             str[sizeTreeNow] = '1';
             ++sizeTreeNow;
             code = CheckSizeCodeAndPlusOne (&codeSize, code);
-            
+
             while (j < 8) {
                 if (code & 1 << (7 - codeSize)) {
                     symbol |= 1 << (7 - j);
                 }
-                
+
                 ++j;
                 code = CheckSizeCodeAndPlusOne (&codeSize, code);
             }
