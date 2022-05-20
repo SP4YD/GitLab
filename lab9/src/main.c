@@ -40,8 +40,8 @@ int CheckFirstInput (int N, int M) {
     if (N == 0) {
         return 3;
     }
-    
-    if (M == 0) {
+
+    if (M == 0 && N != 1) {
         return 4;
     }
 
@@ -170,7 +170,7 @@ int AlgorithmDijkstra (int N, int M, int S, int F, TVertexList* adjList, int* pa
     return 0;
 }
 
-/// ////////////////////////////////////////////////// enum
+/// ////////////////////////////////////////////////// enum и free
 /////////////////////////////// Проверить не является ли переменная Vertex лишней
 
 int main () {
