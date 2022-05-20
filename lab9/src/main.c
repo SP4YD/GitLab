@@ -28,7 +28,7 @@ int Comparator (const void* first, const void* second) {
     }
 }
 
-int CheckFirstInput (int N, int F, int M) {
+int CheckFirstInput (int N, int M) {
     if (N < 0 || N > 5000) {
         return 1;
     }
@@ -50,11 +50,11 @@ int CheckFirstInput (int N, int F, int M) {
 
 int CheckSecondInput (int from, int where, int N, unsigned long long len) {
     if (from < 1 || from > N || where < 1 || where > N) {
-        return 2; //"bad vertex"
+        return 2;
     }
 
-    if (len < 0 || len > INT_MAX) {
-        return 3; // "bad length"
+    if (len > INT_MAX) {
+        return 3;
     }
 
     return 0;
@@ -72,7 +72,6 @@ void AddElementInList (TVertexList* AdjList, int from, int where, unsigned long 
 int GraphEntry (int N, int M, TVertexList* adjList) {
     unsigned long long len;
     int from, where;
-    char check = 0;
 
     for (int i = 0; i < N; ++i) {
         adjList[i].Vertex = i;
@@ -94,7 +93,6 @@ int GraphEntry (int N, int M, TVertexList* adjList) {
         if (from != where) {
             AddElementInList (adjList, from - 1, where - 1, len);
             AddElementInList (adjList, where - 1, from - 1, len);
-            check = 1;
         }
     }
 
@@ -183,7 +181,7 @@ int main () {
         return 0;
     }
 
-    switch (CheckFirstInput (N, S, F, M)) {
+    switch (CheckFirstInput (N, M)) {
         case(1): {
             printf ("bad number of vertices");
             return 0;
