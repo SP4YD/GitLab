@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <limits.h>
 
-
 typedef struct TList TList;
 typedef struct TVertexList TVertexList;
 
@@ -29,7 +28,7 @@ int Comparator (const void* first, const void* second) {
     }
 }
 
-int CheckFirstInput (int N, int S, int F, int M) {
+int CheckFirstInput (int N, int F, int M) {
     if (N < 0 || N > 5000) {
         return 1;
     }
@@ -113,7 +112,7 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
             printf ("INT_MAX+ ");
         }
         else {
-            printf ("%d ", adjList[i].Distance);
+            printf ("%lld ", adjList[i].Distance);
         }
 
         if (adjList[i].Distance >= INT_MAX && adjList[i].Distance < LLONG_MAX && i != F) {
@@ -130,10 +129,7 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
     }
 }
 
-int AlgorithmDijkstra (int N, int M, int S, int F, 
-                       TVertexList* adjList, 
-                       unsigned long long* answer, 
-                       int answerCount, int* parents) {
+int AlgorithmDijkstra (int N, int M, int S, int F, TVertexList* adjList, int* parents) {
     int code = GraphEntry (N, M, adjList);
     int vertexNow = S;
     if (code) {
@@ -213,11 +209,9 @@ int main () {
     }
 
     TVertexList* adjList = calloc (N, sizeof (TVertexList));
-    unsigned long long* answer = calloc (N, sizeof (unsigned long long));
     int* parents = calloc (N, sizeof (int));
-    int answerCount = 0;
 
-    switch (AlgorithmDijkstra (N, M, S - 1, F - 1, adjList, answer, answerCount, parents)) {
+    switch (AlgorithmDijkstra (N, M, S - 1, F - 1, adjList, parents)) {
         case(0): {
             int index = F - 1;
 
