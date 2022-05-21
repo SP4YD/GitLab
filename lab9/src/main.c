@@ -127,7 +127,7 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
     }
 }
 
-int AlgorithmDijkstra (int N, int M, int S, int F, TVertexList* adjList, int* parents) {
+int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) {
     int code = GraphEntry (N, M, adjList);
     int vertexNow = S;
     char newVertexFound = 0;
@@ -215,7 +215,7 @@ int main () {
     TVertexList* adjList = calloc (N, sizeof (TVertexList));
     int* parents = calloc (N, sizeof (int));
 
-    switch (AlgorithmDijkstra (N, M, S - 1, F - 1, adjList, parents)) {
+    switch (AlgorithmDijkstra (N, M, S - 1, adjList, parents)) {
         case(0): {
             int index = F - 1;
 
