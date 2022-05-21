@@ -138,10 +138,8 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                     } else {
                         LengthCheckAndPlusOne (&lenCode, &code);
                     }
-                } else {
-                    LengthCheckAndPlusOne (&lenCode, &code);
+                    PushQueue (&MainQueue, RootNow->Left);
                 }
-                PushQueue (&MainQueue, RootNow->Left);
             }
 
             if (RootNow) {
@@ -154,10 +152,8 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
                     } else {
                         LengthCheckAndPlusOne (&lenCode, &code);
                     }
-                } else {
-                    LengthCheckAndPlusOne (&lenCode, &code);
+                    PushQueue (&MainQueue, RootNow->Right);
                 }
-                PushQueue (&MainQueue, RootNow->Right);
             }
         }
     } else {
@@ -258,13 +254,12 @@ TTree* BuildingTree (unsigned char* codeTree) {
             if (codeTree[i] == '0') {
                 RootNow->Left = calloc (1, sizeof (TTree));
                 RootNow->Right = calloc (1, sizeof (TTree));
+                PushQueue (&MainQueue, RootNow->Left);
+                PushQueue (&MainQueue, RootNow->Right);
             } else {
                 ++i;
                 RootNow->Symbol = codeTree[i];
             }
-
-            PushQueue (&MainQueue, RootNow->Left);
-            PushQueue (&MainQueue, RootNow->Right);
         }
     }
 
@@ -342,7 +337,8 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 }
 
 /// ////////////////////////////// Заменить main на две функции
-//////////////////// Переделать code на void
+////////////////////////////////// переменные с маленькой
+////////////////////////////////// Изменить вывод дерева
 
 int main (void) {
     unsigned char str[100000] = {'\0'};
@@ -364,6 +360,7 @@ int main (void) {
         int lenText = 0;
 
         while (fscanf (stdin, "%c", &str[lenText]) == 1) {
+            ++alphabet[str[lenText]];
             ++lenText;
         }
 
@@ -371,14 +368,10 @@ int main (void) {
             return 0;
         }
 
-        for (int i = 0; i < lenText; ++i) {
-            ++alphabet[str[i]];
-        }
-
-        int sizeTree = 0;
-        int singleSymbol = 0;
         TElementAlTree* AlphabetCodes = calloc (256, sizeof (TElementAlTree));
         TElementAlTree ElementNow;
+        int sizeTree = 0;
+        int singleSymbol = 0;
         ElementNow.LenCode = 0;
 
         for (int i = 0; i < 256; ++i) {
@@ -391,13 +384,18 @@ int main (void) {
         if (sizeTree < 2) {
             unsigned char code = 0;
             int lenCode = 0;
+
             fprintf (stdout, "%c", sizeTree);
+
             code |= 1 << (7 - lenCode);
+
             LengthCheckAndPlusOne (&lenCode, &code);
             CodingSymbol (&lenCode, &code, singleSymbol);
+
             if (lenCode) {
                 fprintf (stdout, "%c", code);
             }
+
             fprintf (stdout, "%c", lenText);
 
         } else {
