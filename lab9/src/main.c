@@ -17,7 +17,7 @@ struct TVertexList {
     short Vertex;
     short SizeArray;
     unsigned long long Distance;
-    TList Array[5000];
+    TList Array[5001];
 };
 
 int Comparator (const void* first, const void* second) {
@@ -110,7 +110,7 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
             printf ("INT_MAX+ ");
         }
         else {
-            printf ("%lld ", adjList[i].Distance);
+            printf ("%llu ", adjList[i].Distance);
         }
 
         if (adjList[i].Distance >= INT_MAX && adjList[i].Distance < LLONG_MAX && i != F) {
