@@ -127,10 +127,25 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
     }
 }
 
+int FindNextVertex (TVertexList* adjList, int N) {
+    int index = INT_MAX;
+    int distance = INT_MAX;
+
+    for (int i = 0; i < N; ++i) {
+        if (!adjList[i].Visited) {
+            if (adjList[i].Distance < distance) {
+                distance = adjList[i].Distance;
+                index = i;
+            }
+        }
+    }
+
+    return index;
+}
+
 int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) {
-    int code = GraphEntry (N, M, adjList);
     int vertexNow = S;
-    char newVertexFound = 0;
+    int code = GraphEntry (N, M, adjList);
     if (code) {
         return code;
     }
@@ -143,7 +158,7 @@ int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) 
     adjList[S].Distance = 0;
     parents[S] = S;
 
-    while (newVertexFound != 2) {
+    while (vertexNow != INT_MAX) {
         adjList[vertexNow].Visited = 1;
         for (int i = 0; i < adjList[vertexNow].SizeArray; ++i) {
             TVertexList* neighboringVertex = &adjList[adjList[vertexNow].Array[i].Vertex];
@@ -155,20 +170,7 @@ int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) 
             }
         }
 
-        newVertexFound = 0;
-        int index = 0;
-        while (!newVertexFound) {
-            if (index < adjList[vertexNow].SizeArray) {
-                if (!adjList[adjList[vertexNow].Array[index].Vertex].Visited) {
-                    vertexNow = adjList[vertexNow].Array[index].Vertex;
-                    newVertexFound = 1;
-                }
-                ++index;
-            }
-            else {
-                newVertexFound = 2;
-            }
-        }
+        vertexNow = FindNextVertex (adjList, N);
     }
 
     return 0;
@@ -180,8 +182,9 @@ int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) 
 int main () {
     int N, S, F, M;
 
+    freopen ("in.txt", "r", stdin);
+
     if (scanf ("%d\n%d %d\n%d", &N, &S, &F, &M) != 4) {
-        //printf ("bad number of lines");
         return 0;
     }
 
