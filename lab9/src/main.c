@@ -149,11 +149,9 @@ int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) 
             TVertexList* neighboringVertex = &adjList[adjList[vertexNow].Array[i].Vertex];
             unsigned long long distance = adjList[vertexNow].Array[i].Len + adjList[vertexNow].Distance;
             
-            if (!neighboringVertex->Visited) {
-                if (neighboringVertex->Distance > distance) {
-                    parents[adjList[vertexNow].Array[i].Vertex] = vertexNow;
-                    neighboringVertex->Distance = distance;
-                }
+            if (neighboringVertex->Distance > distance) {
+                parents[adjList[vertexNow].Array[i].Vertex] = vertexNow;
+                neighboringVertex->Distance = distance;
             }
         }
 
@@ -176,7 +174,7 @@ int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) 
     return 0;
 }
 
-/// ////////////////////////////////////////////////// enum и free
+/// ////////////////////////////////////////////////// enum и ОТЧИСТКА ПАМЯТИ
 /////////////////////////////// Проверить не является ли переменная Vertex лишней
 
 int main () {
