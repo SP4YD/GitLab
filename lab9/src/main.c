@@ -182,8 +182,6 @@ int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) 
 int main () {
     int N, S, F, M;
 
-    freopen ("in.txt", "r", stdin);
-
     if (scanf ("%d\n%d %d\n%d", &N, &S, &F, &M) != 4) {
         return 0;
     }
