@@ -11,7 +11,6 @@ struct TList {
     unsigned int Len;
 };
 
-
 struct TVertexList {
     char Visited;
     short Vertex;
@@ -129,7 +128,7 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
 
 int FindNextVertex (TVertexList* adjList, int N) {
     int index = INT_MAX;
-    unsigned long long distance = INT_MAX;
+    unsigned long long distance = LLONG_MAX;
 
     for (int i = 0; i < N; ++i) {
         if (!adjList[i].Visited) {
