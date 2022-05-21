@@ -130,6 +130,7 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
 int AlgorithmDijkstra (int N, int M, int S, int F, TVertexList* adjList, int* parents) {
     int code = GraphEntry (N, M, adjList);
     int vertexNow = S;
+    char newVertexFound = 0;
     if (code) {
         return code;
     }
@@ -142,12 +143,12 @@ int AlgorithmDijkstra (int N, int M, int S, int F, TVertexList* adjList, int* pa
     adjList[S].Distance = 0;
     parents[S] = S;
 
-    while (vertexNow != F) {
+    while (newVertexFound != 2) {
         adjList[vertexNow].Visited = 1;
         for (int i = 0; i < adjList[vertexNow].SizeArray; ++i) {
             TVertexList* neighboringVertex = &adjList[adjList[vertexNow].Array[i].Vertex];
             unsigned long long distance = adjList[vertexNow].Array[i].Len + adjList[vertexNow].Distance;
-
+            
             if (!neighboringVertex->Visited) {
                 if (neighboringVertex->Distance > distance) {
                     parents[adjList[vertexNow].Array[i].Vertex] = vertexNow;
@@ -155,15 +156,20 @@ int AlgorithmDijkstra (int N, int M, int S, int F, TVertexList* adjList, int* pa
                 }
             }
         }
-        
-        char newVertexFound = 0;
+
+        newVertexFound = 0;
         int index = 0;
         while (!newVertexFound) {
-            if (!adjList[adjList[vertexNow].Array[index].Vertex].Visited) {
-                vertexNow = adjList[vertexNow].Array[index].Vertex;
-                newVertexFound = 1;
+            if (index < adjList[vertexNow].SizeArray) {
+                if (!adjList[adjList[vertexNow].Array[index].Vertex].Visited) {
+                    vertexNow = adjList[vertexNow].Array[index].Vertex;
+                    newVertexFound = 1;
+                }
+                ++index;
             }
-            ++index;
+            else {
+                newVertexFound = 2;
+            }
         }
     }
 
