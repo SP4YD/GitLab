@@ -2,38 +2,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-#define MY_INT_MAX 2147483647
 
 int CheckFirstInput (int N, int M) {
     if (N < 0 || N > 5000) {
-        return 1;
+        return Bad_Number_Of_Vertices;
     }
 
     if (M < 0 || M > (N * N - N) / 2) {
-        return 2;
+        return Bad_Number_Of_Edges;
     }
 
     if (N == 0) {
-        return 3;
+        return Bad_Vertex;
     }
 
     if (M == 0 && N != 1) {
-        return 4;
+        return No_Path;
     }
 
-    return 0;
+    return No_Errors;
 }
 
 int CheckSecondInput (int from, int where, int N, unsigned long long len) {
     if (from < 1 || from > N || where < 1 || where > N) {
-        return 2;
+        return Bad_Vertex;
     }
 
     if (len > INT_MAX) {
-        return 3;
+        return Bad_Length;
     }
 
-    return 0;
+    return No_Errors;
 }
 
 int GraphEntry (int N, int M, unsigned int** adjArray) {
@@ -42,11 +41,11 @@ int GraphEntry (int N, int M, unsigned int** adjArray) {
 
     for (int i = 0; i < M; ++i) {
         if (scanf ("%d %d %llu", &from, &where, &len) != 3) {
-            return 1;
+            return Bad_Number_Of_Lines;
         }
 
         char code = CheckSecondInput (from, where, N, len);
-        if (code) {
+        if (code != No_Errors) {
             return code;
         }
 
@@ -55,7 +54,7 @@ int GraphEntry (int N, int M, unsigned int** adjArray) {
         }
     }
 
-    return 0;
+    return No_Errors;
 }
 
 int PrintWithVerification (unsigned int** adjArray, int N, int F) {
@@ -79,10 +78,10 @@ int PrintWithVerification (unsigned int** adjArray, int N, int F) {
     printf ("\n");
 
     if (countForOverflow > 1) {
-        return 1;
+        return Overflow;
     }
     else {
-        return 0;
+        return No_Errors;
     }
 }
 
@@ -105,7 +104,7 @@ int FindNextVertex (unsigned int** adjArray, int N, char* visited) {
 int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parents) {
     int vertexNow = S;
     int code = GraphEntry (N, M, adjArray);
-    if (code) {
+    if (code != No_Errors) {
         return code;
     }
 
@@ -142,10 +141,19 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
 
     free (visited);
 
-    return 0;
+    return No_Errors;
 }
 
-/// ////////////////////////////////////////////////// enum и ОТЧИСТКА ПАМЯТИ
+enum Errors {
+    No_Errors,
+    Bad_Number_Of_Vertices,
+    Bad_Number_Of_Edges,
+    Bad_Vertex,
+    Bad_Length,
+    Bad_Number_Of_Lines,
+    Overflow,
+    No_Path
+};
 
 int main () {
     int N, S, F, M;
@@ -157,19 +165,19 @@ int main () {
     }
 
     switch (CheckFirstInput (N, M)) {
-        case(1): {
+        case(Bad_Number_Of_Vertices): {
             printf ("bad number of vertices");
             return 0;
         }
-        case(2): {
+        case(Bad_Number_Of_Edges): {
             printf ("bad number of edges");
             return 0;
         }
-        case(3): {
+        case(Bad_Vertex): {
             printf ("bad vertex");
             return 0;
         }
-        case(4): {
+        case(No_Path): {
             printf ("0 ");
 
             for (int i = 0; i < N - 1; ++i) {
@@ -188,7 +196,7 @@ int main () {
     int* parents = calloc (N, sizeof (int));
 
     switch (AlgorithmDijkstra (N, M, S - 1, adjArray, parents)) {
-        case(0): {
+        case(No_Errors): {
             int index = F - 1;
 
             if (PrintWithVerification (adjArray, N, index) && adjArray[index][index] > INT_MAX) {
@@ -208,15 +216,15 @@ int main () {
             
             break;
         }
-        case(1): {
+        case(Bad_Number_Of_Lines): {
             printf ("bad number of lines");
             break;
         }
-        case(2): {
+        case(Bad_Vertex): {
             printf ("bad vertex");
             break;
         }
-        case(3): {
+        case(Bad_Length): {
             printf ("bad length");
             break;
         }
