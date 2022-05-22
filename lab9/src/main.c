@@ -128,7 +128,7 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
                 if ((unsigned long long)adjArray[i][i] > distance) {
                     parents[i] = vertexNow;
                     if (distance > INT_MAX) {
-                        adjArray[i][i] = UINT_MAX;
+                        adjArray[i][i] = UINT_MAX - 1;
                     }
                     else {
                         adjArray[i][i] = (unsigned int)distance;
