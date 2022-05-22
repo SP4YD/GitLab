@@ -114,13 +114,14 @@ int FindNextVertex (unsigned int** adjArray, int N, char* visited) {
 }
 
 int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parents) {
-    char* visited = calloc (N, sizeof (char));
     int vertexNow = S;
 
     char error = GraphEntry (N, M, adjArray);
     if (error != No_Errors) {
         return error;
     }
+
+    char* visited = calloc (N, sizeof (char));
 
     for (int i = 0; i < N; ++i) {
         adjArray[i][i] = UINT_MAX;
