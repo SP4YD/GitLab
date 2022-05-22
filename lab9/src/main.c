@@ -122,7 +122,8 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
         visited[vertexNow] = 1;
         for (int i = 0; i < N; ++i) {
             if (i != vertexNow && adjArray[vertexNow][i] != 0) {
-                unsigned long long distance = adjArray[vertexNow][i] + adjArray[vertexNow][vertexNow];
+                unsigned long long distance = (unsigned long long)adjArray[vertexNow][i];
+                distance += (unsigned long long)adjArray[vertexNow][vertexNow];
 
                 if ((unsigned long long)adjArray[i][i] > distance) {
                     parents[i] = vertexNow;
