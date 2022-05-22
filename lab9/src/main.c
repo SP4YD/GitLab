@@ -63,10 +63,10 @@ int PrintWithVerification (unsigned int** adjArray, int N, int F) {
     for (int i = 0; i < N; ++i) {
         if (adjArray[i][i] == UINT_MAX) {
             printf ("oo ");
-        }
+        } 
         else if (adjArray[i][i] > INT_MAX) {
             printf ("INT_MAX+ ");
-        }
+        } 
         else {
             printf ("%u ", adjArray[i][i]);
         }
@@ -79,7 +79,7 @@ int PrintWithVerification (unsigned int** adjArray, int N, int F) {
 
     if (countForOverflow > 1) {
         return Overflow;
-    }
+    } 
     else {
         return No_Errors;
     }
@@ -128,7 +128,7 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
                     parents[i] = vertexNow;
                     if (distance > INT_MAX) {
                         adjArray[i][i] = UINT_MAX - 1;
-                    }
+                    } 
                     else {
                         adjArray[i][i] = (unsigned int)distance;
                     }
@@ -158,26 +158,28 @@ enum Errors {
 int main () {
     int N, S, F, M;
 
-    //freopen ("in.txt", "r", stdin);
-
     if (scanf ("%d\n%d %d\n%d", &N, &S, &F, &M) != 4) {
         return 0;
     }
 
     switch (CheckFirstInput (N, M)) {
-        case(Bad_Number_Of_Vertices): {
+        case(Bad_Number_Of_Vertices):
+        {
             printf ("bad number of vertices");
             return 0;
         }
-        case(Bad_Number_Of_Edges): {
+        case(Bad_Number_Of_Edges):
+        {
             printf ("bad number of edges");
             return 0;
         }
-        case(Bad_Vertex): {
+        case(Bad_Vertex):
+        {
             printf ("bad vertex");
             return 0;
         }
-        case(No_Path): {
+        case(No_Path):
+        {
             printf ("0 ");
 
             for (int i = 0; i < N - 1; ++i) {
@@ -196,15 +198,16 @@ int main () {
     int* parents = calloc (N, sizeof (int));
 
     switch (AlgorithmDijkstra (N, M, S - 1, adjArray, parents)) {
-        case(No_Errors): {
+        case(No_Errors):
+        {
             int index = F - 1;
 
             if (PrintWithVerification (adjArray, N, index) && adjArray[index][index] > INT_MAX) {
                 printf ("overflow");
-            }
+            } 
             else if (parents[index] == INT_MAX) {
                 printf ("no path");
-            }
+            } 
             else {
                 printf ("%d ", F);
 
@@ -213,18 +216,21 @@ int main () {
                     index = parents[index];
                 }
             }
-            
+
             break;
         }
-        case(Bad_Number_Of_Lines): {
+        case(Bad_Number_Of_Lines):
+        {
             printf ("bad number of lines");
             break;
         }
-        case(Bad_Vertex): {
+        case(Bad_Vertex):
+        {
             printf ("bad vertex");
             break;
         }
-        case(Bad_Length): {
+        case(Bad_Length):
+        {
             printf ("bad length");
             break;
         }
