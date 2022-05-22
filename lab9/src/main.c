@@ -3,30 +3,6 @@
 #include <stdlib.h>
 #include <limits.h>
 
-typedef struct TList TList;
-typedef struct TVertexList TVertexList;
-
-struct TList {
-    short Vertex;
-    unsigned int Len;
-};
-
-struct TVertexList {
-    char Visited;
-    short Vertex;
-    short SizeArray;
-    unsigned long long Distance;
-    TList Array[5001];
-};
-
-int Comparator (const void* first, const void* second) {
-    if (((TList*)first)->Len < ((TList*)second)->Len) {
-        return 0;
-    } else {
-        return 1;
-    }
-}
-
 int CheckFirstInput (int N, int M) {
     if (N < 0 || N > 5000) {
         return 1;
@@ -59,25 +35,9 @@ int CheckSecondInput (int from, int where, int N, unsigned long long len) {
     return 0;
 }
 
-void AddElementInList (TVertexList* AdjList, int from, int where, unsigned long long len) {
-    TList* Array = AdjList[from].Array;
-    int size = AdjList[from].SizeArray;
-
-    Array[size].Len = (unsigned int)len;
-    Array[size].Vertex = where;
-    AdjList[from].SizeArray += 1;
-}
-
-int GraphEntry (int N, int M, TVertexList* adjList) {
+int GraphEntry (int N, int M, unsigned int** adjArray) {
     unsigned long long len;
     int from, where;
-
-    for (int i = 0; i < N; ++i) {
-        adjList[i].Vertex = i;
-        adjList[i].Visited = 0;
-        adjList[i].SizeArray = 0;
-        adjList[i].Distance = LLONG_MAX;
-    }
 
     for (int i = 0; i < M; ++i) {
         if (scanf ("%d %d %llu", &from, &where, &len) != 3) {
@@ -90,29 +50,28 @@ int GraphEntry (int N, int M, TVertexList* adjList) {
         }
 
         if (from != where) {
-            AddElementInList (adjList, from - 1, where - 1, len);
-            AddElementInList (adjList, where - 1, from - 1, len);
+            adjArray[from - 1][where - 1] = adjArray[where - 1][from - 1] = (unsigned int)len;
         }
     }
 
     return 0;
 }
 
-int PrintWithVerification (TVertexList* adjList, int N, int F) {
+int PrintWithVerification (unsigned int** adjArray, int N, int F) {
     int countForOverflow = 0;
 
     for (int i = 0; i < N; ++i) {
-        if (adjList[i].Distance == LLONG_MAX) {
+        if (adjArray[i][i] == UINT_MAX) {
             printf ("oo ");
         }
-        else if (adjList[i].Distance > INT_MAX) {
+        else if (adjArray[i][i] > INT_MAX) {
             printf ("INT_MAX+ ");
         }
         else {
-            printf ("%llu ", adjList[i].Distance);
+            printf ("%u ", adjArray[i][i]);
         }
 
-        if (adjList[i].Distance >= INT_MAX && adjList[i].Distance < LLONG_MAX && i != F) {
+        if (adjArray[i][i] >= INT_MAX && adjArray[i][i] < UINT_MAX && i != F) {
             ++countForOverflow;
         }
     }
@@ -126,14 +85,14 @@ int PrintWithVerification (TVertexList* adjList, int N, int F) {
     }
 }
 
-int FindNextVertex (TVertexList* adjList, int N) {
+int FindNextVertex (unsigned int** adjArray, int N, char* visited) {
     int index = INT_MAX;
     unsigned long long distance = LLONG_MAX;
 
     for (int i = 0; i < N; ++i) {
-        if (!adjList[i].Visited) {
-            if (adjList[i].Distance < distance) {
-                distance = adjList[i].Distance;
+        if (!visited[i]) {
+            if ((unsigned long long) adjArray[i][i] < distance) {
+                distance = adjArray[i][i];
                 index = i;
             }
         }
@@ -142,34 +101,41 @@ int FindNextVertex (TVertexList* adjList, int N) {
     return index;
 }
 
-int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) {
+int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parents) {
     int vertexNow = S;
-    int code = GraphEntry (N, M, adjList);
+    int code = GraphEntry (N, M, adjArray);
     if (code) {
         return code;
     }
 
     for (int i = 0; i < N; ++i) {
-        qsort (adjList[i].Array, adjList[i].SizeArray, sizeof (TList), Comparator);
+        adjArray[i][i] = UINT_MAX;
         parents[i] = INT_MAX;
     }
 
-    adjList[S].Distance = 0;
+    adjArray[S][S] = 0;
     parents[S] = S;
+    char* visited = calloc (N, sizeof (char));
 
     while (vertexNow != INT_MAX) {
-        adjList[vertexNow].Visited = 1;
-        for (int i = 0; i < adjList[vertexNow].SizeArray; ++i) {
-            TVertexList* neighboringVertex = &adjList[adjList[vertexNow].Array[i].Vertex];
-            unsigned long long distance = adjList[vertexNow].Array[i].Len + adjList[vertexNow].Distance;
-            
-            if (neighboringVertex->Distance > distance) {
-                parents[adjList[vertexNow].Array[i].Vertex] = vertexNow;
-                neighboringVertex->Distance = distance;
+        visited[vertexNow] = 1;
+        for (int i = 0; i < N; ++i) {
+            if (i != vertexNow && adjArray[vertexNow][i] != 0) {
+                unsigned long long distance = adjArray[vertexNow][i] + adjArray[vertexNow][vertexNow];
+
+                if ((unsigned long long)adjArray[i][i] > distance) {
+                    parents[i] = vertexNow;
+                    if (distance > INT_MAX) {
+                        adjArray[i][i] = INT_MAX + 1;
+                    }
+                    else {
+                        adjArray[i][i] = (unsigned int)distance;
+                    }
+                }
             }
         }
 
-        vertexNow = FindNextVertex (adjList, N);
+        vertexNow = FindNextVertex (adjArray, N, visited);
     }
 
     return 0;
@@ -177,9 +143,12 @@ int AlgorithmDijkstra (int N, int M, int S, TVertexList* adjList, int* parents) 
 
 /// ////////////////////////////////////////////////// enum и ОТЧИСТКА ПАМЯТИ
 /////////////////////////////// Проверить не является ли переменная Vertex лишней
+//////////////////////////////// Перейти на массив смежности
 
 int main () {
     int N, S, F, M;
+
+    //freopen ("in.txt", "r", stdin);
 
     if (scanf ("%d\n%d %d\n%d", &N, &S, &F, &M) != 4) {
         return 0;
@@ -210,14 +179,17 @@ int main () {
         }
     }
 
-    TVertexList* adjList = calloc (N, sizeof (TVertexList));
+    unsigned int** adjArray = calloc (N, sizeof (unsigned int*));
+    for (int i = 0; i < N; ++i) {
+        adjArray[i] = calloc (N, sizeof (unsigned int));
+    }
     int* parents = calloc (N, sizeof (int));
 
-    switch (AlgorithmDijkstra (N, M, S - 1, adjList, parents)) {
+    switch (AlgorithmDijkstra (N, M, S - 1, adjArray, parents)) {
         case(0): {
             int index = F - 1;
 
-            if (PrintWithVerification (adjList, N, index) && adjList[index].Distance > INT_MAX) {
+            if (PrintWithVerification (adjArray, N, index) && adjArray[index][index] > INT_MAX) {
                 printf ("overflow");
             }
             else if (parents[index] == INT_MAX) {
