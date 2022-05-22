@@ -3,6 +3,17 @@
 #include <stdlib.h>
 #include <limits.h>
 
+enum Errors {
+    No_Errors,
+    Bad_Number_Of_Vertices,
+    Bad_Number_Of_Edges,
+    Bad_Vertex,
+    Bad_Length,
+    Bad_Number_Of_Lines,
+    Overflow,
+    No_Path
+};
+
 int CheckFirstInput (int N, int M) {
     if (N < 0 || N > 5000) {
         return Bad_Number_Of_Vertices;
@@ -44,9 +55,9 @@ int GraphEntry (int N, int M, unsigned int** adjArray) {
             return Bad_Number_Of_Lines;
         }
 
-        char code = CheckSecondInput (from, where, N, len);
-        if (code != No_Errors) {
-            return code;
+        char error = CheckSecondInput (from, where, N, len);
+        if (error != No_Errors) {
+            return error;
         }
 
         if (from != where) {
@@ -75,6 +86,7 @@ int PrintWithVerification (unsigned int** adjArray, int N, int F) {
             ++countForOverflow;
         }
     }
+
     printf ("\n");
 
     if (countForOverflow > 1) {
@@ -86,8 +98,8 @@ int PrintWithVerification (unsigned int** adjArray, int N, int F) {
 }
 
 int FindNextVertex (unsigned int** adjArray, int N, char* visited) {
-    int index = INT_MAX;
     unsigned long long distance = LLONG_MAX;
+    int index = INT_MAX;
 
     for (int i = 0; i < N; ++i) {
         if (!visited[i]) {
@@ -102,10 +114,12 @@ int FindNextVertex (unsigned int** adjArray, int N, char* visited) {
 }
 
 int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parents) {
+    char* visited = calloc (N, sizeof (char));
     int vertexNow = S;
-    int code = GraphEntry (N, M, adjArray);
-    if (code != No_Errors) {
-        return code;
+
+    char error = GraphEntry (N, M, adjArray);
+    if (error != No_Errors) {
+        return error;
     }
 
     for (int i = 0; i < N; ++i) {
@@ -115,10 +129,10 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
 
     adjArray[S][S] = 0;
     parents[S] = S;
-    char* visited = calloc (N, sizeof (char));
 
     while (vertexNow != INT_MAX) {
         visited[vertexNow] = 1;
+
         for (int i = 0; i < N; ++i) {
             if (i != vertexNow && adjArray[vertexNow][i] != 0) {
                 unsigned long long distance = (unsigned long long)adjArray[vertexNow][i];
@@ -126,6 +140,7 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
 
                 if ((unsigned long long)adjArray[i][i] > distance) {
                     parents[i] = vertexNow;
+
                     if (distance > INT_MAX) {
                         adjArray[i][i] = UINT_MAX - 1;
                     } 
@@ -144,17 +159,6 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
     return No_Errors;
 }
 
-enum Errors {
-    No_Errors,
-    Bad_Number_Of_Vertices,
-    Bad_Number_Of_Edges,
-    Bad_Vertex,
-    Bad_Length,
-    Bad_Number_Of_Lines,
-    Overflow,
-    No_Path
-};
-
 int main () {
     int N, S, F, M;
 
@@ -166,16 +170,19 @@ int main () {
         case(Bad_Number_Of_Vertices):
         {
             printf ("bad number of vertices");
+
             return 0;
         }
         case(Bad_Number_Of_Edges):
         {
             printf ("bad number of edges");
+
             return 0;
         }
         case(Bad_Vertex):
         {
             printf ("bad vertex");
+
             return 0;
         }
         case(No_Path):
@@ -187,18 +194,21 @@ int main () {
             }
 
             printf ("\nno path");
+
             return 0;
         }
     }
 
     unsigned int** adjArray = calloc (N, sizeof (unsigned int*));
+
     for (int i = 0; i < N; ++i) {
         adjArray[i] = calloc (N, sizeof (unsigned int));
     }
+
     int* parents = calloc (N, sizeof (int));
 
     switch (AlgorithmDijkstra (N, M, S - 1, adjArray, parents)) {
-        case(No_Errors):
+        case(No_Errors): 
         {
             int index = F - 1;
 
@@ -213,25 +223,29 @@ int main () {
 
                 while (parents[index] != index) {
                     printf ("%d ", parents[index] + 1);
+
                     index = parents[index];
                 }
             }
 
             break;
         }
-        case(Bad_Number_Of_Lines):
+        case(Bad_Number_Of_Lines): 
         {
             printf ("bad number of lines");
+
             break;
         }
-        case(Bad_Vertex):
+        case(Bad_Vertex): 
         {
             printf ("bad vertex");
+
             break;
         }
-        case(Bad_Length):
+        case(Bad_Length): 
         {
             printf ("bad length");
+
             break;
         }
     }
@@ -239,6 +253,7 @@ int main () {
     for (int i = 0; i < N; ++i) {
         free (adjArray[i]);
     }
+
     free (adjArray);
     free (parents);
 
