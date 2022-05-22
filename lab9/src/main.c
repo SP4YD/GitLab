@@ -222,8 +222,11 @@ int main () {
         }
     }
 
-    free (parents);
+    for (int i = 0; i < N; ++i) {
+        free (adjArray[i]);
+    }
     free (adjArray);
+    free (parents);
 
     return 0;
 }
