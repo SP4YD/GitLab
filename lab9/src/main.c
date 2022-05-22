@@ -140,12 +140,12 @@ int AlgorithmDijkstra (int N, int M, int S, unsigned int** adjArray, int* parent
         vertexNow = FindNextVertex (adjArray, N, visited);
     }
 
+    free (visited);
+
     return 0;
 }
 
 /// ////////////////////////////////////////////////// enum и ОТЧИСТКА ПАМЯТИ
-/////////////////////////////// Проверить не является ли переменная Vertex лишней
-//////////////////////////////// Перейти на массив смежности
 
 int main () {
     int N, S, F, M;
@@ -206,21 +206,24 @@ int main () {
                 }
             }
             
-            return 0;
+            break;
         }
         case(1): {
             printf ("bad number of lines");
-            return 0;
+            break;
         }
         case(2): {
             printf ("bad vertex");
-            return 0;
+            break;
         }
         case(3): {
             printf ("bad length");
-            return 0;
+            break;
         }
     }
+
+    free (parents);
+    free (adjArray);
 
     return 0;
 }
