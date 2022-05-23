@@ -385,7 +385,7 @@ int main (void) {
             unsigned char code = 0;
             int lenCode = 0;
 
-            fprintf (stdout, "%c", sizeTree);
+            fprintf (stdout, "%c", sizeTree - 1);
 
             code |= 1 << (7 - lenCode);
 
