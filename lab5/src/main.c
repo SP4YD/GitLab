@@ -334,7 +334,7 @@ void FindAndPrintCodeSymbols(TTree* FullTree) {
 
     fseek (stdin, placeNow, SEEK_SET);
 
-    while (ftell(stdin) < lastByte) {
+    while (ftell(stdin) + 1 < lastByte) {
         twoInDegree = 7;
 
         if (fscanf(stdin, "%c", &code) != 1) {
