@@ -253,7 +253,7 @@ void BuildingTree (char bit, TMainQueue* MainQueue, char symbol) {
     }
 }
 
-TTree* ScanForBuildingTree (char code, int lenInput) {
+TTree* ScanForBuildingTree (unsigned char code, int lenInput) {
     TTree* FullTree = calloc (1, sizeof (TTree));
     FullTree->Count = FullTree->Used = 0;
     FullTree->Left = FullTree->Right = NULL;
@@ -271,7 +271,7 @@ TTree* ScanForBuildingTree (char code, int lenInput) {
         unsigned char symbol = 0;
     
         while ((code & 1 << (7 - codeSize)) < 1) {
-            BuildingTree (0, &MainQueue, NULL);
+            BuildingTree (0, &MainQueue, 0);
             CheckSizeCodeAndPlusOne (&codeSize, &code);
         }
     
@@ -318,7 +318,7 @@ void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree
     }
 }
 
-void FindAndPrintCodeSymbols (TTree* FullTree, int lenText) {
+void FindAndPrintCodeSymbols (TTree* FullTree) {
     TTree* TreeNow = FullTree;
     int twoInDegree;
     unsigned char countBitInLast;
@@ -330,14 +330,14 @@ void FindAndPrintCodeSymbols (TTree* FullTree, int lenText) {
     fseek (stdin, placeNow, SEEK_SET);
 
     if (fscanf (stdin, "%c", &countBitInLast) != 1) {
-        return 0;
+        return;
     }
     
     while(ftell(stdin) + 1 < lastByte){
         twoInDegree = 7;
 
         if (fscanf (stdin, "%c", &code) != 1) {
-            return 0;
+            return;
         }
 
         while (twoInDegree >= 0) {
@@ -360,7 +360,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, int lenText) {
     twoInDegree = 7;
 
     if (fscanf (stdin, "%c", &code) != 1) {
-        return 0;
+        return;
     }
 
     while (twoInDegree >= 8 - countBitInLast) {
@@ -392,7 +392,7 @@ int main (void) {
     unsigned char inputSymbol;
     unsigned char task = 0;
 
-    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
     //char a = 0, b = 1; fprintf (stdout, "c"); 
     //fprintf (stdout, "%c", '\n');
     //fprintf (stdout, "%c", '\r');
@@ -487,8 +487,6 @@ int main (void) {
         free (AlphabetCodes);
     } else {
         int lenText = 0;
-        int sizeTreeNow = 0;
-        int codeSize = 0;
         int lenInput = 0;
         unsigned char code = 0;
 
@@ -516,7 +514,7 @@ int main (void) {
 
             FullTree = ScanForBuildingTree (code, lenInput);
 
-            FindAndPrintCodeSymbols (FullTree, lenText);
+            FindAndPrintCodeSymbols (FullTree);
 
             FreeTree (FullTree);
         }
