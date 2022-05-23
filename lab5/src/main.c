@@ -452,7 +452,7 @@ int main (void) {
         int codeSize = 0;
         int lenInput = 0;
         unsigned char code = 0;
-        unsigned char str[10000] = {'\0'};
+        unsigned char str[1000000] = {'\0'};
 
         if (fscanf (stdin, "%c", &code) != 1) { //Не получается считать char в int
             return 0;
