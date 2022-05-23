@@ -327,11 +327,12 @@ void FindAndPrintCodeSymbols(TTree* FullTree) {
     int placeNow = ftell(stdin);
     fseek(stdin, -1, SEEK_END);
     int lastByte = ftell(stdin);
-    fseek(stdin, placeNow, SEEK_SET);
 
     if (fscanf(stdin, "%c", &countBitInLast) != 1) {
         return;
     }
+
+    fseek (stdin, placeNow, SEEK_SET);
 
     while (ftell(stdin) < lastByte) {
         twoInDegree = 7;
@@ -391,7 +392,7 @@ int main(void) {
     unsigned char inputSymbol;
     unsigned char task = 0;
 
-    //freopen("in.txt", "rb", stdin); freopen("out.txt", "wb", stdout);
+    freopen("in.txt", "rb", stdin); freopen("out.txt", "wb", stdout);
     //char a = 0, b = 1; fprintf (stdout, "c"); 
     //fprintf (stdout, "%c", '\n');
     //fprintf (stdout, "%c", '\r');
