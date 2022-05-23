@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #define IsNotSymbol 777
 
 typedef struct TTree TTree;
@@ -339,6 +340,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 /// ////////////////////////////// Заменить main на две функции
 ////////////////////////////////// переменные с маленькой
 ////////////////////////////////// fseek(stdin, 0, SEEK_SET); вернуться в начало
+////////////////////////////////// Убрать string из декодировки
 
 int main (void) {
     unsigned char inputSymbol;
