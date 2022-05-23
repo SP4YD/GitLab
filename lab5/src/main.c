@@ -192,8 +192,8 @@ void SearchMin(TTree* FullTree[512], int sizeTree, int* min1I, int* min2I) {
 TTree* CombiningTrees(TTree* First, TTree* Second) {
     TTree* NewTree = calloc(1, sizeof(TTree));
     NewTree->Count = First->Count + Second->Count;
-    NewTree->Left = Second;
-    NewTree->Right = First;
+    NewTree->Left = First;
+    NewTree->Right = Second;
     NewTree->Used = 0;
     NewTree->Symbol = IsNotSymbol;
 
@@ -253,7 +253,7 @@ void BuildingTree(char bit, TMainQueue* MainQueue, char symbol) {
     }
 }
 
-TTree* ScanForBuildingTree(unsigned char code, int lenInput) {
+TTree* ScanForBuildingTree(int lenInput) {
     TTree* FullTree = calloc(1, sizeof(TTree));
     FullTree->Count = FullTree->Used = 0;
     FullTree->Left = FullTree->Right = NULL;
@@ -265,6 +265,11 @@ TTree* ScanForBuildingTree(unsigned char code, int lenInput) {
 
     int lenText = 0;
     char codeSize = 0;
+    unsigned char code;
+
+    if (fscanf (stdin, "%c", &code) != 1) {
+        return 0;
+    }
 
     while (lenText < lenInput) {
         char j = 0;
@@ -482,6 +487,7 @@ int main(void) {
         }
 
         free(AlphabetCodes);
+
     } else {
         int lenInput = 0;
         unsigned char code = 0;
@@ -491,12 +497,12 @@ int main(void) {
         }
         lenInput = code + 1;
 
-        if (fscanf(stdin, "%c", &code) != 1) { /////////////////////////////////////////// Убрать
-            return 0;
-        }
-
         if (lenInput < 2) {
             int countPrint = 0;
+
+            if (fscanf (stdin, "%c", &code) != 1) {
+                return 0;
+            }
 
             if (fscanf(stdin, "%d", &countPrint) != 1) {
                 return 0;
@@ -508,7 +514,7 @@ int main(void) {
         } else {
             TTree* FullTree;
 
-            FullTree = ScanForBuildingTree(code, lenInput);
+            FullTree = ScanForBuildingTree (lenInput);
 
             FindAndPrintCodeSymbols(FullTree);
 
