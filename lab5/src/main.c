@@ -442,7 +442,7 @@ int main (void) {
         int sizeTree = 0;
         unsigned char code = 0;
 
-        if (fscanf (stdin, "%d", &sizeTree) != 1) {
+        if (fscanf (stdin, "%c", &(char)sizeTree) != 1) {
             return 0;
         }
         ++sizeTree;
