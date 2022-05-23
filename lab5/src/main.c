@@ -430,9 +430,6 @@ int main (void) {
         }
 
         if (sizeTree < 2) {
-            unsigned char code = 0;
-            int lenCode = 0;
-
             fprintf (stdout, "%c", sizeTree - 1);
 
             fprintf (stdout, "%c", singleSymbol);
@@ -486,7 +483,6 @@ int main (void) {
 
         free (AlphabetCodes);
     } else {
-        int lenText = 0;
         int lenInput = 0;
         unsigned char code = 0;
 
