@@ -413,7 +413,7 @@ int main (void) {
             unsigned char code = 0;
             char j = 0;
 
-            while (lenNow < lenText) {
+            while (lenNow <= lenText) {
                 if (fscanf (stdin, "%c", &inputSymbol) != 1) {
                     return 0;
                 }
