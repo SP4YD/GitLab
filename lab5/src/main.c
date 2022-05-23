@@ -115,7 +115,7 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
     TMainQueue MainQueue;
     int lenCode = 0;
     unsigned char code = 0;
-    fprintf (stdout, "%c", sizeTree);
+    fprintf (stdout, "%c", sizeTree - 1);
 
     MainQueue.Head = MainQueue.Tail = NULL;
     PushQueue (&MainQueue, &FullTree);
@@ -445,6 +445,7 @@ int main (void) {
         if (fscanf (stdin, "%c", &sizeTree) != 1) {
             return 0;
         }
+        ++sizeTree;
 
         if (fscanf (stdin, "%c", &code) != 1) {
             return 0;
