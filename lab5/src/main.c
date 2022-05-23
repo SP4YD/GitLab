@@ -39,7 +39,7 @@ void LengthCheckAndPlusOne (int* lenCode, unsigned char* code) {
     }
 }
 
-void CheckSizeCodeAndPlusOne (int* codeSize, unsigned char* code) {
+void CheckSizeCodeAndPlusOne (char* codeSize, unsigned char* code) {
     ++(*codeSize);
     if (*codeSize > 7) {
         *codeSize = 0;
@@ -233,7 +233,27 @@ TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
     return AlphabetTree[sizeTree - 1];
 }
 
-TTree* BuildingTree (unsigned char* codeTree) {
+void BuildingTree (char bit, TMainQueue* MainQueue, char symbol) {
+    TTree* RootNow = NULL;
+    PopQueue (MainQueue, &RootNow);
+
+    if (RootNow) {
+        RootNow->Count = RootNow->Used = 0;
+        RootNow->Left = RootNow->Right = NULL;
+        RootNow->Symbol = IsNotSymbol;
+
+        if (bit == 0) {
+            RootNow->Left = calloc (1, sizeof (TTree));
+            RootNow->Right = calloc (1, sizeof (TTree));
+            PushQueue (MainQueue, RootNow->Left);
+            PushQueue (MainQueue, RootNow->Right);
+        } else {
+            RootNow->Symbol = symbol;
+        }
+    }
+}
+
+TTree* ScanForBuildingTree (char code, int lenInput) {
     TTree* FullTree = calloc (1, sizeof (TTree));
     FullTree->Count = FullTree->Used = 0;
     FullTree->Left = FullTree->Right = NULL;
@@ -243,25 +263,32 @@ TTree* BuildingTree (unsigned char* codeTree) {
     MainQueue.Head = MainQueue.Tail = NULL;
     PushQueue (&MainQueue, FullTree);
 
-    for (int i = 0; codeTree[i] != '\0'; ++i) {
-        TTree* RootNow = NULL;
-        PopQueue (&MainQueue, &RootNow);
+    int lenText = 0;
+    char codeSize = 0;
 
-        if (RootNow) {
-            RootNow->Count = RootNow->Used = 0;
-            RootNow->Left = RootNow->Right = NULL;
-            RootNow->Symbol = IsNotSymbol;
-
-            if (codeTree[i] == '0') {
-                RootNow->Left = calloc (1, sizeof (TTree));
-                RootNow->Right = calloc (1, sizeof (TTree));
-                PushQueue (&MainQueue, RootNow->Left);
-                PushQueue (&MainQueue, RootNow->Right);
-            } else {
-                ++i;
-                RootNow->Symbol = codeTree[i];
-            }
+    while (lenText < lenInput) {
+        char j = 0;
+        unsigned char symbol = 0;
+    
+        while ((code & 1 << (7 - codeSize)) < 1) {
+            BuildingTree (0, &MainQueue, NULL);
+            CheckSizeCodeAndPlusOne (&codeSize, &code);
         }
+    
+        CheckSizeCodeAndPlusOne (&codeSize, &code);
+        
+        while (j < 8) {
+            if (code & 1 << (7 - codeSize)) {
+                symbol |= 1 << (7 - j);
+            }
+    
+            ++j;
+            CheckSizeCodeAndPlusOne (&codeSize, &code);
+        }
+
+        BuildingTree (1, &MainQueue, symbol);
+        
+        ++lenText;
     }
 
     ClearingQueue (MainQueue);
@@ -291,21 +318,36 @@ void CalculatingTheCode (TTree TreeNow, TElementAlTree* Alphabet, TElementAlTree
     }
 }
 
-void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText) {
+void FindAndPrintCodeSymbols (TTree* FullTree, int lenText) {
     TTree* TreeNow = FullTree;
-    unsigned char countBitInLast = input[lenText - 1];
     int twoInDegree;
+    unsigned char countBitInLast;
+    char code;
 
-    for (int i = 0; i < lenText - 2; ++i) {
+    int placeNow = ftell (stdin);
+    fseek (stdin, -1, SEEK_END);
+    int lastByte = ftell (stdin);
+    fseek (stdin, placeNow, SEEK_SET);
+
+    if (fscanf (stdin, "%c", &countBitInLast) != 1) {
+        return 0;
+    }
+    
+    while(ftell(stdin) + 1 < lastByte){
         twoInDegree = 7;
+
+        if (fscanf (stdin, "%c", &code) != 1) {
+            return 0;
+        }
 
         while (twoInDegree >= 0) {
             if (TreeNow->Symbol < IsNotSymbol) {
                 printf ("%c", TreeNow->Symbol);
+
                 TreeNow = FullTree;
             }
 
-            if ((input[i] & 1 << (twoInDegree)) == 0) {
+            if ((code & 1 << (twoInDegree)) == 0) {
                 TreeNow = TreeNow->Left;
             } else {
                 TreeNow = TreeNow->Right;
@@ -317,13 +359,17 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 
     twoInDegree = 7;
 
+    if (fscanf (stdin, "%c", &code) != 1) {
+        return 0;
+    }
+
     while (twoInDegree >= 8 - countBitInLast) {
         if (TreeNow->Symbol < IsNotSymbol) {
             printf ("%c", TreeNow->Symbol);
             TreeNow = FullTree;
         }
 
-        if ((input[lenText - 2] & 1 << (twoInDegree)) == 0) {
+        if ((code & 1 << (twoInDegree)) == 0) {
             TreeNow = TreeNow->Left;
         } else {
             TreeNow = TreeNow->Right;
@@ -346,7 +392,7 @@ int main (void) {
     unsigned char inputSymbol;
     unsigned char task = 0;
 
-    //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
+    freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
     //char a = 0, b = 1; fprintf (stdout, "c"); 
     //fprintf (stdout, "%c", '\n');
     //fprintf (stdout, "%c", '\r');
@@ -389,16 +435,9 @@ int main (void) {
 
             fprintf (stdout, "%c", sizeTree - 1);
 
-            code |= 1 << (7 - lenCode);
+            fprintf (stdout, "%c", singleSymbol);
 
-            LengthCheckAndPlusOne (&lenCode, &code);
-            CodingSymbol (&lenCode, &code, singleSymbol);
-
-            if (lenCode) {
-                fprintf (stdout, "%c", code);
-            }
-
-            fprintf (stdout, "%c", lenText);
+            fprintf (stdout, "%d", lenText);
 
         } else {
             TTree* FullTree = AlgorithmHuffman (sizeTree, alphabet);
@@ -452,72 +491,32 @@ int main (void) {
         int codeSize = 0;
         int lenInput = 0;
         unsigned char code = 0;
-        unsigned char str[1000000] = {'\0'};
 
         if (fscanf (stdin, "%c", &code) != 1) { //Не получается считать char в int
             return 0;
         }
         lenInput = code + 1;
 
-        if (fscanf (stdin, "%c", &code) != 1) {
+        if (fscanf (stdin, "%c", &code) != 1) { //Первый символ
             return 0;
         }
 
-        while (lenText < lenInput) {
-            char j = 0;
-            unsigned char symbol = 0;
-
-            while ((code & 1 << (7 - codeSize)) < 1) {
-                str[sizeTreeNow] = '0';
-                ++sizeTreeNow;
-                CheckSizeCodeAndPlusOne (&codeSize, &code);
-            }
-
-            str[sizeTreeNow] = '1';
-            ++sizeTreeNow;
-            CheckSizeCodeAndPlusOne (&codeSize, &code);
-
-            while (j < 8) {
-                if (code & 1 << (7 - codeSize)) {
-                    symbol |= 1 << (7 - j);
-                }
-
-                ++j;
-                CheckSizeCodeAndPlusOne (&codeSize, &code);
-            }
-
-            str[sizeTreeNow] = symbol;
-            ++sizeTreeNow;
-            ++lenText;
-        }
-
-        if (str[0] == '1') {
-            unsigned char countPrint = 0;
-            if (fscanf (stdin, "%c", &countPrint) != 1) {
+        if (lenInput < 2) {
+            int countPrint = 0;
+            
+            if (fscanf (stdin, "%d", &countPrint) != 1) {
                 return 0;
             }
 
             for (int i = 0; i < countPrint; ++i) {
-                printf ("%c", str[1]);
+                fprintf (stdout, "%c", code);
             }
         } else {
             TTree* FullTree;
 
-            FullTree = BuildingTree (str);
+            FullTree = ScanForBuildingTree (code, lenInput);
 
-            lenText = 0;
-
-            while (fscanf (stdin, "%c", &str[lenText]) == 1) {
-                ++lenText;
-            }
-
-            if (lenText == 0) {
-                return 0;
-            }
-
-            str[lenText] = '\0';
-
-            FindAndPrintCodeSymbols (FullTree, str, lenText);
+            FindAndPrintCodeSymbols (FullTree, lenText);
 
             FreeTree (FullTree);
         }
