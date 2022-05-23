@@ -442,10 +442,11 @@ int main (void) {
         int sizeTree = 0;
         unsigned char code = 0;
 
-        if (fscanf (stdin, "%c", &((char)(sizeTree))) != 1) {
+        if (fscanf (stdin, "%c", &code) != 1) { //Не получается считать char в int
             return 0;
         }
-        ++sizeTree;
+        sizeTree = code + 1;
+        code = 0;
 
         if (fscanf (stdin, "%c", &code) != 1) {
             return 0;
