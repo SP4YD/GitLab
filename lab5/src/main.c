@@ -200,7 +200,7 @@ TTree* CombiningTrees (TTree* First, TTree* Second) {
     return NewTree;
 }
 
-void CreateAllTree (char* alphabet, TTree** AlphabetTree) {
+void CreateAllTree (int* alphabet, TTree** AlphabetTree) {
 
     for (int i = 0, N = 0; i < 256; ++i) {
         if (alphabet[i]) {
@@ -214,7 +214,7 @@ void CreateAllTree (char* alphabet, TTree** AlphabetTree) {
     }
 }
 
-TTree* AlgorithmHuffman (int sizeTree, char* alphabet) {
+TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
     TTree* AlphabetTree[512];
     CreateAllTree (alphabet, AlphabetTree);
 
@@ -358,7 +358,7 @@ int main (void) {
     }
 
     if (task == 'c') {
-        char alphabet[256] = {0};
+        int alphabet[256] = {0};
         int lenText = 0;
 
         while (fscanf (stdin, "%c", &inputSymbol) == 1) {
