@@ -362,7 +362,7 @@ int main (void) {
         int lenText = 0;
 
         while (fscanf (stdin, "%c", &inputSymbol) == 1) {
-            alphabet[inputSymbol] = 1;
+            ++alphabet[inputSymbol];
             ++lenText;
         }
 
