@@ -192,8 +192,8 @@ void SearchMin(TTree* FullTree[512], int sizeTree, int* min1I, int* min2I) {
 TTree* CombiningTrees(TTree* First, TTree* Second) {
     TTree* NewTree = calloc(1, sizeof(TTree));
     NewTree->Count = First->Count + Second->Count;
-    NewTree->Left = First;
-    NewTree->Right = Second;
+    NewTree->Left = Second;
+    NewTree->Right = First;
     NewTree->Used = 0;
     NewTree->Symbol = IsNotSymbol;
 
