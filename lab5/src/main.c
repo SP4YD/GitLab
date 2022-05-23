@@ -170,8 +170,8 @@ void PrintCodeTree (TTree FullTree, int sizeTree) { //BFS
 }
 
 void SearchMin (TTree* FullTree[512], int sizeTree, int* min1I, int* min2I) {
-    int min1C = 100000;
-    int min2C = 100000;
+    int min1C = INT_MAX;
+    int min2C = INT_MAX;
 
     for (int i = 0; i < sizeTree; ++i) {
         if (!FullTree[i]->Used) {
@@ -199,7 +199,7 @@ TTree* CombiningTrees (TTree* First, TTree* Second) {
     return NewTree;
 }
 
-void CreateAllTree (int* alphabet, TTree** AlphabetTree) {
+void CreateAllTree (char* alphabet, TTree** AlphabetTree) {
 
     for (int i = 0, N = 0; i < 256; ++i) {
         if (alphabet[i]) {
@@ -213,7 +213,7 @@ void CreateAllTree (int* alphabet, TTree** AlphabetTree) {
     }
 }
 
-TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
+TTree* AlgorithmHuffman (int sizeTree, char* alphabet) {
     TTree* AlphabetTree[512];
     CreateAllTree (alphabet, AlphabetTree);
 
@@ -338,10 +338,10 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 
 /// ////////////////////////////// Заменить main на две функции
 ////////////////////////////////// переменные с маленькой
-////////////////////////////////// Изменить вывод дерева
+////////////////////////////////// fseek(stdin, 0, SEEK_SET); вернуться в начало
 
 int main (void) {
-    unsigned char str[17000000] = {'\0'};
+    unsigned char inputSymbol;
     unsigned char task = 0;
 
     //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
@@ -356,11 +356,11 @@ int main (void) {
     }
 
     if (task == 'c') {
-        int alphabet[256] = {0};
+        char alphabet[256] = {0};
         int lenText = 0;
 
-        while (fscanf (stdin, "%c", &str[lenText]) == 1) {
-            ++alphabet[str[lenText]];
+        while (fscanf (stdin, "%c", &inputSymbol) == 1) {
+            alphabet[inputSymbol] = 1;
             ++lenText;
         }
 
@@ -405,10 +405,12 @@ int main (void) {
 
             CalculatingTheCode (*FullTree, AlphabetCodes, ElementNow);
 
+            fseek (stdin, 0, SEEK_SET);
+
             unsigned char code = 0;
             char j = 0;
-            for (int i = 0; i < lenText; ++i) {
-                char* strCodeNow = AlphabetCodes[(int)str[i]].Code;
+            while (fscanf (stdin, "%c", &inputSymbol) == 1) {
+                char* strCodeNow = AlphabetCodes[(int)inputSymbol].Code;
                 int z = 0;
 
                 while (strCodeNow[z] != '\0') {
@@ -439,20 +441,20 @@ int main (void) {
         int lenText = 0;
         int sizeTreeNow = 0;
         int codeSize = 0;
-        int sizeTree = 0;
+        int lenInput = 0;
         unsigned char code = 0;
+        unsigned char str[10000] = {'\0'};
 
         if (fscanf (stdin, "%c", &code) != 1) { //Не получается считать char в int
             return 0;
         }
-        sizeTree = code + 1;
-        code = 0;
+        lenInput = code + 1;
 
         if (fscanf (stdin, "%c", &code) != 1) {
             return 0;
         }
 
-        while (lenText < sizeTree) {
+        while (lenText < lenInput) {
             char j = 0;
             unsigned char symbol = 0;
 
