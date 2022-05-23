@@ -439,7 +439,7 @@ int main (void) {
         int lenText = 0;
         int sizeTreeNow = 0;
         int codeSize = 0;
-        unsigned char sizeTree = 0;
+        int sizeTree = 0;
         unsigned char code = 0;
 
         if (fscanf (stdin, "%c", &sizeTree) != 1) {
