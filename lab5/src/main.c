@@ -409,9 +409,16 @@ int main (void) {
 
             fseek (stdin, 0, SEEK_SET);
 
+            int lenNow = 0;
             unsigned char code = 0;
             char j = 0;
-            while (fscanf (stdin, "%c", &inputSymbol) == 1) {
+
+            while (lenNow < lenText) {
+                if (fscanf (stdin, "%c", &inputSymbol) != 1) {
+                    return 0;
+                }
+                ++lenNow;
+
                 char* strCodeNow = AlphabetCodes[(int)inputSymbol].Code;
                 int z = 0;
 
