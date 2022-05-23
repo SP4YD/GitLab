@@ -341,7 +341,7 @@ void FindAndPrintCodeSymbols (TTree* FullTree, unsigned char* input, int lenText
 ////////////////////////////////// Изменить вывод дерева
 
 int main (void) {
-    unsigned char str[100001] = {'\0'};
+    unsigned char str[17000000] = {'\0'};
     unsigned char task = 0;
 
     //freopen ("in.txt", "rb", stdin); freopen ("out.txt", "wb", stdout);
