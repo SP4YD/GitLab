@@ -322,7 +322,7 @@ void FindAndPrintCodeSymbols(TTree* FullTree) {
     TTree* TreeNow = FullTree;
     int twoInDegree;
     unsigned char countBitInLast;
-    char code;
+    unsigned char code;
 
     int placeNow = ftell(stdin);
     fseek(stdin, -1, SEEK_END);
@@ -333,7 +333,7 @@ void FindAndPrintCodeSymbols(TTree* FullTree) {
         return;
     }
 
-    while (ftell(stdin) + 1 < lastByte) {
+    while (ftell(stdin) < lastByte) {
         twoInDegree = 7;
 
         if (fscanf(stdin, "%c", &code) != 1) {
@@ -385,7 +385,7 @@ void FindAndPrintCodeSymbols(TTree* FullTree) {
 
 /// ////////////////////////////// Заменить main на две функции
 ////////////////////////////////// переменные с маленькой
-////////////////////////////////// Убрать string из декодировки
+////////////////////////////////// УБрать string из декодировки
 
 int main(void) {
     unsigned char inputSymbol;
@@ -490,7 +490,7 @@ int main(void) {
         }
         lenInput = code + 1;
 
-        if (fscanf(stdin, "%c", &code) != 1) { //Первый символ
+        if (fscanf(stdin, "%c", &code) != 1) { /////////////////////////////////////////// Убрать
             return 0;
         }
 
