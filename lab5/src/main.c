@@ -449,6 +449,8 @@ int main(void) {
             CalculatingTheCode(*FullTree, AlphabetCodes, ElementNow);
 
             fseek(stdin, 0, SEEK_SET);
+            
+            if (sizeTree == 256) return 1;
 
             int lenNow = 0;
             unsigned char code = 0;
