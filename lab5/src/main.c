@@ -109,16 +109,14 @@ void ClearingQueue (TMainQueue mainQueue) {
 }
 
 void FreeTree (TTree* fullTree) {
-    if (fullTree) {
-        if (fullTree->Left) {
-            FreeTree (fullTree->Left);
-        }
-
-        if (fullTree->Right) {
-            FreeTree (fullTree->Right);
-        }
-        free (fullTree);
+    if (fullTree->Left) {
+        FreeTree (fullTree->Left);
     }
+
+    if (fullTree->Right) {
+        FreeTree (fullTree->Right);
+    }
+    free (fullTree);
 }
 
 void PrintCodeTree (TTree fullTree, int sizeTree) { //BFS
