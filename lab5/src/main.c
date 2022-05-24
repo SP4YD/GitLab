@@ -116,7 +116,7 @@ void FreeTree (TTree* fullTree) {
     if (fullTree->Right) {
         FreeTree (fullTree->Right);
     }
-    
+
     free (fullTree);
 }
 
@@ -340,8 +340,6 @@ void CalculatingTheCode (TTree treeNow, TElementAlTree* alphabet, TElementAlTree
     if (treeNow.Symbol < IsNotSymbol) {
         elementNow.Code[elementNow.LenCode - 1] = '\0';
         alphabet[treeNow.Symbol] = elementNow;
-
-        return;
     }
 }
 
