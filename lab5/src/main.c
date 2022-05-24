@@ -116,6 +116,7 @@ void FreeTree (TTree* fullTree) {
     if (fullTree->Right) {
         FreeTree (fullTree->Right);
     }
+    
     free (fullTree);
 }
 
