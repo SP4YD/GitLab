@@ -408,7 +408,7 @@ void Coding (void) {
     }
 
     if (lenText == 0) {
-        return 0;
+        return;
     }
 
     TElementAlTree* alphabetCodes = calloc (256, sizeof (TElementAlTree));
@@ -445,7 +445,7 @@ void Coding (void) {
 
         while (lenNow < lenText) {
             if (fscanf (stdin, "%c", &inputSymbol) != 1) {
-                return 0;
+                return;
             }
             ++lenNow;
 
@@ -483,7 +483,7 @@ void Decoding (void) {
     unsigned char code = 0;
 
     if (fscanf (stdin, "%c", &code) != 1) { //Не получается считать char в int
-        return 0;
+        return;
     }
     lenInput = code + 1;
 
@@ -491,11 +491,11 @@ void Decoding (void) {
         int countPrint = 0;
 
         if (fscanf (stdin, "%c", &code) != 1) {
-            return 0;
+            return;
         }
 
         if (fscanf (stdin, "%d", &countPrint) != 1) {
-            return 0;
+            return;
         }
 
         for (int i = 0; i < countPrint; ++i) {
