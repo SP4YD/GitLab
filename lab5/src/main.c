@@ -187,7 +187,7 @@ void PrintCodeTree (TTree fullTree, int sizeTree) { //BFS
     ClearingQueue (mainQueue);
 }
 
-void SearchMin (TTree* fullTree[256], int sizeTree, int* min1I, int* min2I) {
+void SearchMin (TTree* fullTree[257], int sizeTree, int* min1I, int* min2I) {
     int min1C = INT_MAX;
     int min2C = INT_MAX;
 
@@ -236,7 +236,7 @@ void CreateAllTree (int* alphabet, TTree** alphabetTree) {
 }
 
 TTree* AlgorithmHuffman (int sizeTree, int* alphabet) {
-    TTree* alphabetTree[256];
+    TTree* alphabetTree[257];
     CreateAllTree (alphabet, alphabetTree);
 
     int min1Index = 0;
