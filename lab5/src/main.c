@@ -18,7 +18,7 @@ struct TTree {
 };
 
 struct TElementAlTree {
-    char Code[1000];
+    char Code[256];
     int LenCode;
 };
 
@@ -404,6 +404,11 @@ int main(void) {
     //fprintf (stdout, "%c", '\n');
     //fprintf (stdout, "%c", '\r'); return 0;
 
+    //fprintf (stdout, "c");
+    //for (int i = 0; i < 256; ++i) {
+    //    fprintf (stdout, "%c", i);
+    //} return 0;
+
     if (fscanf(stdin, "%c", &task) != 1) {
         return 1;
     }
@@ -448,15 +453,13 @@ int main(void) {
 
             CalculatingTheCode(*FullTree, AlphabetCodes, ElementNow);
 
-            fseek(stdin, 0, SEEK_SET);
-            
-            if (sizeTree == 256) return 1;
+            fseek(stdin, 1, SEEK_SET);
 
             int lenNow = 0;
             unsigned char code = 0;
             char j = 0;
 
-            while (lenNow <= lenText) {
+            while (lenNow < lenText) {
                 if (fscanf(stdin, "%c", &inputSymbol) != 1) {
                     return 0;
                 }
@@ -523,6 +526,6 @@ int main(void) {
             FreeTree(FullTree);
         }
     }
-
+    
     return 0;
 }
