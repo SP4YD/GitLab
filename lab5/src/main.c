@@ -420,7 +420,7 @@ void Coding (void) {
     unsigned char inputSymbol;
 
     while (fscanf (stdin, "%c", &inputSymbol) == 1) {
-        if (alphabet[inputSymbol]) {
+        if (!alphabet[inputSymbol]) {
             ++sizeTree;
             singleSymbol = inputSymbol;
         }
