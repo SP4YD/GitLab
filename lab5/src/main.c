@@ -413,11 +413,17 @@ void FindAndPrintCodeSymbols (TTree* fullTree) {
 }
 
 void Coding (void) {
-    unsigned char inputSymbol;
     int alphabet[256] = {0};
     int lenText = 0;
+    int sizeTree = 0;
+    int singleSymbol = 0;
+    unsigned char inputSymbol;
 
     while (fscanf (stdin, "%c", &inputSymbol) == 1) {
+        if (alphabet[inputSymbol]) {
+            ++sizeTree;
+            singleSymbol = inputSymbol;
+        }
         ++alphabet[inputSymbol];
         ++lenText;
     }
@@ -428,16 +434,7 @@ void Coding (void) {
 
     TElementAlTree* alphabetCodes = calloc (256, sizeof (TElementAlTree));
     TElementAlTree elementNow;
-    int sizeTree = 0;
-    int singleSymbol = 0;
     elementNow.LenCode = 0;
-
-    for (int i = 0; i < 256; ++i) {
-        if (alphabet[i]) {
-            ++sizeTree;
-            singleSymbol = i;
-        }
-    }
 
     if (sizeTree < 2) {
         fprintf (stdout, "%c", sizeTree - 1);
